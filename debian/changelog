@@ -2,6 +2,8 @@ mosquitto (1.5.8-1) unstable; urgency=medium
 
   * New upstream release.
   * Remove bug-1162.patch, fixed upstream.
+  * Add --retry to init file as per
+    https://github.com/eclipse/mosquitto/issues/1117
 
  -- Roger A. Light <roger@atchoo.org>  Wed, 06 Mar 2019 10:21:43 +0000
 
