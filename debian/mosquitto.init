@@ -55,7 +55,7 @@ case "$1" in
 	    exit 0
 	fi
 	log_daemon_msg "Stopping network daemon:" "mosquitto"
-	if start-stop-daemon --stop --quiet --oknodo --pidfile ${PIDFILE} --retry 30; then
+	if start-stop-daemon --stop --quiet --oknodo --pidfile ${PIDFILE}; then
 	    log_end_msg 0
 	    rm -f ${PIDFILE}
 	else

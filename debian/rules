@@ -33,3 +33,6 @@ override_dh_auto_install:
 	install -m 644 debian/mosquitto.conf debian/tmp/etc/mosquitto/mosquitto.conf
 	install -d debian/tmp/lib/systemd/system/
 	install -m 644  ./service/systemd/mosquitto.service.notify debian/tmp/lib/systemd/system/mosquitto.service
+
+override_dh_makeshlibs:
+	dh_makeshlibs -- -c4

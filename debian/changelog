@@ -1,11 +1,14 @@
-mosquitto (1.5.8-1) unstable; urgency=medium
+mosquitto (1.6.4-1) unstable; urgency=medium
 
   * New upstream release.
-  * Remove bug-1162.patch, fixed upstream.
+  * Bump standards version to 4.4.0, no changes needed.
+  * bug-1367.patch: fix bug with v5 DISCONNECT packets with remaining_length =
+    2 being treated as a protocol error. Fixed upstream for 1.6.5 or 1.7.
+  * Added override_dh_makeshlibs for catching symbol errors.
   * Add --retry to init file as per
     https://github.com/eclipse/mosquitto/issues/1117
 
- -- Roger A. Light <roger@atchoo.org>  Wed, 06 Mar 2019 10:21:43 +0000
+ -- Roger A. Light <roger@atchoo.org>  Thu, 01 Aug 2019 22:51:08 +0100
 
 mosquitto (1.5.7-1) unstable; urgency=medium
 
@@ -17,7 +20,7 @@ mosquitto (1.5.7-1) unstable; urgency=medium
  -- Roger A. Light <roger@atchoo.org>  Mon, 18 Feb 2019 09:28:40 +0000
 
 mosquitto (1.5.6-1) unstable; urgency=medium
-  
+
   * SECURITY UPDATE: If Mosquitto is configured to use a password file for
     authentication, any malformed data in the password file will be treated as
     valid. This typically means that the malformed data becomes a username and

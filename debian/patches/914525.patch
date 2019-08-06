@@ -3,15 +3,15 @@ Author: Roger Light <roger@atchoo.org>
 Forwarded: yes
 --- a/config.mk
 +++ b/config.mk
-@@ -244,8 +244,10 @@
+@@ -242,8 +242,10 @@
  endif
  
  ifeq ($(WITH_SYSTEMD),yes)
--	BROKER_CFLAGS:=$(BROKER_CFLAGS) -DWITH_SYSTEMD
--	BROKER_LIBS:=$(BROKER_LIBS) -lsystemd
+-	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_SYSTEMD
+-	BROKER_LDADD:=$(BROKER_LDADD) -lsystemd
 +	ifneq ($(shell pkg-config --libs libsystemd),)
-+		BROKER_CFLAGS:=$(BROKER_CFLAGS) -DWITH_SYSTEMD $(shell pkg-config --cflags libsystemd)
-+		BROKER_LIBS:=$(BROKER_LIBS) $(shell pkg-config --libs libsystemd)
++		BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_SYSTEMD $(shell pkg-config --cflags libsystemd)
++		BROKER_LDADD:=$(BROKER_LDADD) $(shell pkg-config --libs libsystemd)
 +	endif
  endif
  
