@@ -13,6 +13,7 @@ mosquitto (1.6.6-1) unstable; urgency=high
     - CVE awaiting assignment
   * New upstream release.
   * Remove bug-1367.patch.
+  * Don't use killall in mosquitto.logrotate. Closes: #940229.
 
  -- Roger A. Light <roger@atchoo.org>  Tue, 17 Sep 2019 18:41:36 +0100
 
