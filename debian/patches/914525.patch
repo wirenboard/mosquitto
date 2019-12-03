@@ -1,9 +1,11 @@
 Description: Use pkg-config to get systemd libs to allow build on non-linux systems
 Author: Roger Light <roger@atchoo.org>
 Forwarded: yes
---- a/config.mk
-+++ b/config.mk
-@@ -242,8 +242,10 @@
+Index: mosquitto-pulls/config.mk
+===================================================================
+--- mosquitto-pulls.orig/config.mk
++++ mosquitto-pulls/config.mk
+@@ -247,8 +247,10 @@ ifeq ($(WITH_SYS_TREE),yes)
  endif
  
  ifeq ($(WITH_SYSTEMD),yes)

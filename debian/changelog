@@ -1,3 +1,15 @@
+mosquitto (1.6.8-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Roger A. Light <roger@atchoo.org>  Tue, 03 Dec 2019 15:04:38 +0000
+
+mosquitto (1.6.7-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Roger A. Light <roger@atchoo.org>  Wed, 25 Sep 2019 13:31:51 +0100
+
 mosquitto (1.6.6-1) unstable; urgency=high
 
   * SECURITY UPDATE: If an MQTT v5 client connects to Mosquitto, sets a last
