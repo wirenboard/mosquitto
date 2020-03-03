@@ -4,9 +4,9 @@ Bug-Debian: https://bugs.debian.org/951116
 Forwarded: https://github.com/eclipse/mosquitto/pull/1599
 Last-Update: 2020-02-15
 
---- mosquitto-1.6.8.orig/lib/CMakeLists.txt
-+++ mosquitto-1.6.8/lib/CMakeLists.txt
-@@ -113,4 +113,4 @@ if (WITH_STATIC_LIBRARIES)
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -114,4 +114,4 @@
  	install(TARGETS libmosquitto_static ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
  endif (WITH_STATIC_LIBRARIES)
  

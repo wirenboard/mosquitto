@@ -1,3 +1,13 @@
+mosquitto (1.6.9-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Revert change enabling SRV functionality, it is disabled by default
+    upstream and of little benefit to any end user, but adds reasonable
+    complexity to the code.
+  * Remove patches 1568, 1569, 1570 - applied upstream.
+
+ -- Roger A. Light <roger@atchoo.org>  Tue, 03 Mar 2020 15:16:15 +0000
+
 mosquitto (1.6.8-2) unstable; urgency=medium
 
   * Also install mqtt_protocol.h in libmosquitto-dev package.
