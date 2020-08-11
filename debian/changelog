@@ -1,3 +1,9 @@
+mosquitto (1.6.11-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Roger A. Light <roger@atchoo.org>  Tue, 11 Aug 2020 16:53:20 +0100
+
 mosquitto (1.6.9-1) unstable; urgency=medium
 
   * New upstream release.
