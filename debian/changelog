@@ -1,11 +1,95 @@
-mosquitto (2.0.8-2) unstable; urgency=medium
+mosquitto (2.0.11-1.2) unstable; urgency=medium
 
-  * Remove debian-config.patch, this is already handled with
-    debian/mosquitto.conf
-  * Per policy, packages shouldn't contain directories in /run. This means
-    /run/mosquitto should be created at boot time. Closes #983429.
+  * Non-maintainer upload.
+  * Fix CONNECT performance with many user-properties (CVE-2021-41039)
+    (Closes: #1001028)
+  * debian/tests/broker: Make all test python scripts executable
 
- -- Roger A. Light <roger@atchoo.org>  Sun, 28 Feb 2021 23:22:57 +0000
+ -- Salvatore Bonaccorso <carnil@debian.org>  Thu, 29 Dec 2022 13:38:30 +0100
+
+mosquitto (2.0.11-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload
+
+  [ Olivier Gayot ]
+  * Fix autopkgtest failure when running against Python 3.10 (Closes:
+    #1009096) (LP: #1960214)
+
+ -- Sebastian Ramacher <sramacher@debian.org>  Sat, 16 Apr 2022 17:17:54 +0200
+
+mosquitto (2.0.11-1) unstable; urgency=medium
+
+  * SECURITY UPDATE: In Eclipse Mosquitto 1.6 to 2.0.10, if an authenticated
+    client that had connected with MQTT v5 sent a crafted CONNECT message to
+    the broker, a memory leak would occur.
+  * New upstream release.
+  * Removed systemd-run.patch, applied upstream.
+  * Removed signed-unsigned.patch, applied upstream.
+  * missing-test.patch: Fix missing upstream test.
+  * Update copyright years and paths
+
+ -- Roger A. Light <roger@atchoo.org>  Wed, 09 Jun 2021 13:54:36 +0100
+
+mosquitto (2.0.10-6) unstable; urgency=medium
+
+  * Don't chown /run/mosquitto in mosquitto.postinst, this is done in the
+    systemd unit file at run time. (closes: #983429).
+  * systemd-run.patch: use /run/mosquitto instead of /var/run/mosquitto in
+    systemd unit file.
+
+ -- Roger A. Light <roger@atchoo.org>  Mon, 26 Apr 2021 22:07:57 +0100
+
+mosquitto (2.0.10-5) unstable; urgency=medium
+
+  * Don't use `pkill` in tests. (closes: #987467)
+  * Lintian fixes:
+    - dir-or-file-in-run
+    - extended-description-line-too-long
+    - lacks-ldconfig-trigger
+    - package-contains-empty-directory
+    - renamed-tag
+    - shared-library-is-multi-arch-foreign
+    - spelling-in-override-comment
+    - typo-in-manual-page
+
+ -- Roger A. Light <roger@atchoo.org>  Thu, 22 Apr 2021 14:38:23 +0100
+
+mosquitto (2.0.10-4) unstable; urgency=medium
+
+  * Fix autopkgtest test build dependencies.
+
+ -- Roger A. Light <roger@atchoo.org>  Wed, 21 Apr 2021 12:10:45 +0100
+
+mosquitto (2.0.10-3) unstable; urgency=medium
+
+  * signed-unsigned.patch: Fix signed/unsigned conversion warnings.
+
+ -- Roger A. Light <roger@atchoo.org>  Mon, 19 Apr 2021 09:41:00 +0100
+
+mosquitto (2.0.10-2) unstable; urgency=medium
+
+  * Fix autopkgtests.
+  * deb-test.patch: Fix paths to allow autopkgtest to work in the Debian
+    environment.
+
+ -- Roger A. Light <roger@atchoo.org>  Sun, 18 Apr 2021 21:42:48 +0100
+
+mosquitto (2.0.10-1) unstable; urgency=high
+
+  * SECURITY UPDATE: In Eclipse Mosquitto version 2.0.0 to 2.0.9, if an
+    authenticated client that had connected with MQTT v5 sent a crafted
+    CONNACK message to the broker, a NULL pointer dereference would occur.
+    (Closes: #986701)
+    - CVE-2021-28166
+  * New upstream release.
+
+ -- Roger A. Light <roger@atchoo.org>  Sat, 10 Apr 2021 00:41:35 +0100
+
+mosquitto (2.0.9-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Roger A. Light <roger@atchoo.org>  Thu, 11 Mar 2021 22:53:34 +0000
 
 mosquitto (2.0.8-1) unstable; urgency=medium
 

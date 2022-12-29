@@ -1,1 +1,6 @@
+debian-config.patch
 1571.patch
+deb-test.patch
+missing-test.patch
+ssl-sslcontext-wrap_socket.patch
+Fix-CONNECT-performance-with-many-user-properties.patch
