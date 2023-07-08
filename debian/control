@@ -1,7 +1,10 @@
 Source: mosquitto
 Section: net
 Priority: optional
-Maintainer: Roger A. Light <roger@atchoo.org>
+Maintainer: Debian IoT Maintainers <debian-iot-maintainers@alioth-lists.debian.net>
+Uploaders:
+ Philippe Coval <rzr@users.sf.net>,
+ Roger A. Light <roger@atchoo.org>
 Build-Depends: debhelper-compat (= 12),
                cmake,
                libcjson-dev,
@@ -16,8 +19,8 @@ Build-Depends: debhelper-compat (= 12),
                docbook-xsl
 Standards-Version: 4.5.0
 Homepage: https://mosquitto.org/
-Vcs-Git: https://github.com/eclipse/mosquitto
-Vcs-Browser: https://github.com/eclipse/mosquitto/tree/debian
+Vcs-Git: https://salsa.debian.org/debian-iot-team/mosquitto/ -b debian/master
+Vcs-Browser: https://salsa.debian.org/debian-iot-team/mosquitto/debian/master
 
 Package: mosquitto
 Architecture: any
