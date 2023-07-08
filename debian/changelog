@@ -1,3 +1,9 @@
+mosquitto (2.0.15-1) UNRELEASED; urgency=medium
+
+  * New upstream release (Closes: 993400)
+
+ -- Philippe Coval <rzr@users.sf.net>  Sat, 08 Jul 2023 11:22:18 +0200
+
 mosquitto (2.0.11-1.2) unstable; urgency=medium
 
   * Non-maintainer upload.
