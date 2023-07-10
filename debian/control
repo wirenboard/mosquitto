@@ -26,6 +26,7 @@ Rules-Requires-Root: no
 Package: mosquitto
 Architecture: any
 Multi-Arch: no
+Pre-Depends: ${misc:Pre-Depends}
 Depends: adduser (>= 3.10),
          libcjson1,
          libmosquitto1 (= ${binary:Version}),
