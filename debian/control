@@ -29,7 +29,7 @@ Multi-Arch: no
 Depends: adduser (>= 3.10),
          libcjson1,
          libmosquitto1 (= ${binary:Version}),
-         lsb-base (>=4.1+Debian3),
+         sysvinit-utils (>= 3.06),
          ${misc:Depends},
          ${shlibs:Depends}
 Suggests: apparmor
