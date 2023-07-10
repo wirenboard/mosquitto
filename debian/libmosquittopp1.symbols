@@ -1,4 +1,5 @@
 libmosquittopp.so.1 libmosquittopp1 #MINVER#
+* Build-Depends-Package: libmosquitto-dev
  (c++)"mosqpp::subscribe_simple(mosquitto_message**, int, bool, char const*, int, char const*, int, char const*, int, bool, char const*, char const*, libmosquitto_will const*, libmosquitto_tls const*)@Base" 1.5
  (c++)"mosqpp::subscribe_callback(int (*)(mosquitto*, void*, mosquitto_message const*), void*, char const*, int, char const*, int, char const*, int, bool, char const*, char const*, libmosquitto_will const*, libmosquitto_tls const*)@Base" 1.5
  (c++)"mosqpp::lib_cleanup()@Base" 1.0
