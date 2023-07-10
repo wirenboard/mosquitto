@@ -20,9 +20,9 @@ override_dh_auto_configure:
 	dh_auto_configure -- -DWITH_BUNDLED_DEPS=OFF -DWITH_ADNS=ON -DUSE_LIBWRAP=ON -DWITH_WEBSOCKETS=ON -DWITH_DLT=ON -DWITH_SYSTEMD=${SYSTEMD}
 
 override_dh_strip:
-	dh_strip -p mosquitto --dbgsym-migration='mosquitto-dbg (<< 1.5)' -Xlibmosquitto
-	dh_strip -p libmosquitto1 --dbgsym-migration='libmosquitto1-dbg (<< 1.5)' -Xlibmosquittopp -Xsbin/mosquitto
-	dh_strip -p libmosquittopp1 --dbgsym-migration='libmosquittopp1-dbg (<< 1.5)' -Xlibmosquitto.so -Xsbin/mosquitto
+	dh_strip -p mosquitto -Xlibmosquitto
+	dh_strip -p libmosquitto1 -Xlibmosquittopp -Xsbin/mosquitto
+	dh_strip -p libmosquittopp1 -Xlibmosquitto.so -Xsbin/mosquitto
 	dh_strip --remaining-packages
 
 override_dh_auto_install:
