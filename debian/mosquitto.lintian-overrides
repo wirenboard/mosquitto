@@ -1,3 +1,6 @@
+# Forwarded: https://github.com/eclipse/mosquitto/pull/2846#Open
+mosquitto: typo-in-manual-page noticable noticeable [usr/share/man/man1/mosquitto_ctrl.1.gz:225]
+
 # Forwarded: https://github.com/warmcat/libwebsockets/pull/2927#Open
 mosquitto: spelling-error-in-binary Inital Initial [usr/sbin/mosquitto]
 mosquitto: spelling-error-in-binary witholding withholding [usr/sbin/mosquitto]
