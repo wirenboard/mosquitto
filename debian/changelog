@@ -1,8 +1,34 @@
 mosquitto (2.0.15-1) UNRELEASED; urgency=medium
 
+  [ Philippe Coval ]
   * New upstream release (Closes: 993400)
+  * debian/patches: Drop Fix-CONNECT...patch
+  * debian/patches: Drop ssl-sslcontext-wrap_socket.patch
+  * debian/patches: Refresh 1571.patch
+  * debian/patches: Refresh deb-test.patch
+  * debian/control: Transfer maintenance to team
+  * debian/gbp.conf: Build on tag
+  * debian/watch: Fix Lintian by scanning from git
+  * debian/control: Bump standards
+  * debian/control: Add Rules-Requires-Root Field
+  * debian/mosquitto.lintian-overrides: Ignore lws spelling
+  * debian/mosquitto.lintian-overrides: Ignore upstream spelling
+  * debian/control: Fix lintian d-on-obsolete-package : lsb to sysV
+  * d/mosquitto.lintian-overrides: Hide h-in-library-directory-missing-soname
+  * d/libmosquittopp1.lintian-overrides: Silent library-not-linked-against-libc
+  * debian/control: Add missing Pre-depends for systemd
+  * debian/rules: Add hardening flags
+  * debian/mosquitto.lintian-overrides: Relocate groff-message warning
+  * debian/libmosquitto*.symbols: Fix Lintian symbols-file-m-b-d-p-field
+  * debian/rules: Fix lintian debug-symbol-migration-possibly-complete
+  * debian/mosquitto.triggers: Remove ldconfig step
+  * debian/control: Fix cme lint libssl-dev dep
+  * debian/control: Fix cme lint Multi-Arch
 
- -- Philippe Coval <rzr@users.sf.net>  Sat, 08 Jul 2023 11:22:18 +0200
+  [ наб ]
+  * debian/mosquitto.postrm: Purge user (Close: 1032200)
+
+ -- Philippe Coval <rzr@users.sf.net>  Tue, 11 Jul 2023 22:11:01 +0200
 
 mosquitto (2.0.11-1.2) unstable; urgency=medium
 
