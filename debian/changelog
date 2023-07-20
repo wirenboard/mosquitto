@@ -1,7 +1,7 @@
-mosquitto (2.0.15-1) UNRELEASED; urgency=medium
+mosquitto (2.0.15-1) unstable; urgency=medium
 
   [ Philippe Coval ]
-  * New upstream release (Closes: 993400)
+  * New upstream release (Closes: #993400)
   * debian/patches: Drop Fix-CONNECT...patch
   * debian/patches: Drop ssl-sslcontext-wrap_socket.patch
   * debian/patches: Refresh 1571.patch
@@ -26,9 +26,12 @@ mosquitto (2.0.15-1) UNRELEASED; urgency=medium
   * debian/control: Fix cme lint Multi-Arch
 
   [ наб ]
-  * debian/mosquitto.postrm: Purge user (Close: 1032200)
+  * debian/mosquitto.postrm: Purge user (Closes: #1032200)
 
- -- Philippe Coval <rzr@users.sf.net>  Tue, 11 Jul 2023 22:11:01 +0200
+  [ Gianfranco Costamagna ]
+  * upload to sid
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Thu, 20 Jul 2023 12:10:52 +0200
 
 mosquitto (2.0.11-1.2) unstable; urgency=medium
 
