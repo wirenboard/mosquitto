@@ -1,7 +1,7 @@
 Source: mosquitto
 Section: net
 Priority: optional
-Maintainer: Debian IoT Maintainers <debian-iot-maintainers@alioth-lists.debian.net>
+Maintainer: Debian IoT Maintainers <debian-iot-maintainers@lists.alioth.debian.org>
 Uploaders:
  Philippe Coval <rzr@users.sf.net>,
  Roger A. Light <roger@atchoo.org>
