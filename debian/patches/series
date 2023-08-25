@@ -1,4 +1,5 @@
 debian-config.patch
 1571.patch
+shared-websockets.patch
 deb-test.patch
 missing-test.patch
