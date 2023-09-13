@@ -5,7 +5,11 @@ mosquitto (2.0.17-2) unstable; urgency=medium
     - cherry-pick proposed upstream change for reboot issue
       (Closes: #1036450)
 
- -- Gianfranco Costamagna <locutusofborg@debian.org>  Wed, 13 Sep 2023 10:06:58 +0200
+  [ Gianfranco Costamagna ]
+  * Revert "Refresh patch"
+  * Refresh manually patch
+
+ -- Philippe Coval <rzr@users.sf.net>  Wed, 13 Sep 2023 15:01:39 +0200
 
 mosquitto (2.0.17-1) unstable; urgency=medium
 
