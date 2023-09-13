@@ -1,8 +1,12 @@
 mosquitto (2.0.17-1) UNRELEASED; urgency=medium
 
   * New upstream release
+  * debian/patches: Remove debian-config.patch
+  * debian/patches/missing-test.patch: Drop failed tests
+  * debian/mosquitto.lintian-overrides: Refresh lintian report
+  * debian/tests/control: Add python3-psutil for broker
 
- -- Philippe Coval <rzr@users.sf.net>  Wed, 13 Sep 2023 04:02:01 +0200
+ -- Philippe Coval <rzr@users.sf.net>  Wed, 13 Sep 2023 05:44:52 +0200
 
 mosquitto (2.0.15-2) unstable; urgency=medium
 
