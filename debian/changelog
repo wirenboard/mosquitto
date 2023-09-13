@@ -1,10 +1,14 @@
-mosquitto (2.0.17-2) unstable; urgency=medium
+mosquitto (2.0.17-3) unstable; urgency=medium
 
-  [ Gianfranco Costamagna ]
-  * debian/patches/f09ea91e11f243abdad343da9eedb614d53ac5a1.patch:
-  * debian/patches/66c62767354f986cad928779027eb7d5182c77c8.patch:
-  * debian/patches/7ae22c356be5c567503357917fca818c4d076c5a.patch:
-    - cherry-pick 3 upstream commits part of 2.0.18
+  * Also support protocol 5.0
+  * cherry-pick 3 upstream crash fixes part of 2.0.18
+    - debian/patches/f09ea91e11f243abdad343da9eedb614d53ac5a1.patch:
+    - debian/patches/66c62767354f986cad928779027eb7d5182c77c8.patch:
+    - debian/patches/7ae22c356be5c567503357917fca818c4d076c5a.patch:
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Wed, 13 Sep 2023 19:17:46 +0200
+
+mosquitto (2.0.17-2) unstable; urgency=medium
 
   [ Joachim Zobel ]
   * debian/patches/2895.patch:
