@@ -1,12 +1,24 @@
-mosquitto (2.0.17-1) UNRELEASED; urgency=medium
+mosquitto (2.0.17-1) unstable; urgency=medium
 
+  [ Philippe Coval ]
   * New upstream release
+    - Fix for CVE-2023-28366, CVE-2023-0809, CVE-2023-3592
   * debian/patches: Remove debian-config.patch
   * debian/patches/missing-test.patch: Drop failed tests
   * debian/mosquitto.lintian-overrides: Refresh lintian report
   * debian/tests/control: Add python3-psutil for broker
 
- -- Philippe Coval <rzr@users.sf.net>  Wed, 13 Sep 2023 05:44:52 +0200
+  [ Joachim Zobel ]
+  * applied patch for #993048 from Ethan Trevor <ethan@nandlab.com>
+    (Closes: #993048)
+  * Fixed shared linkage of libwebsockets
+
+  [ Gianfranco Costamagna ]
+  * Comment out pid_file as per #993048
+  * Refresh patches
+  * Fix watch file
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Wed, 13 Sep 2023 10:00:46 +0200
 
 mosquitto (2.0.15-2) unstable; urgency=medium
 
