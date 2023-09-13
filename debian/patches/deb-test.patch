@@ -647,7 +647,7 @@ diff --git a/test/broker/Makefile b/test/broker/Makefile
 index 63b9ae8f..99f90220 100644
 --- a/test/broker/Makefile
 +++ b/test/broker/Makefile
-@@ -104,7 +104,7 @@ msg_sequence_test:
+@@ -107,7 +107,7 @@ msg_sequence_test:
  06 :
  	./06-bridge-b2br-disconnect-qos1.py
  	./06-bridge-b2br-disconnect-qos2.py
@@ -656,7 +656,7 @@ index 63b9ae8f..99f90220 100644
  	./06-bridge-b2br-late-connection.py
  	./06-bridge-b2br-remapping.py
  	./06-bridge-br2b-disconnect-qos1.py
-@@ -146,9 +146,9 @@ msg_sequence_test:
+@@ -150,9 +150,9 @@ msg_sequence_test:
  ifeq ($(WITH_TLS),yes)
  	./08-ssl-bridge.py
  	./08-ssl-connect-cert-auth-crl.py
@@ -669,7 +669,7 @@ index 63b9ae8f..99f90220 100644
  	./08-ssl-connect-cert-auth.py
  	./08-ssl-connect-identity.py
  	./08-ssl-connect-no-auth-wrong-ca.py
-@@ -217,20 +217,20 @@ endif
+@@ -221,20 +221,20 @@ endif
  14 :
  ifeq ($(WITH_TLS),yes)
  ifeq ($(WITH_CJSON),yes)
