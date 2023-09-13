@@ -31,11 +31,11 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  test/mosq_test.py                             |  6 +--
  21 files changed, 114 insertions(+), 110 deletions(-)
 
-Index: mosquitto/test/mosq_test.py
-===================================================================
---- mosquitto.orig/test/mosq_test.py
-+++ mosquitto/test/mosq_test.py
-@@ -26,16 +26,16 @@
+diff --git a/test/mosq_test.py b/test/mosq_test.py
+index d9fe6970..faf16ea0 100644
+--- a/test/mosq_test.py
++++ b/test/mosq_test.py
+@@ -26,16 +26,16 @@ def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False,
      delay = 0.1
  
      if use_conf == True:
@@ -55,11 +55,11 @@ Index: mosquitto/test/mosq_test.py
          elif cmd is not None and port == 0:
              port = 1888
  
-Index: mosquitto/test/broker/c/Makefile
-===================================================================
---- mosquitto.orig/test/broker/c/Makefile
-+++ mosquitto/test/broker/c/Makefile
-@@ -37,7 +37,7 @@
+diff --git a/test/broker/c/Makefile b/test/broker/c/Makefile
+index e897e34d..472537cd 100644
+--- a/test/broker/c/Makefile
++++ b/test/broker/c/Makefile
+@@ -37,7 +37,7 @@ ${PLUGINS} : %.so: %.c
  
  
  ${TESTS} : %.test: %.c
@@ -68,11 +68,11 @@ Index: mosquitto/test/broker/c/Makefile
  
  
  reallyclean : clean
-Index: mosquitto/test/lib/c/Makefile
-===================================================================
---- mosquitto.orig/test/lib/c/Makefile
-+++ mosquitto/test/lib/c/Makefile
-@@ -3,7 +3,7 @@
+diff --git a/test/lib/c/Makefile b/test/lib/c/Makefile
+index 40cb7d15..6d180a36 100644
+--- a/test/lib/c/Makefile
++++ b/test/lib/c/Makefile
+@@ -3,7 +3,7 @@ include ../../../config.mk
  .PHONY: all clean reallyclean
  
  CFLAGS=-I../../../include -Werror
@@ -81,10 +81,10 @@ Index: mosquitto/test/lib/c/Makefile
  
  SRC = \
  	01-con-discon-success.c \
-Index: mosquitto/test/lib/cpp/Makefile
-===================================================================
---- mosquitto.orig/test/lib/cpp/Makefile
-+++ mosquitto/test/lib/cpp/Makefile
+diff --git a/test/lib/cpp/Makefile b/test/lib/cpp/Makefile
+index c4ae14ca..022d1033 100644
+--- a/test/lib/cpp/Makefile
++++ b/test/lib/cpp/Makefile
 @@ -1,7 +1,7 @@
  .PHONY: all test 01 02 03 04 08 09 clean reallyclean
  
@@ -94,11 +94,13 @@ Index: mosquitto/test/lib/cpp/Makefile
  
  all : 01 02 03 04 08 09
  
-Index: mosquitto/test/client/test.sh
-===================================================================
---- mosquitto.orig/test/client/test.sh
-+++ mosquitto/test/client/test.sh
-@@ -11,7 +11,7 @@
+
+
+diff --git a/test/client/test.sh b/test/client/test.sh
+index 53ee84b9..ed97cad3 100755
+--- a/test/client/test.sh
++++ b/test/client/test.sh
+@@ -11,7 +11,7 @@ export PORT=1888
  export SUB_TIMEOUT=1
  
  # Start broker
@@ -107,7 +109,7 @@ Index: mosquitto/test/client/test.sh
  export MOSQ_PID=$!
  sleep 0.5
  
-@@ -20,28 +20,28 @@
+@@ -20,28 +20,28 @@ trap "kill $MOSQ_PID" EXIT
  
  
  # Simple subscribe test - single message from $SYS
@@ -143,11 +145,14 @@ Index: mosquitto/test/client/test.sh
 +/usr/bin/mosquitto_pub -p ${PORT} -t 'file-publish' -l < ./test.sh
  kill ${SUB_PID} 2>/dev/null || true
  echo "stdin publish ok"
-Index: mosquitto/test/broker/04-retain-check-source-persist-diff-port.py
-===================================================================
---- mosquitto.orig/test/broker/04-retain-check-source-persist-diff-port.py
-+++ mosquitto/test/broker/04-retain-check-source-persist-diff-port.py
-@@ -32,16 +32,16 @@
+
+-- 
+2.39.2
+diff --git a/test/broker/04-retain-check-source-persist-diff-port.py b/test/broker/04-retain-check-source-persist-diff-port.py
+index efe1cfba..dacc617f 100755
+--- a/test/broker/04-retain-check-source-persist-diff-port.py
++++ b/test/broker/04-retain-check-source-persist-diff-port.py
+@@ -32,16 +32,16 @@ def write_acl_2(filename, username):
  
  
  def do_test(proto_ver, per_listener, username):
@@ -167,7 +172,7 @@ Index: mosquitto/test/broker/04-retain-check-source-persist-diff-port.py
      write_acl_1(acl_file, username)
  
  
-@@ -65,7 +65,7 @@
+@@ -65,7 +65,7 @@ def do_test(proto_ver, per_listener, username):
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -176,7 +181,7 @@ Index: mosquitto/test/broker/04-retain-check-source-persist-diff-port.py
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port1)
-@@ -85,7 +85,7 @@
+@@ -85,7 +85,7 @@ def do_test(proto_ver, per_listener, username):
          if os.path.isfile(persistence_file) == False:
              raise FileNotFoundError("Persistence file not written")
  
@@ -185,11 +190,11 @@ Index: mosquitto/test/broker/04-retain-check-source-persist-diff-port.py
  
          sock = mosq_test.do_client_connect(connect2_packet, connack2_packet, port=port2)
          mosq_test.do_send_receive(sock, subscribe_packet, suback_packet, "suback 2")
-Index: mosquitto/test/broker/04-retain-check-source-persist.py
-===================================================================
---- mosquitto.orig/test/broker/04-retain-check-source-persist.py
-+++ mosquitto/test/broker/04-retain-check-source-persist.py
-@@ -29,16 +29,16 @@
+diff --git a/test/broker/04-retain-check-source-persist.py b/test/broker/04-retain-check-source-persist.py
+index 9e594415..21d6ab94 100755
+--- a/test/broker/04-retain-check-source-persist.py
++++ b/test/broker/04-retain-check-source-persist.py
+@@ -29,16 +29,16 @@ def write_acl_2(filename, username):
  
  
  def do_test(proto_ver, per_listener, username):
@@ -209,7 +214,7 @@ Index: mosquitto/test/broker/04-retain-check-source-persist.py
      write_acl_1(acl_file, username)
  
  
-@@ -52,7 +52,7 @@
+@@ -52,7 +52,7 @@ def do_test(proto_ver, per_listener, username):
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -218,7 +223,7 @@ Index: mosquitto/test/broker/04-retain-check-source-persist.py
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
-@@ -70,7 +70,7 @@
+@@ -70,7 +70,7 @@ def do_test(proto_ver, per_listener, username):
          broker.terminate()
          broker.wait()
  
@@ -227,11 +232,11 @@ Index: mosquitto/test/broker/04-retain-check-source-persist.py
  
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
          mosq_test.do_send_receive(sock, subscribe_packet, suback_packet, "suback 2")
-Index: mosquitto/test/broker/04-retain-check-source.py
-===================================================================
---- mosquitto.orig/test/broker/04-retain-check-source.py
-+++ mosquitto/test/broker/04-retain-check-source.py
-@@ -23,10 +23,10 @@
+diff --git a/test/broker/04-retain-check-source.py b/test/broker/04-retain-check-source.py
+index 5a7ed298..70a0cc1b 100755
+--- a/test/broker/04-retain-check-source.py
++++ b/test/broker/04-retain-check-source.py
+@@ -23,10 +23,10 @@ def write_acl_2(filename):
  
  
  def do_test(proto_ver, per_listener):
@@ -244,7 +249,7 @@ Index: mosquitto/test/broker/04-retain-check-source.py
      write_acl_1(acl_file)
  
  
-@@ -40,7 +40,7 @@
+@@ -40,7 +40,7 @@ def do_test(proto_ver, per_listener):
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -253,11 +258,11 @@ Index: mosquitto/test/broker/04-retain-check-source.py
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
-Index: mosquitto/test/broker/04-retain-upgrade-outgoing-qos.py
-===================================================================
---- mosquitto.orig/test/broker/04-retain-upgrade-outgoing-qos.py
-+++ mosquitto/test/broker/04-retain-upgrade-outgoing-qos.py
-@@ -14,7 +14,7 @@
+diff --git a/test/broker/04-retain-upgrade-outgoing-qos.py b/test/broker/04-retain-upgrade-outgoing-qos.py
+index e2720bcf..942507f6 100755
+--- a/test/broker/04-retain-upgrade-outgoing-qos.py
++++ b/test/broker/04-retain-upgrade-outgoing-qos.py
+@@ -14,7 +14,7 @@ def write_config(filename, port):
  
  def do_test(proto_ver):
      port = mosq_test.get_port()
@@ -266,7 +271,7 @@ Index: mosquitto/test/broker/04-retain-upgrade-outgoing-qos.py
      write_config(conf_file, port)
  
      rc = 1
-@@ -29,7 +29,7 @@
+@@ -29,7 +29,7 @@ def do_test(proto_ver):
  
      publish_packet2 = mosq_test.gen_publish("retain/qos0/test", mid=1, qos=1, payload="retained message", retain=True, proto_ver=proto_ver)
  
@@ -275,11 +280,11 @@ Index: mosquitto/test/broker/04-retain-upgrade-outgoing-qos.py
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
-Index: mosquitto/test/broker/06-bridge-b2br-late-connection-retain.py
-===================================================================
---- mosquitto.orig/test/broker/06-bridge-b2br-late-connection-retain.py
-+++ mosquitto/test/broker/06-bridge-b2br-late-connection-retain.py
-@@ -35,8 +35,8 @@
+diff --git a/test/broker/06-bridge-b2br-late-connection-retain.py b/test/broker/06-bridge-b2br-late-connection-retain.py
+index 4beeb7c2..5126abfd 100755
+--- a/test/broker/06-bridge-b2br-late-connection-retain.py
++++ b/test/broker/06-bridge-b2br-late-connection-retain.py
+@@ -35,8 +35,8 @@ def do_test(proto_ver):
          proto_ver_connect = 5
  
      (port1, port2) = mosq_test.get_port(2)
@@ -290,7 +295,7 @@ Index: mosquitto/test/broker/06-bridge-b2br-late-connection-retain.py
  
      rc = 1
      keepalive = 60
-@@ -64,7 +64,7 @@
+@@ -64,7 +64,7 @@ def do_test(proto_ver):
      write_config1(conf_file, persistence_file, port1, port2)
  
      try:
@@ -299,7 +304,7 @@ Index: mosquitto/test/broker/06-bridge-b2br-late-connection-retain.py
          client = mosq_test.do_client_connect(c_connect_packet, c_connack_packet, timeout=20, port=port2)
          mosq_test.do_send_receive(client, publish_packet, puback_packet, "puback")
          client.close()
-@@ -74,7 +74,7 @@
+@@ -74,7 +74,7 @@ def do_test(proto_ver):
  
          # Restart, with retained message in place
          write_config2(conf_file, persistence_file, port1, port2, bridge_protocol)
@@ -308,11 +313,11 @@ Index: mosquitto/test/broker/06-bridge-b2br-late-connection-retain.py
  
          (bridge, address) = ssock.accept()
          bridge.settimeout(20)
-Index: mosquitto/test/broker/06-bridge-clean-session-core.py
-===================================================================
---- mosquitto.orig/test/broker/06-bridge-clean-session-core.py
-+++ mosquitto/test/broker/06-bridge-clean-session-core.py
-@@ -84,12 +84,12 @@
+diff --git a/test/broker/06-bridge-clean-session-core.py b/test/broker/06-bridge-clean-session-core.py
+index 89237d23..b9f91a61 100755
+--- a/test/broker/06-bridge-clean-session-core.py
++++ b/test/broker/06-bridge-clean-session-core.py
+@@ -84,12 +84,12 @@ def do_test(proto_ver, cs, lcs=None):
  
  
      (port_a_listen, port_b_listen) = mosq_test.get_port(2)
@@ -330,11 +335,11 @@ Index: mosquitto/test/broker/06-bridge-clean-session-core.py
      write_config_core(conf_file_b, port_b_listen, persistence_file_b)
  
      AckedPair = namedtuple("AckedPair", "p ack")
-Index: mosquitto/test/broker/06-bridge-reconnect-local-out.py
-===================================================================
---- mosquitto.orig/test/broker/06-bridge-reconnect-local-out.py
-+++ mosquitto/test/broker/06-bridge-reconnect-local-out.py
-@@ -11,7 +11,7 @@
+diff --git a/test/broker/06-bridge-reconnect-local-out.py b/test/broker/06-bridge-reconnect-local-out.py
+index 887470b6..2a198e88 100755
+--- a/test/broker/06-bridge-reconnect-local-out.py
++++ b/test/broker/06-bridge-reconnect-local-out.py
+@@ -11,7 +11,7 @@ def write_config(filename, port1, port2, protocol_version):
          f.write("allow_anonymous true\n")
          f.write("\n")
          f.write("persistence true\n")
@@ -343,7 +348,7 @@ Index: mosquitto/test/broker/06-bridge-reconnect-local-out.py
          f.write("\n")
          f.write("connection bridge_sample\n")
          f.write("address 127.0.0.1:%d\n" % (port1))
-@@ -49,7 +49,7 @@
+@@ -48,7 +48,7 @@ def do_test(proto_ver):
  
      broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port1, use_conf=False)
  
@@ -352,10 +357,11 @@ Index: mosquitto/test/broker/06-bridge-reconnect-local-out.py
      local_broker = mosq_test.start_broker(cmd=local_cmd, filename=os.path.basename(__file__)+'_local1', use_conf=False, port=port2)
      if os.environ.get('MOSQ_USE_VALGRIND') is not None:
          time.sleep(5)
-Index: mosquitto/test/broker/11-message-expiry.py
-===================================================================
---- mosquitto.orig/test/broker/11-message-expiry.py
-+++ mosquitto/test/broker/11-message-expiry.py
+
+diff --git a/test/broker/11-message-expiry.py b/test/broker/11-message-expiry.py
+index de109eb0..1e963f2d 100755
+--- a/test/broker/11-message-expiry.py
++++ b/test/broker/11-message-expiry.py
 @@ -11,16 +11,17 @@
  
  from mosq_test_helper import *
@@ -377,7 +383,7 @@ Index: mosquitto/test/broker/11-message-expiry.py
  
  
  rc = 1
-@@ -53,8 +54,8 @@
+@@ -53,8 +54,8 @@ publish3_packet = mosq_test.gen_publish("subpub/qos1", mid=mid, qos=1, payload="
  puback3_packet = mosq_test.gen_puback(mid)
  
  
@@ -388,7 +394,7 @@ Index: mosquitto/test/broker/11-message-expiry.py
  
  port = mosq_test.get_port()
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
-@@ -97,8 +98,8 @@
+@@ -97,8 +98,8 @@ finally:
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -399,10 +405,10 @@ Index: mosquitto/test/broker/11-message-expiry.py
  
  exit(rc)
  
-Index: mosquitto/test/broker/11-persistent-subscription-no-local.py
-===================================================================
---- mosquitto.orig/test/broker/11-persistent-subscription-no-local.py
-+++ mosquitto/test/broker/11-persistent-subscription-no-local.py
+diff --git a/test/broker/11-persistent-subscription-no-local.py b/test/broker/11-persistent-subscription-no-local.py
+index 350ba5ca..63059ade 100755
+--- a/test/broker/11-persistent-subscription-no-local.py
++++ b/test/broker/11-persistent-subscription-no-local.py
 @@ -5,16 +5,17 @@
  
  from mosq_test_helper import *
@@ -424,7 +430,7 @@ Index: mosquitto/test/broker/11-persistent-subscription-no-local.py
  
  rc = 1
  keepalive = 60
-@@ -48,8 +49,8 @@
+@@ -48,8 +49,8 @@ mid = 2
  publish2b_packet = mosq_test.gen_publish("subpub/local", qos=1, mid=mid, payload="message", proto_ver=5)
  puback2b_packet = mosq_test.gen_puback(mid, proto_ver=5)
  
@@ -435,7 +441,7 @@ Index: mosquitto/test/broker/11-persistent-subscription-no-local.py
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -90,8 +91,8 @@
+@@ -90,8 +91,8 @@ finally:
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -446,10 +452,10 @@ Index: mosquitto/test/broker/11-persistent-subscription-no-local.py
  
  
  exit(rc)
-Index: mosquitto/test/broker/11-persistent-subscription-v5.py
-===================================================================
---- mosquitto.orig/test/broker/11-persistent-subscription-v5.py
-+++ mosquitto/test/broker/11-persistent-subscription-v5.py
+diff --git a/test/broker/11-persistent-subscription-v5.py b/test/broker/11-persistent-subscription-v5.py
+index 7cd9ae6a..8bc4d8e3 100755
+--- a/test/broker/11-persistent-subscription-v5.py
++++ b/test/broker/11-persistent-subscription-v5.py
 @@ -4,16 +4,17 @@
  
  from mosq_test_helper import *
@@ -471,7 +477,7 @@ Index: mosquitto/test/broker/11-persistent-subscription-v5.py
  
  rc = 1
  mid = 530
-@@ -35,8 +36,8 @@
+@@ -35,8 +36,8 @@ puback_packet = mosq_test.gen_puback(mid, proto_ver=5)
  mid = 1
  publish_packet2 = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, payload="message", proto_ver=5)
  
@@ -482,7 +488,7 @@ Index: mosquitto/test/broker/11-persistent-subscription-v5.py
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -67,8 +68,8 @@
+@@ -67,8 +68,8 @@ finally:
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -493,10 +499,10 @@ Index: mosquitto/test/broker/11-persistent-subscription-v5.py
  
  
  exit(rc)
-Index: mosquitto/test/broker/11-persistent-subscription.py
-===================================================================
---- mosquitto.orig/test/broker/11-persistent-subscription.py
-+++ mosquitto/test/broker/11-persistent-subscription.py
+diff --git a/test/broker/11-persistent-subscription.py b/test/broker/11-persistent-subscription.py
+index 2ec2871c..a54b5b97 100755
+--- a/test/broker/11-persistent-subscription.py
++++ b/test/broker/11-persistent-subscription.py
 @@ -4,17 +4,18 @@
  
  from mosq_test_helper import *
@@ -519,7 +525,7 @@ Index: mosquitto/test/broker/11-persistent-subscription.py
  
      rc = 1
      mid = 530
-@@ -35,8 +36,8 @@
+@@ -35,8 +36,8 @@ def do_test(proto_ver):
      mid = 1
      publish_packet2 = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, payload="message", proto_ver=proto_ver)
  
@@ -530,7 +536,7 @@ Index: mosquitto/test/broker/11-persistent-subscription.py
  
      broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -65,8 +66,8 @@
+@@ -65,8 +66,8 @@ def do_test(proto_ver):
          broker.terminate()
          broker.wait()
          (stdo, stde) = broker.communicate()
@@ -541,10 +547,10 @@ Index: mosquitto/test/broker/11-persistent-subscription.py
          if rc:
              print(stde.decode('utf-8'))
              print("proto_ver=%d" % (proto_ver))
-Index: mosquitto/test/broker/11-pub-props.py
-===================================================================
---- mosquitto.orig/test/broker/11-pub-props.py
-+++ mosquitto/test/broker/11-pub-props.py
+diff --git a/test/broker/11-pub-props.py b/test/broker/11-pub-props.py
+index 1b76fa25..541719fb 100755
+--- a/test/broker/11-pub-props.py
++++ b/test/broker/11-pub-props.py
 @@ -4,16 +4,17 @@
  
  from mosq_test_helper import *
@@ -566,7 +572,7 @@ Index: mosquitto/test/broker/11-pub-props.py
  
  rc = 1
  keepalive = 60
-@@ -37,8 +38,8 @@
+@@ -37,8 +38,8 @@ mid = 1
  subscribe_packet = mosq_test.gen_subscribe(mid, "subpub/qos1", 0, proto_ver=5)
  suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=5)
  
@@ -577,7 +583,7 @@ Index: mosquitto/test/broker/11-pub-props.py
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -72,8 +73,8 @@
+@@ -72,8 +73,8 @@ finally:
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -588,10 +594,10 @@ Index: mosquitto/test/broker/11-pub-props.py
  
  
  exit(rc)
-Index: mosquitto/test/broker/11-subscription-id.py
-===================================================================
---- mosquitto.orig/test/broker/11-subscription-id.py
-+++ mosquitto/test/broker/11-subscription-id.py
+diff --git a/test/broker/11-subscription-id.py b/test/broker/11-subscription-id.py
+index ed178425..4b9ad16a 100755
+--- a/test/broker/11-subscription-id.py
++++ b/test/broker/11-subscription-id.py
 @@ -4,16 +4,17 @@
  
  from mosq_test_helper import *
@@ -613,7 +619,7 @@ Index: mosquitto/test/broker/11-subscription-id.py
  
  rc = 1
  keepalive = 60
-@@ -42,8 +43,8 @@
+@@ -42,8 +43,8 @@ helper_publish_packet = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, pay
  helper_puback_packet = mosq_test.gen_puback(mid, proto_ver=5)
  
  
@@ -624,7 +630,7 @@ Index: mosquitto/test/broker/11-subscription-id.py
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -77,10 +78,8 @@
+@@ -77,10 +78,8 @@ finally:
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -637,11 +643,11 @@ Index: mosquitto/test/broker/11-subscription-id.py
  
  exit(rc)
 -
-Index: mosquitto/test/broker/Makefile
-===================================================================
---- mosquitto.orig/test/broker/Makefile
-+++ mosquitto/test/broker/Makefile
-@@ -107,7 +107,7 @@
+diff --git a/test/broker/Makefile b/test/broker/Makefile
+index 63b9ae8f..99f90220 100644
+--- a/test/broker/Makefile
++++ b/test/broker/Makefile
+@@ -104,7 +104,7 @@ msg_sequence_test:
  06 :
  	./06-bridge-b2br-disconnect-qos1.py
  	./06-bridge-b2br-disconnect-qos2.py
@@ -650,7 +656,7 @@ Index: mosquitto/test/broker/Makefile
  	./06-bridge-b2br-late-connection.py
  	./06-bridge-b2br-remapping.py
  	./06-bridge-br2b-disconnect-qos1.py
-@@ -150,9 +150,9 @@
+@@ -146,9 +146,9 @@ msg_sequence_test:
  ifeq ($(WITH_TLS),yes)
  	./08-ssl-bridge.py
  	./08-ssl-connect-cert-auth-crl.py
@@ -663,7 +669,7 @@ Index: mosquitto/test/broker/Makefile
  	./08-ssl-connect-cert-auth.py
  	./08-ssl-connect-identity.py
  	./08-ssl-connect-no-auth-wrong-ca.py
-@@ -221,20 +221,20 @@
+@@ -217,20 +217,20 @@ endif
  14 :
  ifeq ($(WITH_TLS),yes)
  ifeq ($(WITH_CJSON),yes)
@@ -699,11 +705,11 @@ Index: mosquitto/test/broker/Makefile
 +	#./14-dynsec-role-invalid.py
  endif
  endif
-Index: mosquitto/test/lib/Makefile
-===================================================================
---- mosquitto.orig/test/lib/Makefile
-+++ mosquitto/test/lib/Makefile
-@@ -33,7 +33,7 @@
+diff --git a/test/lib/Makefile b/test/lib/Makefile
+index 6ade78d0..b31cdb4d 100644
+--- a/test/lib/Makefile
++++ b/test/lib/Makefile
+@@ -33,7 +33,7 @@ c : test-compile
  	./02-subscribe-qos0.py $@/02-subscribe-qos0.test
  	./02-subscribe-qos1.py $@/02-subscribe-qos1.test
  	./02-subscribe-qos1.py $@/02-subscribe-qos1-async1.test
@@ -712,7 +718,7 @@ Index: mosquitto/test/lib/Makefile
  	./02-subscribe-qos2.py $@/02-subscribe-qos2.test
  	./02-unsubscribe-multiple-v5.py $@/02-unsubscribe-multiple-v5.test
  	./02-unsubscribe-v5.py $@/02-unsubscribe-v5.test
-@@ -50,7 +50,7 @@
+@@ -50,7 +50,7 @@ c : test-compile
  	./03-publish-c2b-qos2-disconnect.py $@/03-publish-c2b-qos2-disconnect.test
  	./03-publish-c2b-qos2-len.py $@/03-publish-c2b-qos2-len.test
  	./03-publish-c2b-qos2-maximum-qos-0.py $@/03-publish-c2b-qos2-maximum-qos-0.test
@@ -721,11 +727,11 @@ Index: mosquitto/test/lib/Makefile
  	./03-publish-c2b-qos2-pubrec-error.py $@/03-publish-c2b-qos2-pubrec-error.test
  	./03-publish-c2b-qos2-receive-maximum-1.py $@/03-publish-c2b-qos2-receive-maximum-1.test
  	./03-publish-c2b-qos2-receive-maximum-2.py $@/03-publish-c2b-qos2-receive-maximum-2.test
-Index: mosquitto/test/broker/08-tls-psk-bridge.py
-===================================================================
---- mosquitto.orig/test/broker/08-tls-psk-bridge.py
-+++ mosquitto/test/broker/08-tls-psk-bridge.py
-@@ -29,8 +29,8 @@
+diff --git a/test/broker/08-tls-psk-bridge.py b/test/broker/08-tls-psk-bridge.py
+index 56d3c196..cb23f518 100755
+--- a/test/broker/08-tls-psk-bridge.py
++++ b/test/broker/08-tls-psk-bridge.py
+@@ -29,8 +29,8 @@ def write_config2(filename, port2, port3):
          f.write("bridge_psk deadbeef\n")
  
  (port1, port2, port3) = mosq_test.get_port(3)
@@ -736,7 +742,7 @@ Index: mosquitto/test/broker/08-tls-psk-bridge.py
  write_config1(conf_file1, port1, port2)
  write_config2(conf_file2, port2, port3)
  
-@@ -54,9 +54,9 @@
+@@ -54,9 +54,9 @@ suback_packet = mosq_test.gen_suback(mid, 0)
  
  publish_packet = mosq_test.gen_publish(topic="psk/test", payload="message", qos=0)
  
