@@ -1,8 +1,9 @@
-mosquitto (2.0.18-1) UNRELEASED; urgency=medium
+mosquitto (2.0.18-1) unstable; urgency=medium
 
   * New upstream release
+  * debian/patches: Refresh patches
 
- -- Philippe Coval <rzr@users.sf.net>  Mon, 25 Sep 2023 14:24:52 +0200
+ -- Philippe Coval <rzr@users.sf.net>  Mon, 25 Sep 2023 15:41:05 +0200
 
 mosquitto (2.0.17-3) unstable; urgency=medium
 
