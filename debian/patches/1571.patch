@@ -1,4 +1,3 @@
-From 3fe5468f1bdca1bff1d18cf43c9e338f41aa9e32 Mon Sep 17 00:00:00 2001
 From: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
 Date: Wed, 22 Jan 2020 12:39:49 +0100
 Subject: [PATCH] Add dynamic symbols linking with cmake too
@@ -14,7 +13,7 @@ Signed-off-by: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
  1 file changed, 2 insertions(+)
 
 diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
-index 31cc35e3..f0f71132 100644
+index 31cc35e..f0f7113 100644
 --- a/lib/CMakeLists.txt
 +++ b/lib/CMakeLists.txt
 @@ -94,6 +94,8 @@ set_target_properties(libmosquitto PROPERTIES
@@ -26,6 +25,3 @@ index 31cc35e3..f0f71132 100644
  )
  
  install(TARGETS libmosquitto
--- 
-2.39.2
-

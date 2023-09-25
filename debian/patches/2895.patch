@@ -1,8 +1,7 @@
-From 89d71224364b2326297d1f29ba1aee3bbc6ab67a Mon Sep 17 00:00:00 2001
 From: Joachim Zobel <jz-2017@heute-morgen.de>
 Date: Wed, 13 Sep 2023 10:05:43 +0200
-Subject: [PATCH] Mosquitto now waits for network-online when starting (Closes:
- #1036450)
+Subject: [PATCH] Mosquitto now waits for network-online when starting
+ (Closes: #1036450)
 
 See: https://github.com/eclipse/mosquitto/issues/2878
 ---
@@ -10,7 +9,7 @@ See: https://github.com/eclipse/mosquitto/issues/2878
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/service/systemd/mosquitto.service.simple b/service/systemd/mosquitto.service.simple
-index 15ee0d62db..c2a330b96a 100644
+index 15ee0d6..c2a330b 100644
 --- a/service/systemd/mosquitto.service.simple
 +++ b/service/systemd/mosquitto.service.simple
 @@ -1,8 +1,8 @@

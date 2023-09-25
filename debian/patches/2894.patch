@@ -1,4 +1,3 @@
-From 01053bfb7bd6963ae720912034380c69a5ef2325 Mon Sep 17 00:00:00 2001
 From: Joachim Zobel <jz-2017@heute-morgen.de>
 Date: Wed, 13 Sep 2023 09:55:34 +0200
 Subject: [PATCH] Link correctly with shared websockets library if needed see:
@@ -10,7 +9,7 @@ Patch contributed by Joachim Zobel <jz-2017@heute-morgen.de> and  Daniel Engberg
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 9380a04608..dce8313f60 100644
+index 9380a04..dce8313 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -200,7 +200,7 @@ if (WITH_WEBSOCKETS)
