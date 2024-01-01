@@ -2,7 +2,7 @@ From: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
 Date: Wed, 22 Jan 2020 12:39:49 +0100
 Subject: [PATCH] Add dynamic symbols linking with cmake too
 
-Upstream-Status: Submitted [https://github.com/eclipse/mosquitto/pull/1571]
+Upstream-Status: Merged [https://github.com/eclipse/mosquitto/pull/1571]
 Signed-off-by: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
 Last-Update: 2023-07-09
 -
