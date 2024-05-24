@@ -41,7 +41,12 @@ InstallDir "$PROGRAMFILES64\mosquitto"
 
 Section "Files" SecInstall
 	SectionIn RO
+
+	ExecWait 'sc stop mosquitto'
+	Sleep 1000
+
 	SetOutPath "$INSTDIR"
+	File "..\logo\mosquitto.ico"
 	File "..\build64\src\Release\mosquitto.exe"
 	File "..\build64\apps\mosquitto_ctrl\Release\mosquitto_ctrl.exe"
 	File "..\build64\apps\mosquitto_passwd\Release\mosquitto_passwd.exe"
@@ -81,6 +86,7 @@ Section "Files" SecInstall
 
 	WriteUninstaller "$INSTDIR\Uninstall.exe"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mosquitto64" "DisplayName" "Eclipse Mosquitto MQTT broker (64 bit)"
+	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mosquitto64" "DisplayIcon" "$INSTDIR\mosquitto.ico"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mosquitto64" "UninstallString" "$\"$INSTDIR\Uninstall.exe$\""
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mosquitto64" "QuietUninstallString" "$\"$INSTDIR\Uninstall.exe$\" /S"
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Mosquitto64" "HelpLink" "https://mosquitto.org/"
@@ -102,10 +108,15 @@ SectionEnd
 
 Section "Service" SecService
 	ExecWait '"$INSTDIR\mosquitto.exe" install'
+	ExecWait 'sc start mosquitto'
 SectionEnd
 
 Section "Uninstall"
+	ExecWait 'sc stop mosquitto'
+	Sleep 1000
 	ExecWait '"$INSTDIR\mosquitto.exe" uninstall'
+	Sleep 1000
+
 	Delete "$INSTDIR\mosquitto.dll"
 	Delete "$INSTDIR\mosquitto.exe"
 	Delete "$INSTDIR\mosquitto_ctrl.exe"
@@ -126,6 +137,7 @@ Section "Uninstall"
 	Delete "$INSTDIR\SECURITY.md"
 	Delete "$INSTDIR\edl-v10"
 	Delete "$INSTDIR\epl-v20"
+	Delete "$INSTDIR\mosquitto.ico"
 
 	Delete "$INSTDIR\cjson.dll"
 	Delete "$INSTDIR\libcrypto-3-x64.dll"

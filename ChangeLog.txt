@@ -19,6 +19,11 @@ Broker:
 Clients:
 - Fix mosquitto_rr not honouring `-R`. Closes #2893.
 
+Windows:
+- Installer will start/stop the mosquitto service when installing and
+  uninstalling, to prevent problems with not being able to overwrite or remove
+  mosquitto.exe.
+
 
 2.0.17 - 2023-08-22
 ===================
