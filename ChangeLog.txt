@@ -1,12 +1,16 @@
 2.0.19 - 2024-09-xx
 ===================
 
+Security:
+- Fix mismatched subscribe/unsubscribe with normal/shared topics.
+
 Broker:
 - Fix assert failure when loading a persistence file that contains
   subscriptions with no client id.
 - Fix local bridges being incorrectly expired when
   persistent_client_expiration is in use.
 - Fix use of CLOCK_BOOTTIME for getting time. Closes #3089.
+- Fix mismatched subscribe/unsubscribe with normal/shared topics.
 
 Library:
 - Fix some error codes being converted to string as "unknown". Closes #2579.
