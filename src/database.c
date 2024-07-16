@@ -724,14 +724,16 @@ int db__messages_easy_queue(struct mosquitto *context, const char *topic, uint8_
 	}
 
 	stored->payloadlen = payloadlen;
-	stored->payload = mosquitto__malloc(stored->payloadlen+1);
-	if(stored->payload == NULL){
-		db__msg_store_free(stored);
-		return MOSQ_ERR_NOMEM;
+	if(payloadlen > 0){
+		stored->payload = mosquitto__malloc(stored->payloadlen+1);
+		if(stored->payload == NULL){
+			db__msg_store_free(stored);
+			return MOSQ_ERR_NOMEM;
+		}
+		/* Ensure payload is always zero terminated, this is the reason for the extra byte above */
+		((uint8_t *)stored->payload)[stored->payloadlen] = 0;
+		memcpy(stored->payload, payload, stored->payloadlen);
 	}
-	/* Ensure payload is always zero terminated, this is the reason for the extra byte above */
-	((uint8_t *)stored->payload)[stored->payloadlen] = 0;
-	memcpy(stored->payload, payload, stored->payloadlen);
 
 	if(context && context->id){
 		source_id = context->id;
