@@ -3,6 +3,7 @@
 
 Security:
 - Fix mismatched subscribe/unsubscribe with normal/shared topics.
+- Fix crash on bridge using remapped topic being sent a crafted packet.
 
 Broker:
 - Fix assert failure when loading a persistence file that contains
@@ -11,6 +12,7 @@ Broker:
   persistent_client_expiration is in use.
 - Fix use of CLOCK_BOOTTIME for getting time. Closes #3089.
 - Fix mismatched subscribe/unsubscribe with normal/shared topics.
+- Fix crash on bridge using remapped topic being sent a crafted packet.
 
 Library:
 - Fix some error codes being converted to string as "unknown". Closes #2579.
