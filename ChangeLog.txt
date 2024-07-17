@@ -14,10 +14,11 @@ Broker:
 - Fix mismatched subscribe/unsubscribe with normal/shared topics.
 - Fix crash on bridge using remapped topic being sent a crafted packet.
 
-Library:
+Client library:
 - Fix some error codes being converted to string as "unknown". Closes #2579.
 - Clear SSL error state to avoid spurious error reporting. Closes #3054.
 - Fix "payload format invalid" not being allowed as a PUBREC reason code.
+- Don't allow SUBACK with missing reason codes.
 
 Build:
 - Thread support is re-enabled on Windows.
