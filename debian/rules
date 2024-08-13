@@ -17,7 +17,9 @@ SYSTEMD=OFF
 endif
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DWITH_BUNDLED_DEPS=OFF -DWITH_ADNS=ON -DUSE_LIBWRAP=ON -DWITH_WEBSOCKETS=ON -DWITH_DLT=ON -DWITH_SYSTEMD=${SYSTEMD}
+	dh_auto_configure -- -DWITH_BUNDLED_DEPS=OFF -DWITH_ADNS=ON -DUSE_LIBWRAP=ON \
+		-DWITH_WEBSOCKETS=ON -DWITH_DLT=ON -DWITH_SYSTEMD=${SYSTEMD} \
+		-DCMAKE_SKIP_BUILD_RPATH:BOOL=ON
 
 override_dh_strip:
 	dh_strip -p mosquitto -Xlibmosquitto
