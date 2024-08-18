@@ -1,3 +1,11 @@
+mosquitto (2.0.18-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Install mosquitto.service into /usr (DEP17 M2).
+    (Closes: #1071917)
+
+ -- Chris Hofstaedtler <zeha@debian.org>  Tue, 13 Aug 2024 20:10:03 +0200
+
 mosquitto (2.0.18-1) unstable; urgency=medium
 
   * New upstream release
