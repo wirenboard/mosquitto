@@ -1,4 +1,4 @@
-2.0.19 - 2023-11-xx
+2.0.19 - 2024-09-xx
 ===================
 
 Broker:
@@ -6,6 +6,10 @@ Broker:
   subscriptions with no client id.
 - Fix local bridges being incorrectly expired when
   persistent_client_expiration is in use.
+- Fix use of CLOCK_BOOTTIME for getting time. Closes #3089.
+
+Library:
+- Fix some error codes being converted to string as "unknown". Closes #2579.
 
 Build:
 - Thread support is re-enabled on Windows.
