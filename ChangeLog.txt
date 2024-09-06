@@ -11,6 +11,7 @@ Broker:
 Library:
 - Fix some error codes being converted to string as "unknown". Closes #2579.
 - Clear SSL error state to avoid spurious error reporting. Closes #3054.
+- Fix "payload format invalid" not being allowed as a PUBREC reason code.
 
 Build:
 - Thread support is re-enabled on Windows.
