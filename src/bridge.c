@@ -197,8 +197,7 @@ int bridge__connect_step1(struct mosquitto *context)
 						context->bridge->topics[i].local_topic,
 						qos,
 						0,
-						MQTT_SUB_OPT_NO_LOCAL | MQTT_SUB_OPT_RETAIN_AS_PUBLISHED,
-						&db.subs) > 0){
+						MQTT_SUB_OPT_NO_LOCAL | MQTT_SUB_OPT_RETAIN_AS_PUBLISHED) > 0){
 				return 1;
 			}
 			retain__queue(context,
