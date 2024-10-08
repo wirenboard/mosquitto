@@ -4,6 +4,7 @@ if (WITH_LIB_CPP)
 endif (WITH_LIB_CPP)
 
 include_directories(${mosquitto_SOURCE_DIR} ${mosquitto_SOURCE_DIR}/lib
+			${OPENSSL_INCLUDE_DIR} # Required for cross compilation
 			${mosquitto_SOURCE_DIR}/include
 			${STDBOOL_H_PATH} ${STDINT_H_PATH})
 
