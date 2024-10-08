@@ -1,6 +1,10 @@
 2.0.20 - 2024-xx-xx
 ===================
 
+Broker:
+- Fix QoS 1 / QoS 2 publish incorrectly returning "no subscribers".
+  Closes #3128.
+
 Client library:
 - Fix cmake build on OS X. Closes #3125.
 
