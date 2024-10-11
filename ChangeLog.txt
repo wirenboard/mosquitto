@@ -4,6 +4,7 @@
 Broker:
 - Fix QoS 1 / QoS 2 publish incorrectly returning "no subscribers".
   Closes #3128.
+- Open files with appropriate access on Windows. Closes #3119.
 
 Client library:
 - Fix cmake build on OS X. Closes #3125.
