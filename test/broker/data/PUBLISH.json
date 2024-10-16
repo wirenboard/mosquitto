@@ -178,7 +178,7 @@
 			]},
 
 			{ "name": "2*message-expiry-interval=1 (four byte integer)", "ver":5, "msgs": [
-				{"type":"send", "payload":"32 1A 0005 746F706963 1234 0A 0200000001 0200000001 7061796C6F6164"},
+				{"type":"send", "payload":"32 1B 0005 746F706963 1234 0A 0200000001 0200000001 7061796C6F6164"},
 				{"type":"recv", "payload":"E0 01 82"}
 			]},
 			{ "name": "message-expiry-interval (four byte integer) missing", "ver":5, "msgs": [
