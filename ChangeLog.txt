@@ -6,6 +6,7 @@ Broker:
   Closes #3128.
 - Open files with appropriate access on Windows. Closes #3119.
 - Don't allow invalid response topic values.
+- Fix some strict protocol compliance issues. Closes #3052.
 
 Client library:
 - Fix cmake build on OS X. Closes #3125.
