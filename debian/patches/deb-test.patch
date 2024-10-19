@@ -32,11 +32,9 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  test/mosq_test.py                                  |  6 ++--
  21 files changed, 114 insertions(+), 110 deletions(-)
 
-diff --git a/test/broker/04-retain-check-source-persist-diff-port.py b/test/broker/04-retain-check-source-persist-diff-port.py
-index efe1cfb..dacc617 100755
 --- a/test/broker/04-retain-check-source-persist-diff-port.py
 +++ b/test/broker/04-retain-check-source-persist-diff-port.py
-@@ -32,16 +32,16 @@ def write_acl_2(filename, username):
+@@ -32,16 +32,16 @@
  
  
  def do_test(proto_ver, per_listener, username):
@@ -56,7 +54,7 @@ index efe1cfb..dacc617 100755
      write_acl_1(acl_file, username)
  
  
-@@ -65,7 +65,7 @@ def do_test(proto_ver, per_listener, username):
+@@ -65,7 +65,7 @@
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -65,7 +63,7 @@ index efe1cfb..dacc617 100755
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port1)
-@@ -85,7 +85,7 @@ def do_test(proto_ver, per_listener, username):
+@@ -85,7 +85,7 @@
          if os.path.isfile(persistence_file) == False:
              raise FileNotFoundError("Persistence file not written")
  
@@ -74,11 +72,9 @@ index efe1cfb..dacc617 100755
  
          sock = mosq_test.do_client_connect(connect2_packet, connack2_packet, port=port2)
          mosq_test.do_send_receive(sock, subscribe_packet, suback_packet, "suback 2")
-diff --git a/test/broker/04-retain-check-source-persist.py b/test/broker/04-retain-check-source-persist.py
-index 9e59441..21d6ab9 100755
 --- a/test/broker/04-retain-check-source-persist.py
 +++ b/test/broker/04-retain-check-source-persist.py
-@@ -29,16 +29,16 @@ def write_acl_2(filename, username):
+@@ -29,16 +29,16 @@
  
  
  def do_test(proto_ver, per_listener, username):
@@ -98,7 +94,7 @@ index 9e59441..21d6ab9 100755
      write_acl_1(acl_file, username)
  
  
-@@ -52,7 +52,7 @@ def do_test(proto_ver, per_listener, username):
+@@ -52,7 +52,7 @@
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -107,7 +103,7 @@ index 9e59441..21d6ab9 100755
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
-@@ -70,7 +70,7 @@ def do_test(proto_ver, per_listener, username):
+@@ -70,7 +70,7 @@
          broker.terminate()
          broker.wait()
  
@@ -116,11 +112,9 @@ index 9e59441..21d6ab9 100755
  
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
          mosq_test.do_send_receive(sock, subscribe_packet, suback_packet, "suback 2")
-diff --git a/test/broker/04-retain-check-source.py b/test/broker/04-retain-check-source.py
-index 5a7ed29..70a0cc1 100755
 --- a/test/broker/04-retain-check-source.py
 +++ b/test/broker/04-retain-check-source.py
-@@ -23,10 +23,10 @@ def write_acl_2(filename):
+@@ -23,10 +23,10 @@
  
  
  def do_test(proto_ver, per_listener):
@@ -133,7 +127,7 @@ index 5a7ed29..70a0cc1 100755
      write_acl_1(acl_file)
  
  
-@@ -40,7 +40,7 @@ def do_test(proto_ver, per_listener):
+@@ -40,7 +40,7 @@
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -142,11 +136,9 @@ index 5a7ed29..70a0cc1 100755
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
-diff --git a/test/broker/04-retain-upgrade-outgoing-qos.py b/test/broker/04-retain-upgrade-outgoing-qos.py
-index e2720bc..942507f 100755
 --- a/test/broker/04-retain-upgrade-outgoing-qos.py
 +++ b/test/broker/04-retain-upgrade-outgoing-qos.py
-@@ -14,7 +14,7 @@ def write_config(filename, port):
+@@ -14,7 +14,7 @@
  
  def do_test(proto_ver):
      port = mosq_test.get_port()
@@ -155,7 +147,7 @@ index e2720bc..942507f 100755
      write_config(conf_file, port)
  
      rc = 1
-@@ -29,7 +29,7 @@ def do_test(proto_ver):
+@@ -29,7 +29,7 @@
  
      publish_packet2 = mosq_test.gen_publish("retain/qos0/test", mid=1, qos=1, payload="retained message", retain=True, proto_ver=proto_ver)
  
@@ -164,11 +156,9 @@ index e2720bc..942507f 100755
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
-diff --git a/test/broker/06-bridge-b2br-late-connection-retain.py b/test/broker/06-bridge-b2br-late-connection-retain.py
-index 4beeb7c..5126abf 100755
 --- a/test/broker/06-bridge-b2br-late-connection-retain.py
 +++ b/test/broker/06-bridge-b2br-late-connection-retain.py
-@@ -35,8 +35,8 @@ def do_test(proto_ver):
+@@ -35,8 +35,8 @@
          proto_ver_connect = 5
  
      (port1, port2) = mosq_test.get_port(2)
@@ -179,7 +169,7 @@ index 4beeb7c..5126abf 100755
  
      rc = 1
      keepalive = 60
-@@ -64,7 +64,7 @@ def do_test(proto_ver):
+@@ -64,7 +64,7 @@
      write_config1(conf_file, persistence_file, port1, port2)
  
      try:
@@ -188,7 +178,7 @@ index 4beeb7c..5126abf 100755
          client = mosq_test.do_client_connect(c_connect_packet, c_connack_packet, timeout=20, port=port2)
          mosq_test.do_send_receive(client, publish_packet, puback_packet, "puback")
          client.close()
-@@ -74,7 +74,7 @@ def do_test(proto_ver):
+@@ -74,7 +74,7 @@
  
          # Restart, with retained message in place
          write_config2(conf_file, persistence_file, port1, port2, bridge_protocol)
@@ -197,11 +187,9 @@ index 4beeb7c..5126abf 100755
  
          (bridge, address) = ssock.accept()
          bridge.settimeout(20)
-diff --git a/test/broker/06-bridge-clean-session-core.py b/test/broker/06-bridge-clean-session-core.py
-index 89237d2..b9f91a6 100755
 --- a/test/broker/06-bridge-clean-session-core.py
 +++ b/test/broker/06-bridge-clean-session-core.py
-@@ -84,12 +84,12 @@ def do_test(proto_ver, cs, lcs=None):
+@@ -84,12 +84,12 @@
  
  
      (port_a_listen, port_b_listen) = mosq_test.get_port(2)
@@ -219,11 +207,9 @@ index 89237d2..b9f91a6 100755
      write_config_core(conf_file_b, port_b_listen, persistence_file_b)
  
      AckedPair = namedtuple("AckedPair", "p ack")
-diff --git a/test/broker/06-bridge-reconnect-local-out.py b/test/broker/06-bridge-reconnect-local-out.py
-index b5adba8..c230780 100755
 --- a/test/broker/06-bridge-reconnect-local-out.py
 +++ b/test/broker/06-bridge-reconnect-local-out.py
-@@ -11,7 +11,7 @@ def write_config(filename, port1, port2, protocol_version):
+@@ -11,7 +11,7 @@
          f.write("allow_anonymous true\n")
          f.write("\n")
          f.write("persistence true\n")
@@ -232,7 +218,7 @@ index b5adba8..c230780 100755
          f.write("\n")
          f.write("connection bridge_sample\n")
          f.write("address 127.0.0.1:%d\n" % (port1))
-@@ -49,7 +49,7 @@ def do_test(proto_ver):
+@@ -49,7 +49,7 @@
  
      broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port1, use_conf=False)
  
@@ -241,11 +227,9 @@ index b5adba8..c230780 100755
      local_broker = mosq_test.start_broker(cmd=local_cmd, filename=os.path.basename(__file__)+'_local1', use_conf=False, port=port2)
      if os.environ.get('MOSQ_USE_VALGRIND') is not None:
          time.sleep(5)
-diff --git a/test/broker/08-tls-psk-bridge.py b/test/broker/08-tls-psk-bridge.py
-index 56d3c19..cb23f51 100755
 --- a/test/broker/08-tls-psk-bridge.py
 +++ b/test/broker/08-tls-psk-bridge.py
-@@ -29,8 +29,8 @@ def write_config2(filename, port2, port3):
+@@ -29,8 +29,8 @@
          f.write("bridge_psk deadbeef\n")
  
  (port1, port2, port3) = mosq_test.get_port(3)
@@ -256,7 +240,7 @@ index 56d3c19..cb23f51 100755
  write_config1(conf_file1, port1, port2)
  write_config2(conf_file2, port2, port3)
  
-@@ -54,9 +54,9 @@ suback_packet = mosq_test.gen_suback(mid, 0)
+@@ -54,9 +54,9 @@
  
  publish_packet = mosq_test.gen_publish(topic="psk/test", payload="message", qos=0)
  
@@ -269,8 +253,6 @@ index 56d3c19..cb23f51 100755
  
  pub = None
  try:
-diff --git a/test/broker/11-message-expiry.py b/test/broker/11-message-expiry.py
-index de109eb..1e963f2 100755
 --- a/test/broker/11-message-expiry.py
 +++ b/test/broker/11-message-expiry.py
 @@ -11,16 +11,17 @@
@@ -294,7 +276,7 @@ index de109eb..1e963f2 100755
  
  
  rc = 1
-@@ -53,8 +54,8 @@ publish3_packet = mosq_test.gen_publish("subpub/qos1", mid=mid, qos=1, payload="
+@@ -53,8 +54,8 @@
  puback3_packet = mosq_test.gen_puback(mid)
  
  
@@ -305,7 +287,7 @@ index de109eb..1e963f2 100755
  
  port = mosq_test.get_port()
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
-@@ -97,8 +98,8 @@ finally:
+@@ -97,8 +98,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -316,8 +298,6 @@ index de109eb..1e963f2 100755
  
  exit(rc)
  
-diff --git a/test/broker/11-persistent-subscription-no-local.py b/test/broker/11-persistent-subscription-no-local.py
-index 350ba5c..63059ad 100755
 --- a/test/broker/11-persistent-subscription-no-local.py
 +++ b/test/broker/11-persistent-subscription-no-local.py
 @@ -5,16 +5,17 @@
@@ -341,7 +321,7 @@ index 350ba5c..63059ad 100755
  
  rc = 1
  keepalive = 60
-@@ -48,8 +49,8 @@ mid = 2
+@@ -48,8 +49,8 @@
  publish2b_packet = mosq_test.gen_publish("subpub/local", qos=1, mid=mid, payload="message", proto_ver=5)
  puback2b_packet = mosq_test.gen_puback(mid, proto_ver=5)
  
@@ -352,7 +332,7 @@ index 350ba5c..63059ad 100755
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -90,8 +91,8 @@ finally:
+@@ -90,8 +91,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -363,8 +343,6 @@ index 350ba5c..63059ad 100755
  
  
  exit(rc)
-diff --git a/test/broker/11-persistent-subscription-v5.py b/test/broker/11-persistent-subscription-v5.py
-index 7cd9ae6..8bc4d8e 100755
 --- a/test/broker/11-persistent-subscription-v5.py
 +++ b/test/broker/11-persistent-subscription-v5.py
 @@ -4,16 +4,17 @@
@@ -388,7 +366,7 @@ index 7cd9ae6..8bc4d8e 100755
  
  rc = 1
  mid = 530
-@@ -35,8 +36,8 @@ puback_packet = mosq_test.gen_puback(mid, proto_ver=5)
+@@ -35,8 +36,8 @@
  mid = 1
  publish_packet2 = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, payload="message", proto_ver=5)
  
@@ -399,7 +377,7 @@ index 7cd9ae6..8bc4d8e 100755
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -67,8 +68,8 @@ finally:
+@@ -67,8 +68,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -410,8 +388,6 @@ index 7cd9ae6..8bc4d8e 100755
  
  
  exit(rc)
-diff --git a/test/broker/11-persistent-subscription.py b/test/broker/11-persistent-subscription.py
-index 2ec2871..a54b5b9 100755
 --- a/test/broker/11-persistent-subscription.py
 +++ b/test/broker/11-persistent-subscription.py
 @@ -4,17 +4,18 @@
@@ -436,7 +412,7 @@ index 2ec2871..a54b5b9 100755
  
      rc = 1
      mid = 530
-@@ -35,8 +36,8 @@ def do_test(proto_ver):
+@@ -35,8 +36,8 @@
      mid = 1
      publish_packet2 = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, payload="message", proto_ver=proto_ver)
  
@@ -447,7 +423,7 @@ index 2ec2871..a54b5b9 100755
  
      broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -65,8 +66,8 @@ def do_test(proto_ver):
+@@ -65,8 +66,8 @@
          broker.terminate()
          broker.wait()
          (stdo, stde) = broker.communicate()
@@ -458,8 +434,6 @@ index 2ec2871..a54b5b9 100755
          if rc:
              print(stde.decode('utf-8'))
              print("proto_ver=%d" % (proto_ver))
-diff --git a/test/broker/11-pub-props.py b/test/broker/11-pub-props.py
-index 1b76fa2..541719f 100755
 --- a/test/broker/11-pub-props.py
 +++ b/test/broker/11-pub-props.py
 @@ -4,16 +4,17 @@
@@ -483,7 +457,7 @@ index 1b76fa2..541719f 100755
  
  rc = 1
  keepalive = 60
-@@ -37,8 +38,8 @@ mid = 1
+@@ -37,8 +38,8 @@
  subscribe_packet = mosq_test.gen_subscribe(mid, "subpub/qos1", 0, proto_ver=5)
  suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=5)
  
@@ -494,7 +468,7 @@ index 1b76fa2..541719f 100755
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -72,8 +73,8 @@ finally:
+@@ -72,8 +73,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -505,8 +479,6 @@ index 1b76fa2..541719f 100755
  
  
  exit(rc)
-diff --git a/test/broker/11-subscription-id.py b/test/broker/11-subscription-id.py
-index ed17842..4b9ad16 100755
 --- a/test/broker/11-subscription-id.py
 +++ b/test/broker/11-subscription-id.py
 @@ -4,16 +4,17 @@
@@ -530,7 +502,7 @@ index ed17842..4b9ad16 100755
  
  rc = 1
  keepalive = 60
-@@ -42,8 +43,8 @@ helper_publish_packet = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, pay
+@@ -42,8 +43,8 @@
  helper_puback_packet = mosq_test.gen_puback(mid, proto_ver=5)
  
  
@@ -541,7 +513,7 @@ index ed17842..4b9ad16 100755
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -77,10 +78,8 @@ finally:
+@@ -77,10 +78,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -554,11 +526,9 @@ index ed17842..4b9ad16 100755
  
  exit(rc)
 -
-diff --git a/test/broker/Makefile b/test/broker/Makefile
-index e66c7ff..cf98423 100644
 --- a/test/broker/Makefile
 +++ b/test/broker/Makefile
-@@ -107,7 +107,7 @@ msg_sequence_test:
+@@ -107,7 +107,7 @@
  06 :
  	./06-bridge-b2br-disconnect-qos1.py
  	./06-bridge-b2br-disconnect-qos2.py
@@ -567,7 +537,7 @@ index e66c7ff..cf98423 100644
  	./06-bridge-b2br-late-connection.py
  	./06-bridge-b2br-remapping.py
  	./06-bridge-br2b-disconnect-qos1.py
-@@ -150,9 +150,9 @@ msg_sequence_test:
+@@ -151,9 +151,9 @@
  ifeq ($(WITH_TLS),yes)
  	./08-ssl-bridge.py
  	./08-ssl-connect-cert-auth-crl.py
@@ -580,7 +550,7 @@ index e66c7ff..cf98423 100644
  	./08-ssl-connect-cert-auth.py
  	./08-ssl-connect-identity.py
  	./08-ssl-connect-no-auth-wrong-ca.py
-@@ -221,20 +221,20 @@ endif
+@@ -222,20 +222,20 @@
  14 :
  ifeq ($(WITH_TLS),yes)
  ifeq ($(WITH_CJSON),yes)
@@ -616,11 +586,9 @@ index e66c7ff..cf98423 100644
 +	#./14-dynsec-role-invalid.py
  endif
  endif
-diff --git a/test/broker/c/Makefile b/test/broker/c/Makefile
-index e897e34..472537c 100644
 --- a/test/broker/c/Makefile
 +++ b/test/broker/c/Makefile
-@@ -37,7 +37,7 @@ ${PLUGINS} : %.so: %.c
+@@ -37,7 +37,7 @@
  
  
  ${TESTS} : %.test: %.c
@@ -629,11 +597,9 @@ index e897e34..472537c 100644
  
  
  reallyclean : clean
-diff --git a/test/client/test.sh b/test/client/test.sh
-index 53ee84b..ed97cad 100755
 --- a/test/client/test.sh
 +++ b/test/client/test.sh
-@@ -11,7 +11,7 @@ export PORT=1888
+@@ -11,7 +11,7 @@
  export SUB_TIMEOUT=1
  
  # Start broker
@@ -642,7 +608,7 @@ index 53ee84b..ed97cad 100755
  export MOSQ_PID=$!
  sleep 0.5
  
-@@ -20,28 +20,28 @@ trap "kill $MOSQ_PID" EXIT
+@@ -20,28 +20,28 @@
  
  
  # Simple subscribe test - single message from $SYS
@@ -678,20 +644,9 @@ index 53ee84b..ed97cad 100755
 +/usr/bin/mosquitto_pub -p ${PORT} -t 'file-publish' -l < ./test.sh
  kill ${SUB_PID} 2>/dev/null || true
  echo "stdin publish ok"
-diff --git a/test/lib/Makefile b/test/lib/Makefile
-index 6ade78d..b31cdb4 100644
 --- a/test/lib/Makefile
 +++ b/test/lib/Makefile
-@@ -33,7 +33,7 @@ c : test-compile
- 	./02-subscribe-qos0.py $@/02-subscribe-qos0.test
- 	./02-subscribe-qos1.py $@/02-subscribe-qos1.test
- 	./02-subscribe-qos1.py $@/02-subscribe-qos1-async1.test
--	./02-subscribe-qos1.py $@/02-subscribe-qos1-async2.test
-+	#./02-subscribe-qos1.py $@/02-subscribe-qos1-async2.test
- 	./02-subscribe-qos2.py $@/02-subscribe-qos2.test
- 	./02-unsubscribe-multiple-v5.py $@/02-unsubscribe-multiple-v5.test
- 	./02-unsubscribe-v5.py $@/02-unsubscribe-v5.test
-@@ -50,7 +50,7 @@ c : test-compile
+@@ -50,7 +50,7 @@
  	./03-publish-c2b-qos2-disconnect.py $@/03-publish-c2b-qos2-disconnect.test
  	./03-publish-c2b-qos2-len.py $@/03-publish-c2b-qos2-len.test
  	./03-publish-c2b-qos2-maximum-qos-0.py $@/03-publish-c2b-qos2-maximum-qos-0.test
@@ -700,11 +655,9 @@ index 6ade78d..b31cdb4 100644
  	./03-publish-c2b-qos2-pubrec-error.py $@/03-publish-c2b-qos2-pubrec-error.test
  	./03-publish-c2b-qos2-receive-maximum-1.py $@/03-publish-c2b-qos2-receive-maximum-1.test
  	./03-publish-c2b-qos2-receive-maximum-2.py $@/03-publish-c2b-qos2-receive-maximum-2.test
-diff --git a/test/lib/c/Makefile b/test/lib/c/Makefile
-index 40cb7d1..6d180a3 100644
 --- a/test/lib/c/Makefile
 +++ b/test/lib/c/Makefile
-@@ -3,7 +3,7 @@ include ../../../config.mk
+@@ -3,7 +3,7 @@
  .PHONY: all clean reallyclean
  
  CFLAGS=-I../../../include -Werror
@@ -713,8 +666,6 @@ index 40cb7d1..6d180a3 100644
  
  SRC = \
  	01-con-discon-success.c \
-diff --git a/test/lib/cpp/Makefile b/test/lib/cpp/Makefile
-index c4ae14c..022d103 100644
 --- a/test/lib/cpp/Makefile
 +++ b/test/lib/cpp/Makefile
 @@ -1,7 +1,7 @@
@@ -726,11 +677,9 @@ index c4ae14c..022d103 100644
  
  all : 01 02 03 04 08 09
  
-diff --git a/test/mosq_test.py b/test/mosq_test.py
-index 98fd3ac..8c1cbb4 100644
 --- a/test/mosq_test.py
 +++ b/test/mosq_test.py
-@@ -26,16 +26,16 @@ def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False,
+@@ -26,16 +26,16 @@
      delay = 0.1
  
      if use_conf == True:
