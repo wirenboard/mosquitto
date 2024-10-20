@@ -22,6 +22,8 @@ Contributors:
 #include "config.h"
 
 #include <ctype.h>
+#include <errno.h>
+#include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,8 +35,12 @@ Contributors:
 #  include <io.h>
 #  include <lmcons.h>
 #  include <fcntl.h>
+#  define PATH_MAX MAX_PATH
 #else
 #  include <sys/stat.h>
+#  include <pwd.h>
+#  include <grp.h>
+#  include <unistd.h>
 #endif
 
 #include "misc_mosq.h"
@@ -61,23 +67,30 @@ FILE *mosquitto__fopen(const char *path, const char *mode, bool restrict_read)
 			DWORD ulen = UNLEN;
 			SECURITY_DESCRIPTOR sd;
 			DWORD dwCreationDisposition;
+			DWORD dwShareMode;
 			int fd;
 			FILE *fptr;
 
 			switch(mode[0]){
 				case 'a':
 					dwCreationDisposition = OPEN_ALWAYS;
+					dwShareMode = GENERIC_WRITE;
 					flags = _O_APPEND;
 					break;
 				case 'r':
 					dwCreationDisposition = OPEN_EXISTING;
+					dwShareMode = GENERIC_READ;
 					flags = _O_RDONLY;
 					break;
 				case 'w':
 					dwCreationDisposition = CREATE_ALWAYS;
+					dwShareMode = GENERIC_WRITE;
 					break;
 				default:
 					return NULL;
+			}
+			if(mode[1] == '+'){
+				dwShareMode = GENERIC_READ | GENERIC_WRITE;
 			}
 
 			GetUserNameA(username, &ulen);
@@ -98,7 +111,7 @@ FILE *mosquitto__fopen(const char *path, const char *mode, bool restrict_read)
 			sec.bInheritHandle = FALSE;
 			sec.lpSecurityDescriptor = &sd;
 
-			hfile = CreateFileA(buf, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ,
+			hfile = CreateFileA(buf, dwShareMode, FILE_SHARE_READ,
 				&sec,
 				dwCreationDisposition,
 				FILE_ATTRIBUTE_NORMAL,
@@ -126,30 +139,89 @@ FILE *mosquitto__fopen(const char *path, const char *mode, bool restrict_read)
 		}
 	}
 #else
-	if(mode[0] == 'r'){
-		struct stat statbuf;
-		if(stat(path, &statbuf) < 0){
-			return NULL;
-		}
-
-		if(!S_ISREG(statbuf.st_mode) && !S_ISLNK(statbuf.st_mode)){
-			log__printf(NULL, MOSQ_LOG_ERR, "Error: %s is not a file.", path);
-			return NULL;
-		}
-	}
+	FILE *fptr;
+	struct stat statbuf;
 
 	if (restrict_read) {
-		FILE *fptr;
 		mode_t old_mask;
 
 		old_mask = umask(0077);
 		fptr = fopen(path, mode);
 		umask(old_mask);
-
-		return fptr;
 	}else{
-		return fopen(path, mode);
+		fptr = fopen(path, mode);
 	}
+	if(!fptr) return NULL;
+
+	if(fstat(fileno(fptr), &statbuf) < 0){
+		fclose(fptr);
+		return NULL;
+	}
+
+	if(restrict_read){
+		if(statbuf.st_mode & S_IRWXO){
+#ifdef WITH_BROKER
+			log__printf(NULL, MOSQ_LOG_WARNING,
+#else
+			fprintf(stderr,
+#endif
+					"Warning: File %s has world readable permissions. Future versions will refuse to load this file.\n"
+					"To fix this, use `chmod 0700 %s`.",
+					path, path);
+#if 0
+			return NULL;
+#endif
+		}
+		if(statbuf.st_uid != getuid()){
+			char buf[4096];
+			struct passwd pw, *result;
+
+			getpwuid_r(getuid(), &pw, buf, sizeof(buf), &result);
+			if(result){
+#ifdef WITH_BROKER
+				log__printf(NULL, MOSQ_LOG_WARNING,
+#else
+				fprintf(stderr,
+#endif
+						"Warning: File %s owner is not %s. Future versions will refuse to load this file."
+						"To fix this, use `chown %s %s`.",
+						path, result->pw_name, result->pw_name, path);
+			}
+#if 0
+			// Future version
+			return NULL;
+#endif
+		}
+		if(statbuf.st_gid != getgid()){
+			char buf[4096];
+			struct group grp, *result;
+
+			getgrgid_r(getgid(), &grp, buf, sizeof(buf), &result);
+			if(result){
+#ifdef WITH_BROKER
+				log__printf(NULL, MOSQ_LOG_WARNING,
+#else
+				fprintf(stderr,
+#endif
+						"Warning: File %s group is not %s. Future versions will refuse to load this file.",
+						path, result->gr_name);
+			}
+#if 0
+			// Future version
+			return NULL
+#endif
+		}
+	}
+
+
+	if(!S_ISREG(statbuf.st_mode) && !S_ISLNK(statbuf.st_mode)){
+#ifdef WITH_BROKER
+		log__printf(NULL, MOSQ_LOG_ERR, "Error: %s is not a file.", path);
+#endif
+		fclose(fptr);
+		return NULL;
+	}
+	return fptr;
 #endif
 }
 

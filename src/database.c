@@ -199,12 +199,16 @@ int db__open(struct mosquitto__config *config)
 	/* Initialize the hashtable */
 	db.clientid_index_hash = NULL;
 
-	db.subs = NULL;
+	db.normal_subs = NULL;
+	db.shared_subs = NULL;
 
-	subhier = sub__add_hier_entry(NULL, &db.subs, "", 0);
+	subhier = sub__add_hier_entry(NULL, &db.shared_subs, "", 0);
 	if(!subhier) return MOSQ_ERR_NOMEM;
 
-	subhier = sub__add_hier_entry(NULL, &db.subs, "$SYS", (uint16_t)strlen("$SYS"));
+	subhier = sub__add_hier_entry(NULL, &db.normal_subs, "", 0);
+	if(!subhier) return MOSQ_ERR_NOMEM;
+
+	subhier = sub__add_hier_entry(NULL, &db.normal_subs, "$SYS", (uint16_t)strlen("$SYS"));
 	if(!subhier) return MOSQ_ERR_NOMEM;
 
 	retain__init();
@@ -240,7 +244,8 @@ static void subhier_clean(struct mosquitto__subhier **subhier)
 
 int db__close(void)
 {
-	subhier_clean(&db.subs);
+	subhier_clean(&db.normal_subs);
+	subhier_clean(&db.shared_subs);
 	retain__clean(&db.retains);
 	db__msg_store_clean();
 
@@ -555,7 +560,7 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 	}
 #endif
 
-	msg = mosquitto__malloc(sizeof(struct mosquitto_client_msg));
+	msg = mosquitto__calloc(1, sizeof(struct mosquitto_client_msg));
 	if(!msg) return MOSQ_ERR_NOMEM;
 	msg->prev = NULL;
 	msg->next = NULL;
@@ -613,6 +618,8 @@ int db__message_insert(struct mosquitto *context, uint16_t mid, enum mosquitto_m
 
 	if(dir == mosq_md_out && msg->qos > 0 && state != mosq_ms_queued){
 		util__decrement_send_quota(context);
+	}else if(dir == mosq_md_in && msg->qos > 0 && state != mosq_ms_queued){
+		util__decrement_receive_quota(context);
 	}
 
 	if(dir == mosq_md_out && update){
@@ -717,14 +724,16 @@ int db__messages_easy_queue(struct mosquitto *context, const char *topic, uint8_
 	}
 
 	stored->payloadlen = payloadlen;
-	stored->payload = mosquitto__malloc(stored->payloadlen+1);
-	if(stored->payload == NULL){
-		db__msg_store_free(stored);
-		return MOSQ_ERR_NOMEM;
+	if(payloadlen > 0){
+		stored->payload = mosquitto__malloc(stored->payloadlen+1);
+		if(stored->payload == NULL){
+			db__msg_store_free(stored);
+			return MOSQ_ERR_NOMEM;
+		}
+		/* Ensure payload is always zero terminated, this is the reason for the extra byte above */
+		((uint8_t *)stored->payload)[stored->payloadlen] = 0;
+		memcpy(stored->payload, payload, stored->payloadlen);
 	}
-	/* Ensure payload is always zero terminated, this is the reason for the extra byte above */
-	((uint8_t *)stored->payload)[stored->payloadlen] = 0;
-	memcpy(stored->payload, payload, stored->payloadlen);
 
 	if(context && context->id){
 		source_id = context->id;
@@ -796,23 +805,24 @@ int db__message_store(const struct mosquitto *source, struct mosquitto_msg_store
 	return MOSQ_ERR_SUCCESS;
 }
 
-int db__message_store_find(struct mosquitto *context, uint16_t mid, struct mosquitto_msg_store **stored)
+int db__message_store_find(struct mosquitto *context, uint16_t mid, struct mosquitto_client_msg **client_msg)
 {
-	struct mosquitto_client_msg *tail;
+	struct mosquitto_client_msg *cmsg;
+
+	*client_msg = NULL;
 
 	if(!context) return MOSQ_ERR_INVAL;
 
-	*stored = NULL;
-	DL_FOREACH(context->msgs_in.inflight, tail){
-		if(tail->store->source_mid == mid){
-			*stored = tail->store;
+	DL_FOREACH(context->msgs_in.inflight, cmsg){
+		if(cmsg->store->source_mid == mid){
+			*client_msg = cmsg;
 			return MOSQ_ERR_SUCCESS;
 		}
 	}
 
-	DL_FOREACH(context->msgs_in.queued, tail){
-		if(tail->store->source_mid == mid){
-			*stored = tail->store;
+	DL_FOREACH(context->msgs_in.queued, cmsg){
+		if(cmsg->store->source_mid == mid){
+			*client_msg = cmsg;
 			return MOSQ_ERR_SUCCESS;
 		}
 	}
@@ -914,6 +924,7 @@ static int db__message_reconnect_reset_incoming(struct mosquitto *context)
 		}else{
 			/* Message state can be preserved here because it should match
 			 * whatever the client has got. */
+			msg->dup = 0;
 		}
 	}
 
@@ -924,6 +935,7 @@ static int db__message_reconnect_reset_incoming(struct mosquitto *context)
 	 * will be sent out of order.
 	 */
 	DL_FOREACH_SAFE(context->msgs_in.queued, msg, tmp){
+		msg->dup = 0;
 		db__msg_add_to_queued_stats(&context->msgs_in, msg);
 		if(db__ready_for_flight(context, mosq_md_in, msg->qos)){
 			switch(msg->qos){

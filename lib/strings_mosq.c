@@ -75,6 +75,10 @@ const char *mosquitto_strerror(int mosq_errno)
 			return "Proxy error.";
 		case MOSQ_ERR_MALFORMED_UTF8:
 			return "Malformed UTF-8";
+		case MOSQ_ERR_KEEPALIVE:
+			return "Keepalive exceeded";
+		case MOSQ_ERR_LOOKUP:
+			return "DNS Lookup failed";
 		case MOSQ_ERR_DUPLICATE_PROPERTY:
 			return "Duplicate property in property list";
 		case MOSQ_ERR_TLS_HANDSHAKE:
@@ -86,7 +90,13 @@ const char *mosquitto_strerror(int mosq_errno)
 		case MOSQ_ERR_OCSP:
 			return "OCSP error.";
 		default:
-			return "Unknown error.";
+			if(mosq_errno >= 128) {
+				// If mosq_errno is greater than 127,
+				// a mqtt5_return_code error was used
+				return mosquitto_reason_string(mosq_errno);
+			} else {
+				return "Unknown error.";
+			}
 	}
 }
 

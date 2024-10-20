@@ -18,7 +18,6 @@ Contributors:
 
 #include "config.h"
 
-#include <assert.h>
 #include <time.h>
 
 #include "mosquitto_broker_internal.h"
@@ -84,8 +83,8 @@ struct mosquitto *context__init(mosq_sock_t sock)
 	}
 	context->bridge = NULL;
 	context->msgs_in.inflight_maximum = db.config->max_inflight_messages;
-	context->msgs_out.inflight_maximum = db.config->max_inflight_messages;
 	context->msgs_in.inflight_quota = db.config->max_inflight_messages;
+	context->msgs_out.inflight_maximum = db.config->max_inflight_messages;
 	context->msgs_out.inflight_quota = db.config->max_inflight_messages;
 	context->max_qos = 2;
 #ifdef WITH_TLS
@@ -98,6 +97,27 @@ struct mosquitto *context__init(mosq_sock_t sock)
 	return context;
 }
 
+static void context__cleanup_out_packets(struct mosquitto *context)
+{
+	struct mosquitto__packet *packet;
+
+	if(!context) return;
+
+	if(context->current_out_packet){
+		packet__cleanup(context->current_out_packet);
+		mosquitto__free(context->current_out_packet);
+		context->current_out_packet = NULL;
+	}
+	while(context->out_packet){
+		packet__cleanup(context->out_packet);
+		packet = context->out_packet;
+		context->out_packet = context->out_packet->next;
+		mosquitto__free(packet);
+	}
+	context->out_packet_count = 0;
+}
+
+
 /*
  * This will result in any outgoing packets going unsent. If we're disconnected
  * forcefully then it is usually an error condition and shouldn't be a problem,
@@ -106,8 +126,6 @@ struct mosquitto *context__init(mosq_sock_t sock)
  */
 void context__cleanup(struct mosquitto *context, bool force_free)
 {
-	struct mosquitto__packet *packet;
-
 	if(!context) return;
 
 	if(force_free){
@@ -121,6 +139,7 @@ void context__cleanup(struct mosquitto *context, bool force_free)
 #endif
 
 	alias__free_all(context);
+	context__cleanup_out_packets(context);
 
 	mosquitto__free(context->auth_method);
 	context->auth_method = NULL;
@@ -148,18 +167,7 @@ void context__cleanup(struct mosquitto *context, bool force_free)
 		context->id = NULL;
 	}
 	packet__cleanup(&(context->in_packet));
-	if(context->current_out_packet){
-		packet__cleanup(context->current_out_packet);
-		mosquitto__free(context->current_out_packet);
-		context->current_out_packet = NULL;
-	}
-	while(context->out_packet){
-		packet__cleanup(context->out_packet);
-		packet = context->out_packet;
-		context->out_packet = context->out_packet->next;
-		mosquitto__free(packet);
-	}
-	context->out_packet_count = 0;
+	context__cleanup_out_packets(context);
 #if defined(WITH_BROKER) && defined(__GLIBC__) && defined(WITH_ADNS)
 	if(context->adns){
 		gai_cancel(context->adns);
@@ -214,19 +222,20 @@ void context__disconnect(struct mosquitto *context)
 
 	context__send_will(context);
 	net__socket_close(context);
-	if(context->session_expiry_interval == 0){
-		/* Client session is due to be expired now */
 #ifdef WITH_BRIDGE
-		if(context->bridge == NULL)
+	if(context->bridge == NULL)
+	/* Outgoing bridge connection never expire */
 #endif
-		{
+	{
+		if(context->session_expiry_interval == 0){
+			/* Client session is due to be expired now */
 			if(context->will_delay_interval == 0){
 				/* This will be done later, after the will is published for delay>0. */
 				context__add_to_disused(context);
 			}
+		}else{
+			session_expiry__add(context);
 		}
-	}else{
-		session_expiry__add(context);
 	}
 	keepalive__remove(context);
 	mosquitto__set_state(context, mosq_cs_disconnected);

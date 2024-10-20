@@ -244,6 +244,9 @@ int mosquitto_set_username(struct mosquitto *client, const char *username)
 	if(!client) return MOSQ_ERR_INVAL;
 
 	if(username){
+		if(mosquitto_validate_utf8(username, (int)strlen(username))){
+			return MOSQ_ERR_MALFORMED_UTF8;
+		}
 		u_dup = mosquitto__strdup(username);
 		if(!u_dup) return MOSQ_ERR_NOMEM;
 	}else{
@@ -285,7 +288,7 @@ static void check_subscription_acls(struct mosquitto *context)
 				MOSQ_ACL_SUBSCRIBE);
 
 		if(rc != MOSQ_ERR_SUCCESS){
-			sub__remove(context, context->subs[i]->topic_filter, db.subs, &reason);
+			sub__remove(context, context->subs[i]->topic_filter, &reason);
 		}
 	}
 }

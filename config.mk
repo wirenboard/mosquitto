@@ -120,6 +120,9 @@ WITH_JEMALLOC:=no
 # probably of no particular interest to end users.
 WITH_XTREPORT=no
 
+# Build using clang and with address sanitiser enabled
+WITH_ASAN=no
+
 # =============================================================================
 # End of user configuration
 # =============================================================================
@@ -127,7 +130,7 @@ WITH_XTREPORT=no
 
 # Also bump lib/mosquitto.h, CMakeLists.txt,
 # installer/mosquitto.nsi, installer/mosquitto64.nsi
-VERSION=2.0.15
+VERSION=2.0.20
 
 # Client library SO version. Bump if incompatible API/ABI changes are made.
 SOVERSION=1
@@ -150,6 +153,12 @@ ifeq ($(UNAME),SunOS)
 	endif
 else
 	CFLAGS?=-Wall -ggdb -O2 -Wconversion -Wextra
+endif
+
+ifeq ($(WITH_ASAN),yes)
+	CC:=clang
+	CFLAGS+=-fsanitize=address
+	LDFLAGS+=-fsanitize=address
 endif
 
 STATIC_LIB_DEPS:=
@@ -237,11 +246,11 @@ ifeq ($(WITH_WRAP),yes)
 endif
 
 ifeq ($(WITH_TLS),yes)
-	APP_CPPFLAGS:=$(APP_CPPFLAGS) -DWITH_TLS
-	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_TLS
+	APP_CPPFLAGS:=$(APP_CPPFLAGS) -DWITH_TLS -DOPENSSL_API_COMPAT=0x10100000L
+	BROKER_CPPFLAGS:=$(BROKER_CPPFLAGS) -DWITH_TLS -DOPENSSL_API_COMPAT=0x10100000L
 	BROKER_LDADD:=$(BROKER_LDADD) -lssl -lcrypto
-	CLIENT_CPPFLAGS:=$(CLIENT_CPPFLAGS) -DWITH_TLS
-	LIB_CPPFLAGS:=$(LIB_CPPFLAGS) -DWITH_TLS
+	CLIENT_CPPFLAGS:=$(CLIENT_CPPFLAGS) -DWITH_TLS -DOPENSSL_API_COMPAT=0x10100000L
+	LIB_CPPFLAGS:=$(LIB_CPPFLAGS) -DWITH_TLS -DOPENSSL_API_COMPAT=0x10100000L
 	LIB_LIBADD:=$(LIB_LIBADD) -lssl -lcrypto
 	PASSWD_LDADD:=$(PASSWD_LDADD) -lcrypto
 	STATIC_LIB_DEPS:=$(STATIC_LIB_DEPS) -lssl -lcrypto

@@ -394,7 +394,7 @@ struct mosquitto_client_msg{
 	bool retain;
 	enum mosquitto_msg_direction direction;
 	enum mosquitto_msg_state state;
-	bool dup;
+	uint8_t dup;
 };
 
 
@@ -442,7 +442,8 @@ struct mosquitto_message_v5{
 
 struct mosquitto_db{
 	dbid_t last_db_id;
-	struct mosquitto__subhier *subs;
+	struct mosquitto__subhier *normal_subs;
+	struct mosquitto__subhier *shared_subs;
 	struct mosquitto__retainhier *retains;
 	struct mosquitto *contexts_by_id;
 	struct mosquitto *contexts_by_sock;
@@ -651,7 +652,7 @@ void db__message_dequeue_first(struct mosquitto *context, struct mosquitto_msg_d
 int db__messages_delete(struct mosquitto *context, bool force_free);
 int db__messages_easy_queue(struct mosquitto *context, const char *topic, uint8_t qos, uint32_t payloadlen, const void *payload, int retain, uint32_t message_expiry_interval, mosquitto_property **properties);
 int db__message_store(const struct mosquitto *source, struct mosquitto_msg_store *stored, uint32_t message_expiry_interval, dbid_t store_id, enum mosquitto_msg_origin origin);
-int db__message_store_find(struct mosquitto *context, uint16_t mid, struct mosquitto_msg_store **stored);
+int db__message_store_find(struct mosquitto *context, uint16_t mid, struct mosquitto_client_msg **client_msg);
 void db__msg_store_add(struct mosquitto_msg_store *store);
 void db__msg_store_remove(struct mosquitto_msg_store *store);
 void db__msg_store_ref_inc(struct mosquitto_msg_store *store);
@@ -675,9 +676,9 @@ void db__expire_all_messages(struct mosquitto *context);
 /* ============================================================
  * Subscription functions
  * ============================================================ */
-int sub__add(struct mosquitto *context, const char *sub, uint8_t qos, uint32_t identifier, int options, struct mosquitto__subhier **root);
+int sub__add(struct mosquitto *context, const char *sub, uint8_t qos, uint32_t identifier, int options);
 struct mosquitto__subhier *sub__add_hier_entry(struct mosquitto__subhier *parent, struct mosquitto__subhier **sibling, const char *topic, uint16_t len);
-int sub__remove(struct mosquitto *context, const char *sub, struct mosquitto__subhier *root, uint8_t *reason);
+int sub__remove(struct mosquitto *context, const char *sub, uint8_t *reason);
 void sub__tree_print(struct mosquitto__subhier *root, int level);
 int sub__clean_session(struct mosquitto *context);
 int sub__messages_queue(const char *source_id, const char *topic, uint8_t qos, int retain, struct mosquitto_msg_store **stored);

@@ -427,7 +427,7 @@ int persist__restore(void)
 
 	db.msg_store_load = NULL;
 
-	fptr = mosquitto__fopen(db.config->persistence_filepath, "rb", false);
+	fptr = mosquitto__fopen(db.config->persistence_filepath, "rb", true);
 	if(fptr == NULL) return MOSQ_ERR_SUCCESS;
 	rlen = fread(&header, 1, 15, fptr);
 	if(rlen == 0){
@@ -547,12 +547,18 @@ static int persist__restore_sub(const char *client_id, const char *sub, uint8_t 
 {
 	struct mosquitto *context;
 
-	assert(client_id);
-	assert(sub);
+	if(!client_id){
+		log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Persistence found a subscription with no client id, ignoring.");
+		return MOSQ_ERR_SUCCESS;
+	}
+	if(!sub){
+		log__printf(NULL, MOSQ_LOG_WARNING, "Warning: Persistence found a subscription with no topic filter, ignoring.");
+		return MOSQ_ERR_SUCCESS;
+	}
 
 	context = persist__find_or_add_context(client_id, 0);
 	if(!context) return 1;
-	return sub__add(context, sub, qos, identifier, options, &db.subs);
+	return sub__add(context, sub, qos, identifier, options);
 }
 
 #endif

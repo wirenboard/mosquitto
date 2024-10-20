@@ -58,6 +58,7 @@ PERSIST_READ_OBJS = \
 		retain.o \
 		topic_tok.o \
 		utf8_mosq.o \
+		util_topic.o \
 		util_mosq.o
 
 PERSIST_WRITE_TEST_OBJS = \
@@ -80,7 +81,12 @@ PERSIST_WRITE_OBJS = \
 		subs.o \
 		topic_tok.o \
 		utf8_mosq.o \
+		util_topic.o \
 		util_mosq.o
+
+TLS_TEST_OBJS = \
+		tls_test.o \
+		tls_stubs.o
 
 SUBS_TEST_OBJS = \
 		subs_test.o \
@@ -111,6 +117,9 @@ persist_write_test : ${PERSIST_WRITE_TEST_OBJS} ${PERSIST_WRITE_OBJS}
 
 subs_test : ${SUBS_TEST_OBJS} ${SUBS_OBJS}
 	$(CROSS_COMPILE)$(CC) $(LDFLAGS) -o $@ $^ $(LDADD)
+
+tls_test : ${TLS_TEST_OBJS} ${TLS_OBJS}
+	$(CROSS_COMPILE)$(CC) $(LDFLAGS) -o $@ $^ $(LDADD) -lssl -lcrypto
 
 
 bridge_topic.o : ../../src/bridge_topic.c
@@ -167,10 +176,11 @@ util_topic.o : ../../lib/util_topic.c
 utf8_mosq.o : ../../lib/utf8_mosq.c
 	$(CROSS_COMPILE)$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $^
 
-build : mosq_test bridge_topic_test persist_read_test persist_write_test subs_test
+build : mosq_test bridge_topic_test persist_read_test persist_write_test subs_test tls_test
 
 test-lib : build
 	./mosq_test
+	./tls_test
 
 test-broker : build
 	./bridge_topic_test
