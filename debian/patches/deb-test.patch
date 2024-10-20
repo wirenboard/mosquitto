@@ -1,155 +1,39 @@
-From a17b03b7de01e44cf07f17e5ddee14fc8fd79fd8 Mon Sep 17 00:00:00 2001
 From: Philippe Coval <rzr@users.sf.net>
 Date: Sun, 9 Jul 2023 10:05:32 +0200
 Subject: [PATCH] Fix test paths for Debian.
-Description: Fix test paths for Debian.
-Author: Roger Light <roger@atchoo.org>
+
+From a17b03b7de01e44cf07f17e5ddee14fc8fd79fd8 Mon Sep 17 00:00:00 2001
 Forwarded: in-progress
 Last-Update: 2023-07-09
 Signed-off-by: Philippe Coval <rzr@users.sf.net>
+
+Signed-off-by: Philippe Coval <rzr@users.sf.net>
 ---
- ...4-retain-check-source-persist-diff-port.py | 10 ++---
- test/broker/04-retain-check-source-persist.py | 10 ++---
- test/broker/04-retain-check-source.py         |  6 +--
- test/broker/04-retain-upgrade-outgoing-qos.py |  4 +-
- .../06-bridge-b2br-late-connection-retain.py  |  8 ++--
- test/broker/06-bridge-clean-session-core.py   | 10 ++---
- test/broker/06-bridge-reconnect-local-out.py  |  4 +-
- test/broker/08-tls-psk-bridge.py              | 10 ++---
- test/broker/11-message-expiry.py              | 15 ++++----
- .../11-persistent-subscription-no-local.py    | 15 ++++----
- test/broker/11-persistent-subscription-v5.py  | 15 ++++----
- test/broker/11-persistent-subscription.py     | 15 ++++----
- test/broker/11-pub-props.py                   | 15 ++++----
- test/broker/11-subscription-id.py             | 17 ++++-----
- test/broker/Makefile                          | 38 +++++++++----------
- test/broker/c/Makefile                        |  2 +-
- test/client/test.sh                           | 16 ++++----
- test/lib/Makefile                             |  4 +-
- test/lib/c/Makefile                           |  2 +-
- test/lib/cpp/Makefile                         |  2 +-
- test/mosq_test.py                             |  6 +--
+ .../04-retain-check-source-persist-diff-port.py    | 10 +++---
+ test/broker/04-retain-check-source-persist.py      | 10 +++---
+ test/broker/04-retain-check-source.py              |  6 ++--
+ test/broker/04-retain-upgrade-outgoing-qos.py      |  4 +--
+ .../06-bridge-b2br-late-connection-retain.py       |  8 ++---
+ test/broker/06-bridge-clean-session-core.py        | 10 +++---
+ test/broker/06-bridge-reconnect-local-out.py       |  4 +--
+ test/broker/08-tls-psk-bridge.py                   | 10 +++---
+ test/broker/11-message-expiry.py                   | 15 +++++----
+ test/broker/11-persistent-subscription-no-local.py | 15 +++++----
+ test/broker/11-persistent-subscription-v5.py       | 15 +++++----
+ test/broker/11-persistent-subscription.py          | 15 +++++----
+ test/broker/11-pub-props.py                        | 15 +++++----
+ test/broker/11-subscription-id.py                  | 17 +++++-----
+ test/broker/Makefile                               | 38 +++++++++++-----------
+ test/broker/c/Makefile                             |  2 +-
+ test/client/test.sh                                | 16 ++++-----
+ test/lib/Makefile                                  |  4 +--
+ test/lib/c/Makefile                                |  2 +-
+ test/lib/cpp/Makefile                              |  2 +-
+ test/mosq_test.py                                  |  6 ++--
  21 files changed, 114 insertions(+), 110 deletions(-)
 
-diff --git a/test/mosq_test.py b/test/mosq_test.py
-index d9fe6970..faf16ea0 100644
---- a/test/mosq_test.py
-+++ b/test/mosq_test.py
-@@ -26,16 +26,16 @@ def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False,
-     delay = 0.1
- 
-     if use_conf == True:
--        cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
-+        cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
- 
-         if port == 0:
-             port = 1888
-     else:
-         if cmd is None and port != 0:
--            cmd = ['../../src/mosquitto', '-v', '-p', str(port)]
-+            cmd = ['/usr/sbin/mosquitto', '-v', '-p', str(port)]
-         elif cmd is None and port == 0:
-             port = 1888
--            cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
-+            cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
-         elif cmd is not None and port == 0:
-             port = 1888
- 
-diff --git a/test/broker/c/Makefile b/test/broker/c/Makefile
-index e897e34d..472537cd 100644
---- a/test/broker/c/Makefile
-+++ b/test/broker/c/Makefile
-@@ -37,7 +37,7 @@ ${PLUGINS} : %.so: %.c
- 
- 
- ${TESTS} : %.test: %.c
--	$(CC) ${CFLAGS} $< -o $@ ../../../lib/libmosquitto.so.1
-+	$(CC) ${CFLAGS} $< -o $@ -lmosquitto
- 
- 
- reallyclean : clean
-diff --git a/test/lib/c/Makefile b/test/lib/c/Makefile
-index 40cb7d15..6d180a36 100644
---- a/test/lib/c/Makefile
-+++ b/test/lib/c/Makefile
-@@ -3,7 +3,7 @@ include ../../../config.mk
- .PHONY: all clean reallyclean
- 
- CFLAGS=-I../../../include -Werror
--LIBS=../../../lib/libmosquitto.so.1
-+LIBS=-lmosquitto
- 
- SRC = \
- 	01-con-discon-success.c \
-diff --git a/test/lib/cpp/Makefile b/test/lib/cpp/Makefile
-index c4ae14ca..022d1033 100644
---- a/test/lib/cpp/Makefile
-+++ b/test/lib/cpp/Makefile
-@@ -1,7 +1,7 @@
- .PHONY: all test 01 02 03 04 08 09 clean reallyclean
- 
- CFLAGS=-I../../../include -I../../../lib/cpp -DDEBUG
--LIBS=../../../lib/libmosquitto.so.1 ../../../lib/cpp/libmosquittopp.so.1
-+LIBS=-lmosquitto -lmosquittopp
- 
- all : 01 02 03 04 08 09
- 
-
-
-diff --git a/test/client/test.sh b/test/client/test.sh
-index 53ee84b9..ed97cad3 100755
---- a/test/client/test.sh
-+++ b/test/client/test.sh
-@@ -11,7 +11,7 @@ export PORT=1888
- export SUB_TIMEOUT=1
- 
- # Start broker
--../../src/mosquitto -p ${PORT} 2>/dev/null &
-+/usr/sbin/mosquitto -p ${PORT} 2>/dev/null &
- export MOSQ_PID=$!
- sleep 0.5
- 
-@@ -20,28 +20,28 @@ trap "kill $MOSQ_PID" EXIT
- 
- 
- # Simple subscribe test - single message from $SYS
--${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/uptime' >/dev/null
-+/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/uptime' >/dev/null
- echo "Simple subscribe ok"
- 
- # Simple publish/subscribe test - single message from mosquitto_pub
--${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t 'single/test' >/dev/null &
-+/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t 'single/test' >/dev/null &
- export SUB_PID=$!
--${BASE_PATH}/client/mosquitto_pub -p ${PORT} -t 'single/test' -m 'single-test'
-+/usr/bin/mosquitto_pub -p ${PORT} -t 'single/test' -m 'single-test'
- kill ${SUB_PID} 2>/dev/null || true
- echo "Simple publish/subscribe ok"
- 
- # Publish a file and subscribe, do we get at least that many lines?
- export TEST_LINES=$(wc -l test.sh | cut -d' ' -f1)
--${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
-+/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
- export SUB_PID=$!
--${BASE_PATH}/client/mosquitto_pub -p ${PORT} -t 'file-publish' -f ./test.sh
-+/usr/bin/mosquitto_pub -p ${PORT} -t 'file-publish' -f ./test.sh
- kill ${SUB_PID} 2>/dev/null || true
- echo "File publish ok"
- 
- # Publish a file from stdin and subscribe, do we get at least that many lines?
- export TEST_LINES=$(wc -l test.sh | cut -d' ' -f1)
--${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
-+/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
- export SUB_PID=$!
--${BASE_PATH}/client/mosquitto_pub -p ${PORT} -t 'file-publish' -l < ./test.sh
-+/usr/bin/mosquitto_pub -p ${PORT} -t 'file-publish' -l < ./test.sh
- kill ${SUB_PID} 2>/dev/null || true
- echo "stdin publish ok"
-
--- 
-2.39.2
 diff --git a/test/broker/04-retain-check-source-persist-diff-port.py b/test/broker/04-retain-check-source-persist-diff-port.py
-index efe1cfba..dacc617f 100755
+index efe1cfb..dacc617 100755
 --- a/test/broker/04-retain-check-source-persist-diff-port.py
 +++ b/test/broker/04-retain-check-source-persist-diff-port.py
 @@ -32,16 +32,16 @@ def write_acl_2(filename, username):
@@ -191,7 +75,7 @@ index efe1cfba..dacc617f 100755
          sock = mosq_test.do_client_connect(connect2_packet, connack2_packet, port=port2)
          mosq_test.do_send_receive(sock, subscribe_packet, suback_packet, "suback 2")
 diff --git a/test/broker/04-retain-check-source-persist.py b/test/broker/04-retain-check-source-persist.py
-index 9e594415..21d6ab94 100755
+index 9e59441..21d6ab9 100755
 --- a/test/broker/04-retain-check-source-persist.py
 +++ b/test/broker/04-retain-check-source-persist.py
 @@ -29,16 +29,16 @@ def write_acl_2(filename, username):
@@ -233,7 +117,7 @@ index 9e594415..21d6ab94 100755
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
          mosq_test.do_send_receive(sock, subscribe_packet, suback_packet, "suback 2")
 diff --git a/test/broker/04-retain-check-source.py b/test/broker/04-retain-check-source.py
-index 5a7ed298..70a0cc1b 100755
+index 5a7ed29..70a0cc1 100755
 --- a/test/broker/04-retain-check-source.py
 +++ b/test/broker/04-retain-check-source.py
 @@ -23,10 +23,10 @@ def write_acl_2(filename):
@@ -259,7 +143,7 @@ index 5a7ed298..70a0cc1b 100755
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
 diff --git a/test/broker/04-retain-upgrade-outgoing-qos.py b/test/broker/04-retain-upgrade-outgoing-qos.py
-index e2720bcf..942507f6 100755
+index e2720bc..942507f 100755
 --- a/test/broker/04-retain-upgrade-outgoing-qos.py
 +++ b/test/broker/04-retain-upgrade-outgoing-qos.py
 @@ -14,7 +14,7 @@ def write_config(filename, port):
@@ -281,7 +165,7 @@ index e2720bcf..942507f6 100755
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
 diff --git a/test/broker/06-bridge-b2br-late-connection-retain.py b/test/broker/06-bridge-b2br-late-connection-retain.py
-index 4beeb7c2..5126abfd 100755
+index 4beeb7c..5126abf 100755
 --- a/test/broker/06-bridge-b2br-late-connection-retain.py
 +++ b/test/broker/06-bridge-b2br-late-connection-retain.py
 @@ -35,8 +35,8 @@ def do_test(proto_ver):
@@ -314,7 +198,7 @@ index 4beeb7c2..5126abfd 100755
          (bridge, address) = ssock.accept()
          bridge.settimeout(20)
 diff --git a/test/broker/06-bridge-clean-session-core.py b/test/broker/06-bridge-clean-session-core.py
-index 89237d23..b9f91a61 100755
+index 89237d2..b9f91a6 100755
 --- a/test/broker/06-bridge-clean-session-core.py
 +++ b/test/broker/06-bridge-clean-session-core.py
 @@ -84,12 +84,12 @@ def do_test(proto_ver, cs, lcs=None):
@@ -336,7 +220,7 @@ index 89237d23..b9f91a61 100755
  
      AckedPair = namedtuple("AckedPair", "p ack")
 diff --git a/test/broker/06-bridge-reconnect-local-out.py b/test/broker/06-bridge-reconnect-local-out.py
-index 887470b6..2a198e88 100755
+index b5adba8..c230780 100755
 --- a/test/broker/06-bridge-reconnect-local-out.py
 +++ b/test/broker/06-bridge-reconnect-local-out.py
 @@ -11,7 +11,7 @@ def write_config(filename, port1, port2, protocol_version):
@@ -348,7 +232,7 @@ index 887470b6..2a198e88 100755
          f.write("\n")
          f.write("connection bridge_sample\n")
          f.write("address 127.0.0.1:%d\n" % (port1))
-@@ -48,7 +48,7 @@ def do_test(proto_ver):
+@@ -49,7 +49,7 @@ def do_test(proto_ver):
  
      broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port1, use_conf=False)
  
@@ -357,9 +241,36 @@ index 887470b6..2a198e88 100755
      local_broker = mosq_test.start_broker(cmd=local_cmd, filename=os.path.basename(__file__)+'_local1', use_conf=False, port=port2)
      if os.environ.get('MOSQ_USE_VALGRIND') is not None:
          time.sleep(5)
-
+diff --git a/test/broker/08-tls-psk-bridge.py b/test/broker/08-tls-psk-bridge.py
+index 56d3c19..cb23f51 100755
+--- a/test/broker/08-tls-psk-bridge.py
++++ b/test/broker/08-tls-psk-bridge.py
+@@ -29,8 +29,8 @@ def write_config2(filename, port2, port3):
+         f.write("bridge_psk deadbeef\n")
+ 
+ (port1, port2, port3) = mosq_test.get_port(3)
+-conf_file1 = "08-tls-psk-bridge.conf"
+-conf_file2 = "08-tls-psk-bridge.conf2"
++conf_file1 = "/tmp/08-tls-psk-bridge.conf"
++conf_file2 = "/tmp/08-tls-psk-bridge.conf2"
+ write_config1(conf_file1, port1, port2)
+ write_config2(conf_file2, port2, port3)
+ 
+@@ -54,9 +54,9 @@ suback_packet = mosq_test.gen_suback(mid, 0)
+ 
+ publish_packet = mosq_test.gen_publish(topic="psk/test", payload="message", qos=0)
+ 
+-bridge_cmd = ['../../src/mosquitto', '-c', '08-tls-psk-bridge.conf2']
+-broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port1)
+-bridge = mosq_test.start_broker(filename=os.path.basename(__file__)+'_bridge', cmd=bridge_cmd, port=port3)
++bridge_cmd = ['/usr/sbin/mosquitto', '-c', '/tmp/08-tls-psk-bridge.conf2']
++broker = mosq_test.start_broker(filename=conf_file1, use_conf=True, port=port1)
++bridge = mosq_test.start_broker(filename=conf_file2+'_bridge', cmd=bridge_cmd, port=port3)
+ 
+ pub = None
+ try:
 diff --git a/test/broker/11-message-expiry.py b/test/broker/11-message-expiry.py
-index de109eb0..1e963f2d 100755
+index de109eb..1e963f2 100755
 --- a/test/broker/11-message-expiry.py
 +++ b/test/broker/11-message-expiry.py
 @@ -11,16 +11,17 @@
@@ -406,7 +317,7 @@ index de109eb0..1e963f2d 100755
  exit(rc)
  
 diff --git a/test/broker/11-persistent-subscription-no-local.py b/test/broker/11-persistent-subscription-no-local.py
-index 350ba5ca..63059ade 100755
+index 350ba5c..63059ad 100755
 --- a/test/broker/11-persistent-subscription-no-local.py
 +++ b/test/broker/11-persistent-subscription-no-local.py
 @@ -5,16 +5,17 @@
@@ -453,7 +364,7 @@ index 350ba5ca..63059ade 100755
  
  exit(rc)
 diff --git a/test/broker/11-persistent-subscription-v5.py b/test/broker/11-persistent-subscription-v5.py
-index 7cd9ae6a..8bc4d8e3 100755
+index 7cd9ae6..8bc4d8e 100755
 --- a/test/broker/11-persistent-subscription-v5.py
 +++ b/test/broker/11-persistent-subscription-v5.py
 @@ -4,16 +4,17 @@
@@ -500,7 +411,7 @@ index 7cd9ae6a..8bc4d8e3 100755
  
  exit(rc)
 diff --git a/test/broker/11-persistent-subscription.py b/test/broker/11-persistent-subscription.py
-index 2ec2871c..a54b5b97 100755
+index 2ec2871..a54b5b9 100755
 --- a/test/broker/11-persistent-subscription.py
 +++ b/test/broker/11-persistent-subscription.py
 @@ -4,17 +4,18 @@
@@ -548,7 +459,7 @@ index 2ec2871c..a54b5b97 100755
              print(stde.decode('utf-8'))
              print("proto_ver=%d" % (proto_ver))
 diff --git a/test/broker/11-pub-props.py b/test/broker/11-pub-props.py
-index 1b76fa25..541719fb 100755
+index 1b76fa2..541719f 100755
 --- a/test/broker/11-pub-props.py
 +++ b/test/broker/11-pub-props.py
 @@ -4,16 +4,17 @@
@@ -595,7 +506,7 @@ index 1b76fa25..541719fb 100755
  
  exit(rc)
 diff --git a/test/broker/11-subscription-id.py b/test/broker/11-subscription-id.py
-index ed178425..4b9ad16a 100755
+index ed17842..4b9ad16 100755
 --- a/test/broker/11-subscription-id.py
 +++ b/test/broker/11-subscription-id.py
 @@ -4,16 +4,17 @@
@@ -644,10 +555,10 @@ index ed178425..4b9ad16a 100755
  exit(rc)
 -
 diff --git a/test/broker/Makefile b/test/broker/Makefile
-index 63b9ae8f..99f90220 100644
+index e66c7ff..cf98423 100644
 --- a/test/broker/Makefile
 +++ b/test/broker/Makefile
-@@ -104,7 +104,7 @@ msg_sequence_test:
+@@ -107,7 +107,7 @@ msg_sequence_test:
  06 :
  	./06-bridge-b2br-disconnect-qos1.py
  	./06-bridge-b2br-disconnect-qos2.py
@@ -656,7 +567,7 @@ index 63b9ae8f..99f90220 100644
  	./06-bridge-b2br-late-connection.py
  	./06-bridge-b2br-remapping.py
  	./06-bridge-br2b-disconnect-qos1.py
-@@ -146,9 +146,9 @@ msg_sequence_test:
+@@ -150,9 +150,9 @@ msg_sequence_test:
  ifeq ($(WITH_TLS),yes)
  	./08-ssl-bridge.py
  	./08-ssl-connect-cert-auth-crl.py
@@ -669,7 +580,7 @@ index 63b9ae8f..99f90220 100644
  	./08-ssl-connect-cert-auth.py
  	./08-ssl-connect-identity.py
  	./08-ssl-connect-no-auth-wrong-ca.py
-@@ -217,20 +217,20 @@ endif
+@@ -221,20 +221,20 @@ endif
  14 :
  ifeq ($(WITH_TLS),yes)
  ifeq ($(WITH_CJSON),yes)
@@ -705,8 +616,70 @@ index 63b9ae8f..99f90220 100644
 +	#./14-dynsec-role-invalid.py
  endif
  endif
+diff --git a/test/broker/c/Makefile b/test/broker/c/Makefile
+index e897e34..472537c 100644
+--- a/test/broker/c/Makefile
++++ b/test/broker/c/Makefile
+@@ -37,7 +37,7 @@ ${PLUGINS} : %.so: %.c
+ 
+ 
+ ${TESTS} : %.test: %.c
+-	$(CC) ${CFLAGS} $< -o $@ ../../../lib/libmosquitto.so.1
++	$(CC) ${CFLAGS} $< -o $@ -lmosquitto
+ 
+ 
+ reallyclean : clean
+diff --git a/test/client/test.sh b/test/client/test.sh
+index 53ee84b..ed97cad 100755
+--- a/test/client/test.sh
++++ b/test/client/test.sh
+@@ -11,7 +11,7 @@ export PORT=1888
+ export SUB_TIMEOUT=1
+ 
+ # Start broker
+-../../src/mosquitto -p ${PORT} 2>/dev/null &
++/usr/sbin/mosquitto -p ${PORT} 2>/dev/null &
+ export MOSQ_PID=$!
+ sleep 0.5
+ 
+@@ -20,28 +20,28 @@ trap "kill $MOSQ_PID" EXIT
+ 
+ 
+ # Simple subscribe test - single message from $SYS
+-${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/uptime' >/dev/null
++/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/uptime' >/dev/null
+ echo "Simple subscribe ok"
+ 
+ # Simple publish/subscribe test - single message from mosquitto_pub
+-${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t 'single/test' >/dev/null &
++/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t 'single/test' >/dev/null &
+ export SUB_PID=$!
+-${BASE_PATH}/client/mosquitto_pub -p ${PORT} -t 'single/test' -m 'single-test'
++/usr/bin/mosquitto_pub -p ${PORT} -t 'single/test' -m 'single-test'
+ kill ${SUB_PID} 2>/dev/null || true
+ echo "Simple publish/subscribe ok"
+ 
+ # Publish a file and subscribe, do we get at least that many lines?
+ export TEST_LINES=$(wc -l test.sh | cut -d' ' -f1)
+-${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
++/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
+ export SUB_PID=$!
+-${BASE_PATH}/client/mosquitto_pub -p ${PORT} -t 'file-publish' -f ./test.sh
++/usr/bin/mosquitto_pub -p ${PORT} -t 'file-publish' -f ./test.sh
+ kill ${SUB_PID} 2>/dev/null || true
+ echo "File publish ok"
+ 
+ # Publish a file from stdin and subscribe, do we get at least that many lines?
+ export TEST_LINES=$(wc -l test.sh | cut -d' ' -f1)
+-${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
++/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
+ export SUB_PID=$!
+-${BASE_PATH}/client/mosquitto_pub -p ${PORT} -t 'file-publish' -l < ./test.sh
++/usr/bin/mosquitto_pub -p ${PORT} -t 'file-publish' -l < ./test.sh
+ kill ${SUB_PID} 2>/dev/null || true
+ echo "stdin publish ok"
 diff --git a/test/lib/Makefile b/test/lib/Makefile
-index 6ade78d0..b31cdb4d 100644
+index 6ade78d..b31cdb4 100644
 --- a/test/lib/Makefile
 +++ b/test/lib/Makefile
 @@ -33,7 +33,7 @@ c : test-compile
@@ -727,31 +700,53 @@ index 6ade78d0..b31cdb4d 100644
  	./03-publish-c2b-qos2-pubrec-error.py $@/03-publish-c2b-qos2-pubrec-error.test
  	./03-publish-c2b-qos2-receive-maximum-1.py $@/03-publish-c2b-qos2-receive-maximum-1.test
  	./03-publish-c2b-qos2-receive-maximum-2.py $@/03-publish-c2b-qos2-receive-maximum-2.test
-diff --git a/test/broker/08-tls-psk-bridge.py b/test/broker/08-tls-psk-bridge.py
-index 56d3c196..cb23f518 100755
---- a/test/broker/08-tls-psk-bridge.py
-+++ b/test/broker/08-tls-psk-bridge.py
-@@ -29,8 +29,8 @@ def write_config2(filename, port2, port3):
-         f.write("bridge_psk deadbeef\n")
+diff --git a/test/lib/c/Makefile b/test/lib/c/Makefile
+index 40cb7d1..6d180a3 100644
+--- a/test/lib/c/Makefile
++++ b/test/lib/c/Makefile
+@@ -3,7 +3,7 @@ include ../../../config.mk
+ .PHONY: all clean reallyclean
  
- (port1, port2, port3) = mosq_test.get_port(3)
--conf_file1 = "08-tls-psk-bridge.conf"
--conf_file2 = "08-tls-psk-bridge.conf2"
-+conf_file1 = "/tmp/08-tls-psk-bridge.conf"
-+conf_file2 = "/tmp/08-tls-psk-bridge.conf2"
- write_config1(conf_file1, port1, port2)
- write_config2(conf_file2, port2, port3)
+ CFLAGS=-I../../../include -Werror
+-LIBS=../../../lib/libmosquitto.so.1
++LIBS=-lmosquitto
  
-@@ -54,9 +54,9 @@ suback_packet = mosq_test.gen_suback(mid, 0)
+ SRC = \
+ 	01-con-discon-success.c \
+diff --git a/test/lib/cpp/Makefile b/test/lib/cpp/Makefile
+index c4ae14c..022d103 100644
+--- a/test/lib/cpp/Makefile
++++ b/test/lib/cpp/Makefile
+@@ -1,7 +1,7 @@
+ .PHONY: all test 01 02 03 04 08 09 clean reallyclean
  
- publish_packet = mosq_test.gen_publish(topic="psk/test", payload="message", qos=0)
+ CFLAGS=-I../../../include -I../../../lib/cpp -DDEBUG
+-LIBS=../../../lib/libmosquitto.so.1 ../../../lib/cpp/libmosquittopp.so.1
++LIBS=-lmosquitto -lmosquittopp
  
--bridge_cmd = ['../../src/mosquitto', '-c', '08-tls-psk-bridge.conf2']
--broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port1)
--bridge = mosq_test.start_broker(filename=os.path.basename(__file__)+'_bridge', cmd=bridge_cmd, port=port3)
-+bridge_cmd = ['/usr/sbin/mosquitto', '-c', '/tmp/08-tls-psk-bridge.conf2']
-+broker = mosq_test.start_broker(filename=conf_file1, use_conf=True, port=port1)
-+bridge = mosq_test.start_broker(filename=conf_file2+'_bridge', cmd=bridge_cmd, port=port3)
+ all : 01 02 03 04 08 09
  
- pub = None
- try:
+diff --git a/test/mosq_test.py b/test/mosq_test.py
+index 98fd3ac..8c1cbb4 100644
+--- a/test/mosq_test.py
++++ b/test/mosq_test.py
+@@ -26,16 +26,16 @@ def start_broker(filename, cmd=None, port=0, use_conf=False, expect_fail=False,
+     delay = 0.1
+ 
+     if use_conf == True:
+-        cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
++        cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
+ 
+         if port == 0:
+             port = 1888
+     else:
+         if cmd is None and port != 0:
+-            cmd = ['../../src/mosquitto', '-v', '-p', str(port)]
++            cmd = ['/usr/sbin/mosquitto', '-v', '-p', str(port)]
+         elif cmd is None and port == 0:
+             port = 1888
+-            cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
++            cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
+         elif cmd is not None and port == 0:
+             port = 1888
+ 

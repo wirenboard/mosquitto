@@ -1,4 +1,4 @@
 version=4
 opts="mode=git,pgpmode=gittag" \
 https://github.com/eclipse/@PACKAGE@ \
-refs/tags/@ANY_VERSION@
+refs/tags/v@ANY_VERSION@

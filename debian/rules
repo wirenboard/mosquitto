@@ -17,7 +17,9 @@ SYSTEMD=OFF
 endif
 
 override_dh_auto_configure:
-	dh_auto_configure -- -DWITH_BUNDLED_DEPS=OFF -DWITH_ADNS=ON -DUSE_LIBWRAP=ON -DWITH_WEBSOCKETS=ON -DWITH_DLT=ON -DWITH_SYSTEMD=${SYSTEMD}
+	dh_auto_configure -- -DWITH_BUNDLED_DEPS=OFF -DWITH_ADNS=ON -DUSE_LIBWRAP=ON \
+		-DWITH_WEBSOCKETS=ON -DWITH_DLT=ON -DWITH_SYSTEMD=${SYSTEMD} \
+		-DCMAKE_SKIP_BUILD_RPATH=ON
 
 override_dh_strip:
 	dh_strip -p mosquitto -Xlibmosquitto
@@ -34,8 +36,8 @@ override_dh_auto_install:
 	install -d debian/tmp/etc/mosquitto/certs/
 	install -m 644 debian/README-certs debian/tmp/etc/mosquitto/certs/README
 	install -m 644 debian/mosquitto.conf debian/tmp/etc/mosquitto/mosquitto.conf
-	install -d debian/tmp/lib/systemd/system/
-	install -m 644 ./service/systemd/mosquitto.service.notify debian/tmp/lib/systemd/system/mosquitto.service
+	install -d debian/tmp/usr/lib/systemd/system/
+	install -m 644 ./service/systemd/mosquitto.service.notify debian/tmp/usr/lib/systemd/system/mosquitto.service
 
 override_dh_makeshlibs:
 	dh_makeshlibs -- -c4
