@@ -1,14 +1,18 @@
 mosquitto (2.0.20-1) unstable; urgency=medium
 
-  * New upstream release 
+  * Team upload.
+
+  [ Joachim Zobel ]
+  * New upstream release
     - Fix for CVE-2024-8376
   * debian/patches/2895.patch: Changes both service files now (Closes: #1036450)
   * debian/patches/2894.patch: Removed, applied by upstream
   * debian/patches/1571.patch: Removed, applied by upstream
   * Fixed reprotest build_path failure
-  * Fixed 2 lintian warnings 
+  * Fixed 2 lintian warnings
+  * Added Joachim Zobel as uploader
 
- -- Joachim Zobel <jz-2017@heute-morgen.de>  Sat, 19 Oct 2024 17:35:05 +0200
+ -- Philippe Coval <rzr@users.sf.net>  Mon, 21 Oct 2024 13:42:51 +0200
 
 mosquitto (2.0.18-1.1) unstable; urgency=medium
 
