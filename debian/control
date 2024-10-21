@@ -4,7 +4,8 @@ Priority: optional
 Maintainer: Debian IoT Maintainers <debian-iot-maintainers@alioth-lists.debian.net>
 Uploaders:
  Philippe Coval <rzr@users.sf.net>,
- Roger A. Light <roger@atchoo.org>
+ Roger A. Light <roger@atchoo.org>,
+ Joachim Zobel <jz-2017@heute-morgen.de>
 Build-Depends: debhelper-compat (= 13),
                cmake,
                libcjson-dev,
