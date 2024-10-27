@@ -550,42 +550,6 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  	./08-ssl-connect-cert-auth.py
  	./08-ssl-connect-identity.py
  	./08-ssl-connect-no-auth-wrong-ca.py
-@@ -222,20 +222,20 @@
- 14 :
- ifeq ($(WITH_TLS),yes)
- ifeq ($(WITH_CJSON),yes)
--	./14-dynsec-acl.py
--	./14-dynsec-anon-group.py
--	./14-dynsec-auth.py
--	./14-dynsec-client.py
--	./14-dynsec-client-invalid.py
--	./14-dynsec-default-access.py
--	./14-dynsec-disable-client.py
--	./14-dynsec-group.py
--	./14-dynsec-group-invalid.py
--	./14-dynsec-modify-client.py
--	./14-dynsec-modify-group.py
--	./14-dynsec-modify-role.py
--	./14-dynsec-plugin-invalid.py
--	./14-dynsec-role.py
--	./14-dynsec-role-invalid.py
-+	#./14-dynsec-acl.py
-+	#./14-dynsec-anon-group.py
-+	#./14-dynsec-auth.py
-+	#./14-dynsec-client.py
-+	#./14-dynsec-client-invalid.py
-+	#./14-dynsec-default-access.py
-+	#./14-dynsec-disable-client.py
-+	#./14-dynsec-group.py
-+	#./14-dynsec-group-invalid.py
-+	#./14-dynsec-modify-client.py
-+	#./14-dynsec-modify-group.py
-+	#./14-dynsec-modify-role.py
-+	#./14-dynsec-plugin-invalid.py
-+	#./14-dynsec-role.py
-+	#./14-dynsec-role-invalid.py
- endif
- endif
 --- a/test/broker/c/Makefile
 +++ b/test/broker/c/Makefile
 @@ -37,7 +37,7 @@
@@ -699,3 +663,168 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
          elif cmd is not None and port == 0:
              port = 1888
  
+--- a/test/broker/14-dynsec-acl.py
++++ b/test/broker/14-dynsec-acl.py
+@@ -10,7 +10,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response):
+--- a/test/broker/14-dynsec-anon-group.py
++++ b/test/broker/14-dynsec-anon-group.py
+@@ -9,7 +9,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response):
+--- a/test/broker/14-dynsec-auth.py
++++ b/test/broker/14-dynsec-auth.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response):
+--- a/test/broker/14-dynsec-client-invalid.py
++++ b/test/broker/14-dynsec-client-invalid.py
+@@ -10,7 +10,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/broker/14-dynsec-client.py
++++ b/test/broker/14-dynsec-client.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response):
+--- a/test/broker/14-dynsec-default-access.py
++++ b/test/broker/14-dynsec-default-access.py
+@@ -10,7 +10,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response):
+--- a/test/broker/14-dynsec-disable-client.py
++++ b/test/broker/14-dynsec-disable-client.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response):
+--- a/test/broker/14-dynsec-group-invalid.py
++++ b/test/broker/14-dynsec-group-invalid.py
+@@ -10,7 +10,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/broker/14-dynsec-group.py
++++ b/test/broker/14-dynsec-group.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/broker/14-dynsec-modify-client.py
++++ b/test/broker/14-dynsec-modify-client.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/broker/14-dynsec-modify-group.py
++++ b/test/broker/14-dynsec-modify-group.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/broker/14-dynsec-modify-role.py
++++ b/test/broker/14-dynsec-modify-role.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response):
+--- a/test/broker/14-dynsec-plugin-invalid.py
++++ b/test/broker/14-dynsec-plugin-invalid.py
+@@ -10,7 +10,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/broker/14-dynsec-role-invalid.py
++++ b/test/broker/14-dynsec-role-invalid.py
+@@ -10,7 +10,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/broker/14-dynsec-role.py
++++ b/test/broker/14-dynsec-role.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ def command_check(sock, command_payload, expected_response, msg=""):
