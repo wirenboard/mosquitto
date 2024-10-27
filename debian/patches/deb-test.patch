@@ -537,19 +537,6 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  	./06-bridge-b2br-late-connection.py
  	./06-bridge-b2br-remapping.py
  	./06-bridge-br2b-disconnect-qos1.py
-@@ -151,9 +151,9 @@
- ifeq ($(WITH_TLS),yes)
- 	./08-ssl-bridge.py
- 	./08-ssl-connect-cert-auth-crl.py
--	./08-ssl-connect-cert-auth-expired.py
--	./08-ssl-connect-cert-auth-revoked.py
--	./08-ssl-connect-cert-auth-without.py
-+	#./08-ssl-connect-cert-auth-expired.py
-+	#./08-ssl-connect-cert-auth-revoked.py
-+	#./08-ssl-connect-cert-auth-without.py
- 	./08-ssl-connect-cert-auth.py
- 	./08-ssl-connect-identity.py
- 	./08-ssl-connect-no-auth-wrong-ca.py
 --- a/test/broker/c/Makefile
 +++ b/test/broker/c/Makefile
 @@ -37,7 +37,7 @@
