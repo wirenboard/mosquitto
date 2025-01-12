@@ -1,0 +1,26 @@
+Description: Adapted tests to python 3.13
+ There was a flaw in the root certificates that is no longer tolerated by 
+ python 3.13. This patch fixes the openssl.conf used for generating them. 
+Author: Joachim Zobel <jz-2017@heute-morgen.de> 
+Forwarded: https://github.com/eclipse-mosquitto/mosquitto/pull/3203 
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/test/ssl/openssl.cnf
++++ b/test/ssl/openssl.cnf
+@@ -291,14 +291,12 @@
+ 
+ # This is what PKIX recommends but some broken software chokes on critical
+ # extensions.
+-#basicConstraints = critical,CA:true
+-# So we do this instead.
+-basicConstraints = CA:true
++basicConstraints = critical,CA:true
+ 
+ # Key usage: this is typical for a CA certificate. However since it will
+ # prevent it being used as an test self-signed certificate it is best
+ # left out by default.
+-# keyUsage = cRLSign, keyCertSign
++keyUsage = cRLSign, keyCertSign
+ 
+ # Some might want this also
+ # nsCertType = sslCA, emailCA
