@@ -1,6 +1,7 @@
 mosquitto (2.0.20-2) unstable; urgency=medium
 
   * Adapted tests to python 3.13 (Closes: #1092750) 
+  * Reenabled and fixed several tests
 
  -- Joachim Zobel <jz-2017@heute-morgen.de>  Sun, 12 Jan 2025 11:17:40 +0100
 
