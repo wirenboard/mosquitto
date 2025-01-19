@@ -1,9 +1,13 @@
 mosquitto (2.0.20-2) unstable; urgency=medium
 
+  [Joachim Zobel]
   * Adapted tests to python 3.13 (Closes: #1092750) 
   * Reenabled and fixed several tests
 
- -- Joachim Zobel <jz-2017@heute-morgen.de>  Sun, 12 Jan 2025 11:17:40 +0100
+  [Max-Julian Pogner]
+  * Fixed pointer to conf example having wrong filename
+
+ -- Joachim Zobel <jz-2017@heute-morgen.de>  Mon, 20 Jan 2025 06:30:00 +0100
 
 mosquitto (2.0.20-1) unstable; urgency=medium
 
