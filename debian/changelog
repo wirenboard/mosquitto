@@ -1,8 +1,9 @@
-mosquitto (2.0.20-3) UNRELEASED; urgency=medium
+mosquitto (2.0.20-3) unstable; urgency=medium
 
-  * Marked broker tests as flaky (Closes: #1093968) 
+  * Marked broker tests as flaky (Closes: #1093968)
+  * Bumped standards version
 
- -- Joachim Zobel <jz-2017@heute-morgen.de>  Sat, 25 Jan 2025 08:17:25 +0100
+ -- Joachim Zobel <jz-2017@heute-morgen.de>  Sun, 26 Jan 2025 13:22:52 +0100
 
 mosquitto (2.0.20-2) unstable; urgency=medium
 
