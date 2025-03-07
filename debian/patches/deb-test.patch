@@ -628,28 +628,6 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
  all : 01 02 03 04 08 09
  
---- a/test/mosq_test.py
-+++ b/test/mosq_test.py
-@@ -26,16 +26,16 @@
-     delay = 0.1
- 
-     if use_conf == True:
--        cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
-+        cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
- 
-         if port == 0:
-             port = 1888
-     else:
-         if cmd is None and port != 0:
--            cmd = ['../../src/mosquitto', '-v', '-p', str(port)]
-+            cmd = ['/usr/sbin/mosquitto', '-v', '-p', str(port)]
-         elif cmd is None and port == 0:
-             port = 1888
--            cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
-+            cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
-         elif cmd is not None and port == 0:
-             port = 1888
- 
 --- a/test/broker/14-dynsec-acl.py
 +++ b/test/broker/14-dynsec-acl.py
 @@ -10,7 +10,7 @@
@@ -815,3 +793,27 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
  def command_check(sock, command_payload, expected_response, msg=""):
+--- a/test/mosq_test.py
++++ b/test/mosq_test.py
+@@ -26,7 +26,7 @@
+     delay = 0.1
+ 
+     if use_conf == True:
+-        cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
++        cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
+ 
+         if port == 0:
+             port = 1888
+@@ -34,10 +34,10 @@
+             cmd += ['-p', str(port)]
+     else:
+         if cmd is None and port != 0:
+-            cmd = ['../../src/mosquitto', '-v', '-p', str(port)]
++            cmd = ['/usr/sbin/mosquitto', '-v', '-p', str(port)]
+         elif cmd is None and port == 0:
+             port = 1888
+-            cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
++            cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
+         elif cmd is not None and port == 0:
+             port = 1888
+ 
