@@ -1,7 +1,8 @@
 mosquitto (2.0.21-1) unstable; urgency=medium
 
   * New upstream release (Closes: #1094157, #1094316)
-  * Added upstream commit for #3208.
+  * Added upstream commit for #3208 as a patch.
+  * Patch to add line breaks to the mosquitto_ctrl man page
 
  -- Joachim Zobel <jz-2017@heute-morgen.de>  Fri, 07 Mar 2025 06:22:29 +0100
 
