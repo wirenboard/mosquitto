@@ -1,5 +1,5 @@
 Tests: broker
-Depends: @, gcc, g++, libc6-dev, python3, libssl-dev, python3-psutil
+Depends: @, gcc, g++, libc6-dev, python3, libssl-dev, python3-psutil, openssl
 # rw-build-tree: tests generate and cleanup config files as they run, plus the
 # broker saves persistence data and cleans it up.
 # flaky: Added to resolve bug 1093968. This will b kept until those tests have
@@ -7,7 +7,7 @@ Depends: @, gcc, g++, libc6-dev, python3, libssl-dev, python3-psutil
 Restrictions: rw-build-tree, flaky
 
 Tests: library, client
-Depends: @, gcc, g++, libc6-dev, python3, libssl-dev, python3-psutil
+Depends: @, gcc, g++, libc6-dev, python3, libssl-dev, python3-psutil, openssl
 # rw-build-tree: tests generate and cleanup config files as they run, plus the
 # broker saves persistence data and cleans it up.
 Restrictions: rw-build-tree

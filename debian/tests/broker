@@ -2,5 +2,6 @@
 # d/p/Fix-CONNECT-performance-with-many-user-properties.patch
 # not executable. As workaround until rebaing to new upstream
 # version, make all py files executable
+$(dirname "$0")/setup
 chmod -c 755 -- test/broker/*.py
 make -C test/broker test
