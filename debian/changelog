@@ -1,3 +1,10 @@
+mosquitto (2.0.20-1-wb102) stable; urgency=medium
+
+  * Install .service to /lib/systemd/system/ (instead of /usr/lib/systemd/system/)
+  * Define debhelper version in build-depends (for bullseye only)
+
+ -- Vladimir Romanov <v.romanov@wirenboard.com>  Sun, 28 Apr 2025 19:49:02 +0300
+
 mosquitto (2.0.20-1-wb101) stable; urgency=medium
 
   * Backport to Bullseye
