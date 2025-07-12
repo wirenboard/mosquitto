@@ -1,2 +1,2 @@
-$(dirname "$0")/setup
+make -C test ssl 2> /dev/null
 make -C test/lib test
