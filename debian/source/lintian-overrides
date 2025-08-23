@@ -1,0 +1,3 @@
+# Lintian doesn't know vesrion 5 yet
+missing-debian-watch-file-standard [debian/watch]
+
