@@ -7,6 +7,7 @@ mosquitto (2.0.22-3) unstable; urgency=medium
   * Removed flaky from broker tests
   * Bumped Standards-Version to 4.7.2
   * Migrated watch file to version 5
+  * Removed unused upstream signing key
 
   [Gianfranco Costamagna]
   * Drop old and fixed lintian overrides
