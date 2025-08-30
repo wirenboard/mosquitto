@@ -1,3 +1,9 @@
+mosquitto (2.0.22-4) UNRELEASED; urgency=medium
+
+  * d/watch: Changed to Github template to silence warning 
+
+ -- Joachim Zobel <jz-2017@heute-morgen.de>  Sat, 30 Aug 2025 09:52:43 +0200
+
 mosquitto (2.0.22-3) unstable; urgency=medium
 
   [Joachim Zobel]

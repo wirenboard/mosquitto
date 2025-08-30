@@ -1,7 +1,7 @@
 Version: 5
-Source: https://github.com/eclipse-mosquitto/
-Matching-Pattern: @PACKAGE@
-Mode: git
-Pgpmode: gittag
+
+Template: Github
+Owner: eclipse-mosquitto 
+Project: mosquitto
 Version-Constraint: refs/tags/@ANY_VERSION@
 
