@@ -8,3 +8,7 @@ usr/bin/mosquitto_passwd
 usr/bin/mosquitto_ctrl
 usr/lib/*/mosquitto_dynamic_security.so*
 usr/sbin/mosquitto
+debian/systemd.user/mosquitto.service usr/lib/systemd/user
+debian/systemd.user/init usr/share/mosquitto/user/bin
+debian/systemd.user/mosquitto.conf usr/share/mosquitto/user/config
+debian/systemd.user/README-systemd-user.md usr/share/doc/mosquitto

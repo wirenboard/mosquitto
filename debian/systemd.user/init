@@ -1,0 +1,25 @@
+#!/bin/sh
+
+export CONF=$1        # %E
+export RUN=$2         # %t 
+export STATE=$3       # %S
+export LOG=$4         # %L
+
+# $RUN is on tmpfs
+mkdir -m 750 -p "${RUN}"/mosquitto
+
+# Do not overwrite anything else to preserve user changes
+
+if [ ! -d "${LOG}"/mosquitto ]; then
+	mkdir -m 750 -p "${LOG}"/mosquitto
+fi
+
+if [ ! -d "${STATE}"/mosquitto ]; then
+	mkdir -m 750 -p "${STATE}"/mosquitto
+fi
+
+if [ ! -f "${CONF}"/mosquitto/mosquitto.conf ]; then
+	envsubst < /usr/share/mosquitto/user/config/mosquitto.conf > "${CONF}"/mosquitto/mosquitto.conf 
+fi
+
+
