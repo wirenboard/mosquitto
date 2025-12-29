@@ -1,4 +1,4 @@
-mosquitto (2.0.22-4+test) unstable; urgency=medium
+mosquitto (2.0.22-4) unstable; urgency=medium
 
   * d/watch: Changed to Github template to silence warning
   * d/systemd.user: Added configuration to run mosquitto as a systemd user 
