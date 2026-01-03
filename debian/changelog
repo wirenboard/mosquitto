@@ -1,3 +1,9 @@
+mosquitto (2.0.22-5) unstable; urgency=medium
+
+  * Fixed initial enabling of the mosquitto user service (Closes: #1124528)
+
+ -- Joachim Zobel <jz-2017@heute-morgen.de>  Fri, 02 Jan 2026 20:44:33 +0100
+
 mosquitto (2.0.22-4) unstable; urgency=medium
 
   * d/watch: Changed to Github template to silence warning

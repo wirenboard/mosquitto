@@ -41,3 +41,7 @@ override_dh_auto_install:
 
 override_dh_makeshlibs:
 	dh_makeshlibs -- -c4
+
+override_dh_installsystemduser:
+	dh_installsystemduser -pmosquitto --no-enable mosquitto.service
+
