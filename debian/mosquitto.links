@@ -1,0 +1,4 @@
+
+# Compatibility after moving the plugins to a private directory
+usr/lib/${DEB_HOST_MULTIARCH}/mosquitto/mosquitto_dynamic_security.so usr/lib/${DEB_HOST_MULTIARCH}/mosquitto_dynamic_security.so
+

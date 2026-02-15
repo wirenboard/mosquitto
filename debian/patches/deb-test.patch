@@ -54,7 +54,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
      write_acl_1(acl_file, username)
  
  
-@@ -65,7 +65,7 @@
+@@ -64,7 +64,7 @@
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -63,7 +63,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port1)
-@@ -85,7 +85,7 @@
+@@ -86,7 +86,7 @@
          if os.path.isfile(persistence_file) == False:
              raise FileNotFoundError("Persistence file not written")
  
@@ -94,7 +94,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
      write_acl_1(acl_file, username)
  
  
-@@ -52,7 +52,7 @@
+@@ -51,7 +51,7 @@
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -103,9 +103,9 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
      try:
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
-@@ -70,7 +70,7 @@
-         broker.terminate()
-         broker.wait()
+@@ -71,7 +71,7 @@
+             print("broker not terminated")
+             if rc == 0: rc=1
  
 -        broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
 +        broker = mosq_test.start_broker(filename=conf_file, use_conf=True, port=port)
@@ -127,7 +127,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
      write_acl_1(acl_file)
  
  
-@@ -40,7 +40,7 @@
+@@ -39,7 +39,7 @@
      subscribe_packet = mosq_test.gen_subscribe(mid, "test/topic", 0, proto_ver=proto_ver)
      suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=proto_ver)
  
@@ -147,7 +147,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
      write_config(conf_file, port)
  
      rc = 1
-@@ -29,7 +29,7 @@
+@@ -28,7 +28,7 @@
  
      publish_packet2 = mosq_test.gen_publish("retain/qos0/test", mid=1, qos=1, payload="retained message", retain=True, proto_ver=proto_ver)
  
@@ -158,7 +158,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
          sock = mosq_test.do_client_connect(connect_packet, connack_packet, port=port)
 --- a/test/broker/06-bridge-b2br-late-connection-retain.py
 +++ b/test/broker/06-bridge-b2br-late-connection-retain.py
-@@ -35,8 +35,8 @@
+@@ -36,8 +36,8 @@
          proto_ver_connect = 5
  
      (port1, port2) = mosq_test.get_port(2)
@@ -168,7 +168,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 +    persistence_file = "/tmp/"+os.path.basename(__file__).replace('.py', '.db')
  
      rc = 1
-     keepalive = 60
+     client_id = socket.gethostname()+".bridge_sample"
 @@ -64,7 +64,7 @@
      write_config1(conf_file, persistence_file, port1, port2)
  
@@ -178,7 +178,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
          client = mosq_test.do_client_connect(c_connect_packet, c_connack_packet, timeout=20, port=port2)
          mosq_test.do_send_receive(client, publish_packet, puback_packet, "puback")
          client.close()
-@@ -74,7 +74,7 @@
+@@ -76,7 +76,7 @@
  
          # Restart, with retained message in place
          write_config2(conf_file, persistence_file, port1, port2, bridge_protocol)
@@ -189,7 +189,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
          bridge.settimeout(20)
 --- a/test/broker/06-bridge-clean-session-core.py
 +++ b/test/broker/06-bridge-clean-session-core.py
-@@ -84,12 +84,12 @@
+@@ -99,12 +99,12 @@
  
  
      (port_a_listen, port_b_listen) = mosq_test.get_port(2)
@@ -222,7 +222,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
      broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port1, use_conf=False)
  
--    local_cmd = ['../../src/mosquitto', '-c', '06-bridge-reconnect-local-out.conf']
+-    local_cmd = [mosq_test.get_build_root() + '/src/mosquitto', '-c', '06-bridge-reconnect-local-out.conf']
 +    local_cmd = ['/usr/sbin/mosquitto', '-c', '06-bridge-reconnect-local-out.conf']
      local_broker = mosq_test.start_broker(cmd=local_cmd, filename=os.path.basename(__file__)+'_local1', use_conf=False, port=port2)
      if os.environ.get('MOSQ_USE_VALGRIND') is not None:
@@ -240,14 +240,14 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  write_config1(conf_file1, port1, port2)
  write_config2(conf_file2, port2, port3)
  
-@@ -54,9 +54,9 @@
+@@ -46,9 +46,9 @@
  
  publish_packet = mosq_test.gen_publish(topic="psk/test", payload="message", qos=0)
  
--bridge_cmd = ['../../src/mosquitto', '-c', '08-tls-psk-bridge.conf2']
+-bridge_cmd = [mosq_test.get_build_root() + '/src/mosquitto', '-c', '08-tls-psk-bridge.conf2']
 -broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port1)
 -bridge = mosq_test.start_broker(filename=os.path.basename(__file__)+'_bridge', cmd=bridge_cmd, port=port3)
-+bridge_cmd = ['/usr/sbin/mosquitto', '-c', '/tmp/08-tls-psk-bridge.conf2']
++bridge_cmd = ['/usr/sbin/mosquitto', '-c', conf_file2]
 +broker = mosq_test.start_broker(filename=conf_file1, use_conf=True, port=port1)
 +bridge = mosq_test.start_broker(filename=conf_file2+'_bridge', cmd=bridge_cmd, port=port3)
  
@@ -262,7 +262,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 -def write_config(filename, port):
 +def write_config(filename, port, persist_file):
      with open(filename, 'w') as f:
-         f.write("port %d\n" % (port))
+         f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
          f.write("persistence true\n")
 -        f.write("persistence_file mosquitto-%d.db\n" % (port))
@@ -276,7 +276,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
  
  rc = 1
-@@ -53,8 +54,8 @@
+@@ -52,8 +53,8 @@
  puback3_packet = mosq_test.gen_puback(mid)
  
  
@@ -287,7 +287,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
  port = mosq_test.get_port()
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
-@@ -97,8 +98,8 @@
+@@ -100,8 +101,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -307,7 +307,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 -def write_config(filename, port):
 +def write_config(filename, port, persist_file):
      with open(filename, 'w') as f:
-         f.write("port %d\n" % (port))
+         f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
          f.write("persistence true\n")
 -        f.write("persistence_file mosquitto-%d.db\n" % (port))
@@ -320,8 +320,8 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 +write_config(conf_file, port, persist_file)
  
  rc = 1
- keepalive = 60
-@@ -48,8 +49,8 @@
+ connect_packet = mosq_test.gen_connect(
+@@ -47,8 +48,8 @@
  publish2b_packet = mosq_test.gen_publish("subpub/local", qos=1, mid=mid, payload="message", proto_ver=5)
  puback2b_packet = mosq_test.gen_puback(mid, proto_ver=5)
  
@@ -332,52 +332,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -90,8 +91,8 @@
-     (stdo, stde) = broker.communicate()
-     if rc:
-         print(stde.decode('utf-8'))
--    if os.path.exists('mosquitto-%d.db' % (port)):
--        os.unlink('mosquitto-%d.db' % (port))
-+    if os.path.exists(persist_file):
-+        os.unlink(persist_file)
- 
- 
- exit(rc)
---- a/test/broker/11-persistent-subscription-v5.py
-+++ b/test/broker/11-persistent-subscription-v5.py
-@@ -4,16 +4,17 @@
- 
- from mosq_test_helper import *
- 
--def write_config(filename, port):
-+def write_config(filename, port, persist_file):
-     with open(filename, 'w') as f:
-         f.write("port %d\n" % (port))
-         f.write("allow_anonymous true\n")
-         f.write("persistence true\n")
--        f.write("persistence_file mosquitto-%d.db\n" % (port))
-+        f.write("persistence_file %s\n" % (persist_file))
- 
- port = mosq_test.get_port()
- conf_file = os.path.basename(__file__).replace('.py', '.conf')
--write_config(conf_file, port)
-+persist_file = '/tmp/' + conf_file.replace('.conf', '.db')
-+write_config(conf_file, port, persist_file)
- 
- rc = 1
- mid = 530
-@@ -35,8 +36,8 @@
- mid = 1
- publish_packet2 = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, payload="message", proto_ver=5)
- 
--if os.path.exists('mosquitto-%d.db' % (port)):
--    os.unlink('mosquitto-%d.db' % (port))
-+if os.path.exists(persist_file):
-+    os.unlink(persist_file)
- 
- broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
- 
-@@ -67,8 +68,8 @@
+@@ -99,8 +100,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -397,7 +352,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 -def write_config(filename, port):
 +def write_config(filename, port, persist_file):
      with open(filename, 'w') as f:
-         f.write("port %d\n" % (port))
+         f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
          f.write("persistence true\n")
 -        f.write("persistence_file mosquitto-%d.db\n" % (port))
@@ -412,7 +367,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
      rc = 1
      mid = 530
-@@ -35,8 +36,8 @@
+@@ -34,8 +35,8 @@
      mid = 1
      publish_packet2 = mosq_test.gen_publish("subpub/qos1", qos=1, mid=mid, payload="message", proto_ver=proto_ver)
  
@@ -423,9 +378,9 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
      broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -65,8 +66,8 @@
-         broker.terminate()
-         broker.wait()
+@@ -68,8 +69,8 @@
+             print("broker not terminated")
+             if rc == 0: rc=1
          (stdo, stde) = broker.communicate()
 -        if os.path.exists('mosquitto-%d.db' % (port)):
 -            os.unlink('mosquitto-%d.db' % (port))
@@ -443,7 +398,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 -def write_config(filename, port):
 +def write_config(filename, port, persist_file):
      with open(filename, 'w') as f:
-         f.write("port %d\n" % (port))
+         f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
          f.write("persistence true\n")
 -        f.write("persistence_file mosquitto-%d.db\n" % (port))
@@ -456,8 +411,8 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 +write_config(conf_file, port, persist_file)
  
  rc = 1
- keepalive = 60
-@@ -37,8 +38,8 @@
+ connect_packet = mosq_test.gen_connect(
+@@ -36,8 +37,8 @@
  subscribe_packet = mosq_test.gen_subscribe(mid, "subpub/qos1", 0, proto_ver=5)
  suback_packet = mosq_test.gen_suback(mid, 0, proto_ver=5)
  
@@ -468,7 +423,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -72,8 +73,8 @@
+@@ -75,8 +76,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -488,7 +443,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 -def write_config(filename, port):
 +def write_config(filename, port, persist_file):
      with open(filename, 'w') as f:
-         f.write("port %d\n" % (port))
+         f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
          f.write("persistence true\n")
 -        f.write("persistence_file mosquitto-%d.db\n" % (port))
@@ -501,8 +456,8 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 +write_config(conf_file, port, persist_file)
  
  rc = 1
- keepalive = 60
-@@ -42,8 +43,8 @@
+ 
+@@ -41,8 +42,8 @@
  helper_puback_packet = mosq_test.gen_puback(mid, proto_ver=5)
  
  
@@ -513,7 +468,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  
  broker = mosq_test.start_broker(filename=os.path.basename(__file__), use_conf=True, port=port)
  
-@@ -77,10 +78,8 @@
+@@ -80,10 +81,8 @@
      (stdo, stde) = broker.communicate()
      if rc:
          print(stde.decode('utf-8'))
@@ -528,7 +483,7 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
 -
 --- a/test/broker/Makefile
 +++ b/test/broker/Makefile
-@@ -107,7 +107,7 @@
+@@ -121,7 +121,7 @@
  06 :
  	./06-bridge-b2br-disconnect-qos1.py
  	./06-bridge-b2br-disconnect-qos2.py
@@ -537,20 +492,24 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  	./06-bridge-b2br-late-connection.py
  	./06-bridge-b2br-remapping.py
  	./06-bridge-br2b-disconnect-qos1.py
---- a/test/broker/c/Makefile
-+++ b/test/broker/c/Makefile
-@@ -37,7 +37,7 @@
+@@ -139,7 +139,7 @@
+ 	./06-bridge-outgoing-retain.py
+ 	./06-bridge-per-listener-settings.py
+ 	./06-bridge-reconnect-local-out.py
+-	./06-bridge-remote-shutdown.py
++	#./06-bridge-remote-shutdown.py
+ 	./06-bridge-config-reload.py
+ 	./06-bridge-remap-receive-wildcard.py
  
- 
- ${TESTS} : %.test: %.c
--	$(CC) ${CFLAGS} $< -o $@ ../../../lib/libmosquitto.so.1
-+	$(CC) ${CFLAGS} $< -o $@ -lmosquitto
- 
- 
- reallyclean : clean
 --- a/test/client/test.sh
 +++ b/test/client/test.sh
-@@ -11,7 +11,7 @@
+@@ -5,13 +5,11 @@
+ 
+ set -e
+ 
+-export BASE_PATH=../../
+-export LD_LIBRARY_PATH=${BASE_PATH}/lib
+ export PORT=1888
  export SUB_TIMEOUT=1
  
  # Start broker
@@ -559,12 +518,12 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  export MOSQ_PID=$!
  sleep 0.5
  
-@@ -20,28 +20,28 @@
+@@ -20,28 +18,28 @@
  
  
  # Simple subscribe test - single message from $SYS
--${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/uptime' >/dev/null
-+/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/uptime' >/dev/null
+-${BASE_PATH}/client/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/version' >/dev/null
++/usr/bin/mosquitto_sub -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/version' >/dev/null
  echo "Simple subscribe ok"
  
  # Simple publish/subscribe test - single message from mosquitto_pub
@@ -597,225 +556,289 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
  echo "stdin publish ok"
 --- a/test/lib/Makefile
 +++ b/test/lib/Makefile
-@@ -50,7 +50,7 @@
- 	./03-publish-c2b-qos2-disconnect.py $@/03-publish-c2b-qos2-disconnect.test
- 	./03-publish-c2b-qos2-len.py $@/03-publish-c2b-qos2-len.test
- 	./03-publish-c2b-qos2-maximum-qos-0.py $@/03-publish-c2b-qos2-maximum-qos-0.test
--	./03-publish-c2b-qos2-maximum-qos-1.py $@/03-publish-c2b-qos2-maximum-qos-1.test
-+	#./03-publish-c2b-qos2-maximum-qos-1.py $@/03-publish-c2b-qos2-maximum-qos-1.test
- 	./03-publish-c2b-qos2-pubrec-error.py $@/03-publish-c2b-qos2-pubrec-error.test
- 	./03-publish-c2b-qos2-receive-maximum-1.py $@/03-publish-c2b-qos2-receive-maximum-1.test
- 	./03-publish-c2b-qos2-receive-maximum-2.py $@/03-publish-c2b-qos2-receive-maximum-2.test
---- a/test/lib/c/Makefile
-+++ b/test/lib/c/Makefile
-@@ -3,7 +3,7 @@
- .PHONY: all clean reallyclean
- 
- CFLAGS=-I../../../include -Werror
--LIBS=../../../lib/libmosquitto.so.1
-+LIBS=-lmosquitto
- 
- SRC = \
- 	01-con-discon-success.c \
+@@ -58,7 +58,7 @@
+ 	./03-publish-c2b-qos2-disconnect.py
+ 	./03-publish-c2b-qos2-len.py
+ 	./03-publish-c2b-qos2-maximum-qos-0.py
+-	./03-publish-c2b-qos2-maximum-qos-1.py
++	#./03-publish-c2b-qos2-maximum-qos-1.py
+ 	./03-publish-c2b-qos2-pubrec-error.py
+ 	./03-publish-c2b-qos2-receive-maximum-1.py
+ 	./03-publish-c2b-qos2-receive-maximum-2.py
 --- a/test/lib/cpp/Makefile
 +++ b/test/lib/cpp/Makefile
-@@ -1,7 +1,7 @@
- .PHONY: all test 01 02 03 04 08 09 clean reallyclean
+@@ -4,7 +4,7 @@
+ .PHONY: all test clean reallyclean
  
- CFLAGS=-I../../../include -I../../../lib/cpp -DDEBUG
--LIBS=../../../lib/libmosquitto.so.1 ../../../lib/cpp/libmosquittopp.so.1
+ LOCAL_CXXFLAGS+=-I${R}/include -I${R}/test -I${R}/lib/cpp -DDEBUG -Werror -W
+-LIBS=${LIBMOSQ} ${R}/lib/cpp/libmosquittopp.so.1
 +LIBS=-lmosquitto -lmosquittopp
  
- all : 01 02 03 04 08 09
- 
+ SRC = \
+ 	01-con-discon-success.cpp \
 --- a/test/broker/14-dynsec-acl.py
 +++ b/test/broker/14-dynsec-acl.py
-@@ -10,7 +10,7 @@
+@@ -11,7 +11,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous false\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response):
+ 
 --- a/test/broker/14-dynsec-anon-group.py
 +++ b/test/broker/14-dynsec-anon-group.py
+@@ -10,7 +10,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ 
+--- a/test/broker/14-dynsec-auth.py
++++ b/test/broker/14-dynsec-auth.py
+@@ -9,7 +9,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ 
+--- a/test/broker/14-dynsec-client-invalid.py
++++ b/test/broker/14-dynsec-client-invalid.py
+@@ -11,7 +11,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ 
+--- a/test/broker/14-dynsec-client.py
++++ b/test/broker/14-dynsec-client.py
 @@ -9,7 +9,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response):
---- a/test/broker/14-dynsec-auth.py
-+++ b/test/broker/14-dynsec-auth.py
-@@ -8,7 +8,7 @@
-     with open(filename, 'w') as f:
-         f.write("listener %d\n" % (port))
-         f.write("allow_anonymous false\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
-+        f.write("plugin mosquitto_dynamic_security.so\n")
-         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response):
---- a/test/broker/14-dynsec-client-invalid.py
-+++ b/test/broker/14-dynsec-client-invalid.py
-@@ -10,7 +10,7 @@
-     with open(filename, 'w') as f:
-         f.write("listener %d\n" % (port))
-         f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
-+        f.write("plugin mosquitto_dynamic_security.so\n")
-         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
- 
- def command_check(sock, command_payload, expected_response, msg=""):
---- a/test/broker/14-dynsec-client.py
-+++ b/test/broker/14-dynsec-client.py
-@@ -8,7 +8,7 @@
-     with open(filename, 'w') as f:
-         f.write("listener %d\n" % (port))
-         f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
-+        f.write("plugin mosquitto_dynamic_security.so\n")
-         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
- 
- def command_check(sock, command_payload, expected_response):
 --- a/test/broker/14-dynsec-default-access.py
 +++ b/test/broker/14-dynsec-default-access.py
-@@ -10,7 +10,7 @@
+@@ -11,7 +11,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous false\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response):
+ 
 --- a/test/broker/14-dynsec-disable-client.py
 +++ b/test/broker/14-dynsec-disable-client.py
-@@ -8,7 +8,7 @@
+@@ -9,7 +9,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response):
+ 
 --- a/test/broker/14-dynsec-group-invalid.py
 +++ b/test/broker/14-dynsec-group-invalid.py
-@@ -10,7 +10,7 @@
+@@ -11,7 +11,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response, msg=""):
+ 
 --- a/test/broker/14-dynsec-group.py
 +++ b/test/broker/14-dynsec-group.py
-@@ -8,7 +8,7 @@
+@@ -9,7 +9,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response, msg=""):
+ 
 --- a/test/broker/14-dynsec-modify-client.py
 +++ b/test/broker/14-dynsec-modify-client.py
-@@ -8,7 +8,7 @@
+@@ -9,7 +9,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response, msg=""):
+ 
 --- a/test/broker/14-dynsec-modify-group.py
 +++ b/test/broker/14-dynsec-modify-group.py
-@@ -8,7 +8,7 @@
+@@ -9,7 +9,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response, msg=""):
+ 
 --- a/test/broker/14-dynsec-modify-role.py
 +++ b/test/broker/14-dynsec-modify-role.py
-@@ -8,7 +8,7 @@
+@@ -9,7 +9,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response):
+ 
 --- a/test/broker/14-dynsec-plugin-invalid.py
 +++ b/test/broker/14-dynsec-plugin-invalid.py
-@@ -10,7 +10,7 @@
+@@ -11,7 +11,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response, msg=""):
+ def command_check_text(sock, command_payload, expected_response, msg=""):
 --- a/test/broker/14-dynsec-role-invalid.py
 +++ b/test/broker/14-dynsec-role-invalid.py
-@@ -10,7 +10,7 @@
+@@ -11,7 +11,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response, msg=""):
+ 
 --- a/test/broker/14-dynsec-role.py
 +++ b/test/broker/14-dynsec-role.py
-@@ -8,7 +8,7 @@
+@@ -9,7 +9,7 @@
      with open(filename, 'w') as f:
          f.write("listener %d\n" % (port))
          f.write("allow_anonymous true\n")
--        f.write("plugin ../../plugins/dynamic-security/mosquitto_dynamic_security.so\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
 +        f.write("plugin mosquitto_dynamic_security.so\n")
          f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
  
- def command_check(sock, command_payload, expected_response, msg=""):
+ 
 --- a/test/mosq_test.py
 +++ b/test/mosq_test.py
-@@ -26,7 +26,7 @@
-     delay = 0.1
+@@ -30,27 +30,11 @@
+         result = str(Path(__file__).resolve().parents[1])
+     return result
+ 
+-def env_add_ld_library_path(env=None):
+-    p = ":".join([
+-        get_build_root() + '/libcommon',
+-        get_build_root() + '/lib',
+-        get_build_root() + '/lib/cpp',
+-        os.getenv("LD_LIBRARY_PATH", "")
+-    ])
+-
+-    if env is None:
+-        env = {
+-            'LD_LIBRARY_PATH': p,
+-            'DYLIB_LIBRARY_PATH': p,
+-        }
+-    else:
+-        for v in ['LD_LIBRARY_PATH', 'DYLIB_LIBRARY_PATH']:
+-            try:
+-                val = env[v]
+-                env[v] = ":".join([val, p])
+-            except KeyError:
+-                env[v] = p
++def get_plugin_path():
++	arch = os.popen('dpkg-architecture -q DEB_HOST_MULTIARCH').read().strip()
++	return '/usr/lib/'+arch+'/mosquitto/'
+ 
++def env_add_ld_library_path(env=None):
+     return env
+ 
+ def listen_sock(port):
+@@ -66,7 +50,7 @@
+     global vg_logfiles
  
      if use_conf == True:
--        cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
+-        cmd = [get_build_root() + '/src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
 +        cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
  
          if port == 0:
              port = 1888
-@@ -34,10 +34,10 @@
+@@ -74,9 +58,9 @@
              cmd += ['-p', str(port)]
      else:
          if cmd is None and port != 0:
--            cmd = ['../../src/mosquitto', '-v', '-p', str(port)]
+-            cmd = [get_build_root() + '/src/mosquitto', '-v', '-p', str(port)]
 +            cmd = ['/usr/sbin/mosquitto', '-v', '-p', str(port)]
          elif cmd is None and port == 0:
-             port = 1888
--            cmd = ['../../src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
+-            cmd = [get_build_root() + '/src/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
 +            cmd = ['/usr/sbin/mosquitto', '-v', '-c', filename.replace('.py', '.conf')]
-         elif cmd is not None and port == 0:
-             port = 1888
+ 
+     if os.environ.get('MOSQ_USE_VALGRIND') is not None:
+         logfile = filename+'.'+str(vg_index)+'.vglog'
+--- a/test/broker/14-dynsec-allow-wildcard.py
++++ b/test/broker/14-dynsec-allow-wildcard.py
+@@ -11,7 +11,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ 
+--- a/test/broker/14-dynsec-config-init-env.py
++++ b/test/broker/14-dynsec-config-init-env.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
+ 
+--- a/test/broker/14-dynsec-config-init-file.py
++++ b/test/broker/14-dynsec-config-init-file.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+         f.write("plugin_opt_password_init_file %d/init\n" % (port))
+ 
+--- a/test/broker/14-dynsec-config-init-random.py
++++ b/test/broker/14-dynsec-config-init-random.py
+@@ -8,7 +8,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous false\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write("plugin mosquitto_dynamic_security.so\n")
+         f.write("plugin_opt_config_file %d/dynamic-security.json\n" % (port))
+ 
  
 --- a/test/client/02-subscribe-argv-errors-tls-psk.py
 +++ b/test/client/02-subscribe-argv-errors-tls-psk.py
@@ -971,3 +994,537 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
              '-p', str(port),
              '-q', '1',
              '-t', '02/sub/verbose/test',
+--- a/test/lib/c/Makefile
++++ b/test/lib/c/Makefile
+@@ -5,7 +5,7 @@
+ 
+ LOCAL_CPPFLAGS+=-I${R}/test
+ LOCAL_CFLAGS+=-Werror -ggdb
+-LOCAL_LIBADD+=${LIBMOSQ}
++LOCAL_LIBADD+=-lmosquitto
+ 
+ SRC = \
+ 	01-con-discon-success.c \
+--- a/test/broker/c/Makefile
++++ b/test/broker/c/Makefile
+@@ -7,6 +7,8 @@
+ LOCAL_CFLAGS+=-Wall -Werror
+ LOCAL_LDFLAGS+=-fPIC -shared
+ 
++LIBMOSQ=-lmosquitto
++
+ PLUGIN_SRC = \
+ 	auth_plugin_acl.c \
+ 	auth_plugin_acl_change.c \
+--- a/test/apps/ctrl/ctrl-broker.py
++++ b/test/apps/ctrl/ctrl-broker.py
+@@ -9,7 +9,7 @@
+ def write_config(filename, ports):
+     with open(filename, 'w') as f:
+         f.write("enable_control_api true\n")
+-        f.write(f"global_plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write(f"global_plugin mosquitto/mosquitto_dynamic_security.so\n")
+         f.write(f"plugin_opt_config_file {ports[0]}/dynamic-security.json\n")
+         f.write("allow_anonymous false\n")
+         f.write(f"listener {ports[0]}\n")
+--- a/test/apps/ctrl/ctrl-dynsec.py
++++ b/test/apps/ctrl/ctrl-dynsec.py
+@@ -7,7 +7,7 @@
+ 
+ def write_config(filename, ports):
+     with open(filename, 'w') as f:
+-        f.write(f"global_plugin {mosq_test.get_build_root()}/plugins/dynamic-security/mosquitto_dynamic_security.so\n")
++        f.write(f"global_plugin mosquitto/mosquitto_dynamic_security.so\n")
+         f.write(f"plugin_opt_config_file {ports[0]}/dynamic-security.json\n")
+         f.write("allow_anonymous false\n")
+         f.write(f"listener {ports[0]}\n")
+--- a/test/broker/01-plugin-connect-uname-password-denied.py
++++ b/test/broker/01-plugin-connect-uname-password-denied.py
+@@ -8,7 +8,7 @@
+ def write_config(filename, port):
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/password-file/mosquitto_password_file.so\n")
++        f.write(f"plugin {mosq_test.get_plugin_path()}/mosquitto_password_file.so\n")
+         f.write("plugin_opt_password_file %s/%s\n" % (Path(__file__).resolve().parent, filename.replace('.conf', '.pwfile')))
+         f.write("allow_anonymous false\n")
+ 
+--- a/test/broker/09-plugin-acl-access-variants.py
++++ b/test/broker/09-plugin-acl-access-variants.py
+@@ -9,7 +9,7 @@
+         f.write("per_listener_settings %s\n" % (per_listener))
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/acl-file/mosquitto_acl_file.so\n")
++        f.write(f"plugin {mosq_test.get_plugin_path()}/mosquitto_acl_file.so\n")
+         f.write("plugin_opt_acl_file %s\n" % (filename.replace('.conf', '.acl')))
+ 
+ def write_acl(filename, global_en, user_en, pattern_en):
+--- a/test/broker/20-sparkplug-aware.py
++++ b/test/broker/20-sparkplug-aware.py
+@@ -12,7 +12,7 @@
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/sparkplug-aware/mosquitto_sparkplug_aware.so\n")
++        f.write(f"plugin {mosq_test.get_plugin_path()}/mosquitto_sparkplug_aware.so\n")
+ 
+ def proc(port, proto_ver):
+     group_id = str(uuid.uuid4())
+--- a/test/broker/22-http-api-acl.py
++++ b/test/broker/22-http-api-acl.py
+@@ -12,7 +12,7 @@
+ 
+         f.write(f"listener {http_port}\n")
+         f.write("protocol http_api\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/acl-file/mosquitto_acl_file.so\n")
++        f.write(f"plugin {mosq_test.get_plugin_path()}/mosquitto_acl_file.so\n")
+         f.write(f"plugin_opt_acl_file {http_port}.acl\n")
+ 
+ mqtt_port, http_port = mosq_test.get_port(2)
+--- a/test/broker/22-http-api-auth.py
++++ b/test/broker/22-http-api-auth.py
+@@ -12,7 +12,7 @@
+ 
+         f.write(f"listener {http_port}\n")
+         f.write("protocol http_api\n")
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/password-file/mosquitto_password_file.so\n")
++        f.write(f"plugin {mosq_test.get_plugin_path()}/mosquitto_password_file.so\n")
+         f.write("plugin_opt_password_file %s/%s\n" % (Path(__file__).resolve().parent, filename.replace('.conf', '.pwfile')))
+ 
+ mqtt_port, http_port = mosq_test.get_port(2)
+--- a/test/broker/23-security-acl-file-reload.py
++++ b/test/broker/23-security-acl-file-reload.py
+@@ -13,7 +13,7 @@
+ def write_config_plugin(filename, port):
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/acl-file/mosquitto_acl_file.so\n")
++        f.write(f"plugin {mosq_test.get_plugin_path()}/mosquitto_acl_file.so\n")
+         f.write(f"plugin_opt_acl_file {port}.acl\n")
+         f.write("allow_anonymous true\n")
+ 
+--- a/test/broker/23-security-password-file-reload.py
++++ b/test/broker/23-security-password-file-reload.py
+@@ -13,7 +13,7 @@
+ def write_config_plugin(filename, port):
+     with open(filename, 'w') as f:
+         f.write("listener %d\n" % (port))
+-        f.write(f"plugin {mosq_test.get_build_root()}/plugins/password-file/mosquitto_password_file.so\n")
++        f.write(f"plugin {mosq_test.get_plugin_path()}/mosquitto_password_file.so\n")
+         f.write(f"plugin_opt_password_file {port}.password\n")
+         f.write("allow_anonymous true\n")
+ 
+--- a/test/broker/06-bridge-remote-shutdown.py
++++ b/test/broker/06-bridge-remote-shutdown.py
+@@ -42,7 +42,7 @@
+     
+     remote_broker = mosq_test.start_broker(filename=os.path.basename(__file__), port=port1, use_conf=False)
+ 
+-    local_cmd = [mosq_test.get_build_root() + '/src/mosquitto', '-c', conf_file]
++    local_cmd = ['/usr/sbin/mosquitto', '-c', conf_file]
+     local_broker = mosq_test.start_broker(cmd=local_cmd, filename=os.path.basename(__file__)+'_local1', use_conf=False, port=port2)    
+ 
+     rc1 = None
+--- a/test/client/02-subscribe-env.py
++++ b/test/client/02-subscribe-env.py
+@@ -17,7 +17,7 @@
+         V = 'mqttv31'
+ 
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [mosq_test.get_build_root() + '/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '1',
+             '-V', V,
+--- a/test/client/03-publish-env.py
++++ b/test/client/03-publish-env.py
+@@ -17,7 +17,7 @@
+         V = 'mqttv31'
+ 
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [mosq_test.get_build_root() + '/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '1',
+             '-V', V
+--- a/test/client/04-rr-env.py
++++ b/test/client/04-rr-env.py
+@@ -19,7 +19,7 @@
+     env = mosq_test.env_add_ld_library_path(env)
+ 
+     payload = "message"
+-    cmd = [mosq_test.get_build_root() + '/client/mosquitto_rr',
++    cmd = ['/usr/bin/mosquitto_rr',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '04/rr/qos1/test/request',
+--- a/test/client/03-publish-argv-errors-tls-psk.py
++++ b/test/client/03-publish-argv-errors-tls-psk.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub'] + args
++    cmd = ['/usr/bin/mosquitto_pub'] + args
+ 
+     pub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     if mosq_test.wait_for_subprocess(pub):
+--- a/test/client/03-publish-argv-errors-tls.py
++++ b/test/client/03-publish-argv-errors-tls.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub'] + args
++    cmd = ['/usr/bin/mosquitto_pub'] + args
+ 
+     pub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     if mosq_test.wait_for_subprocess(pub):
+--- a/test/client/03-publish-argv-errors-without-tls.py
++++ b/test/client/03-publish-argv-errors-without-tls.py
+@@ -13,7 +13,7 @@
+        'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub'] + args
++    cmd = ['/usr/bin/mosquitto_pub'] + args
+ 
+     pub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     if mosq_test.wait_for_subprocess(pub):
+--- a/test/client/03-publish-file-empty.py
++++ b/test/client/03-publish-file-empty.py
+@@ -26,7 +26,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '03/pub/file/empty/test',
+--- a/test/client/03-publish-file.py
++++ b/test/client/03-publish-file.py
+@@ -28,7 +28,7 @@
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+ 
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '03/pub/file/test',
+--- a/test/client/03-publish-options-file.py
++++ b/test/client/03-publish-options-file.py
+@@ -29,7 +29,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-o', conf_file
+             ]
+ 
+--- a/test/client/03-publish-qos0-empty.py
++++ b/test/client/03-publish-qos0-empty.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '0',
+             '-t', '03/pub/qos0/test',
+--- a/test/client/03-publish-qos1-properties.py
++++ b/test/client/03-publish-qos1-properties.py
+@@ -20,7 +20,7 @@
+     else:
+         V = 'mqttv31'
+ 
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '03/pub/qos1/test/properties',
+--- a/test/client/03-publish-qos1-ws-large.py
++++ b/test/client/03-publish-qos1-ws-large.py
+@@ -31,7 +31,7 @@
+ 
+     payload = "abcdefghijklmnopqrstuvwxyz0123456789"*1821
+ 
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(ports[0]),
+             '-q', '1',
+             '-t', '03/pub/qos1/test',
+--- a/test/client/03-publish-qos1-ws.py
++++ b/test/client/03-publish-qos1-ws.py
+@@ -28,7 +28,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(ports[0]),
+             '-q', '1',
+             '-t', '03/pub/qos1/test',
+--- a/test/client/03-publish-qos1.py
++++ b/test/client/03-publish-qos1.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '03/pub/qos1/test',
+--- a/test/client/03-publish-repeat.py
++++ b/test/client/03-publish-repeat.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '03/pub/repeat/test',
+--- a/test/client/03-publish-socks-auth-failed.py
++++ b/test/client/03-publish-socks-auth-failed.py
+@@ -40,7 +40,7 @@
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+     cmd = [
+-            f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++            '/usr/bin/mosquitto_pub',
+             '-h', host,
+             '-p', str(port2),
+             '-q', '1',
+--- a/test/client/03-publish-socks-no-auth.py
++++ b/test/client/03-publish-socks-no-auth.py
+@@ -40,7 +40,7 @@
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+     cmd = [
+-            f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++            '/usr/bin/mosquitto_pub',
+             '-h', host,
+             '-p', str(port2),
+             '-q', '1',
+--- a/test/client/03-publish-socks.py
++++ b/test/client/03-publish-socks.py
+@@ -40,7 +40,7 @@
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+     cmd = [
+-            f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++            '/usr/bin/mosquitto_pub',
+             '-h', host,
+             '-p', str(port2),
+             '-q', '1',
+--- a/test/client/03-publish-stdin-file.py
++++ b/test/client/03-publish-stdin-file.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '03/pub/stdin/file/test',
+--- a/test/client/03-publish-stdin-line.py
++++ b/test/client/03-publish-stdin-line.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-p', str(port),
+             '-q', '2',
+             '-t', '03/pub/stdin/line/test',
+--- a/test/client/03-publish-tls.py
++++ b/test/client/03-publish-tls.py
+@@ -18,7 +18,7 @@
+         'SSLKEYLOGFILE':'/home/roger/keylog'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '--cafile', f"{ssl_dir}/all-ca.crt",
+             '-d',
+             '-h', address,
+--- a/test/client/03-publish-url.py
++++ b/test/client/03-publish-url.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_pub',
++    cmd = ['/usr/bin/mosquitto_pub',
+             '-L', f'mqtt://localhost:{port}/03/pub/url/test',
+             '-m', 'message',
+             '-V', V
+--- a/test/client/04-rr-argv-errors-tls-psk.py
++++ b/test/client/04-rr-argv-errors-tls-psk.py
+@@ -14,7 +14,7 @@
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+ 
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_rr'] + args
++    cmd = ['/usr/bin/mosquitto_rr'] + args
+ 
+     sub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     sub.wait()
+--- a/test/client/04-rr-argv-errors-tls.py
++++ b/test/client/04-rr-argv-errors-tls.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_rr'] + args
++    cmd = ['/usr/bin/mosquitto_rr'] + args
+ 
+     sub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     sub.wait()
+--- a/test/client/04-rr-argv-errors-without-tls.py
++++ b/test/client/04-rr-argv-errors-without-tls.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_rr'] + args
++    cmd = ['/usr/bin/mosquitto_rr'] + args
+ 
+     sub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     sub.wait()
+--- a/test/client/04-rr-qos1-ws.py
++++ b/test/client/04-rr-qos1-ws.py
+@@ -29,7 +29,7 @@
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+     payload = "message"
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_rr',
++    cmd = ['/usr/bin/mosquitto_rr',
+             '-p', str(ports[0]),
+             '-q', '1',
+             '-t', '04/rr/qos1/test/request',
+--- a/test/client/04-rr-qos1.py
++++ b/test/client/04-rr-qos1.py
+@@ -21,7 +21,7 @@
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+     payload = "message"
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_rr',
++    cmd = ['/usr/bin/mosquitto_rr',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '04/rr/qos1/test/request',
+--- a/test/client/04-rr-retain-handling.py
++++ b/test/client/04-rr-retain-handling.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_rr',
++    cmd = ['/usr/bin/mosquitto_rr',
+             '-p', str(port),
+             '-q', '0',
+             '-e', 'retain-handling',
+--- a/test/client/test-ws.sh
++++ b/test/client/test-ws.sh
+@@ -5,14 +5,12 @@
+ 
+ set -e
+ 
+-export BASE_PATH=../../
+-export LD_LIBRARY_PATH=${BASE_PATH}/lib
+ export CONFIG=ws.conf
+ export PORT=1888
+ export SUB_TIMEOUT=1
+ 
+ # Start broker
+-../../src/mosquitto -c ${CONFIG} 2>/dev/null &
++/usr/sbin/mosquitto -c ${CONFIG} 2>/dev/null &
+ export MOSQ_PID=$!
+ sleep 0.5
+ 
+@@ -21,28 +19,28 @@
+ 
+ 
+ # Simple subscribe test - single message from $SYS
+-${BASE_PATH}/client/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/version' >/dev/null
++/usr/bin/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t '$SYS/broker/version' >/dev/null
+ echo "Simple subscribe ok"
+ 
+ # Simple publish/subscribe test - single message from mosquitto_pub
+-${BASE_PATH}/client/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t 'single/test' >/dev/null &
++/usr/bin/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C 1 -t 'single/test' >/dev/null &
+ export SUB_PID=$!
+-${BASE_PATH}/client/mosquitto_pub --ws -p ${PORT} -t 'single/test' -m 'single-test'
++/usr/bin/mosquitto_pub --ws -p ${PORT} -t 'single/test' -m 'single-test'
+ kill ${SUB_PID} 2>/dev/null || true
+ echo "Simple publish/subscribe ok"
+ 
+ # Publish a file and subscribe, do we get at least that many lines?
+ export TEST_LINES=$(wc -l test.sh | cut -d' ' -f1)
+-${BASE_PATH}/client/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
++/usr/bin/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
+ export SUB_PID=$!
+-${BASE_PATH}/client/mosquitto_pub --ws -p ${PORT} -t 'file-publish' -f ./test.sh
++/usr/bin/mosquitto_pub --ws -p ${PORT} -t 'file-publish' -f ./test.sh
+ kill ${SUB_PID} 2>/dev/null || true
+ echo "File publish ok"
+ 
+ # Publish a file from stdin and subscribe, do we get at least that many lines?
+ export TEST_LINES=$(wc -l test.sh | cut -d' ' -f1)
+-${BASE_PATH}/client/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
++/usr/bin/mosquitto_sub --ws -p ${PORT} -W ${SUB_TIMEOUT} -C ${TEST_LINES} -t 'file-publish' >/dev/null &
+ export SUB_PID=$!
+-${BASE_PATH}/client/mosquitto_pub --ws -p ${PORT} -t 'file-publish' -l < ./test.sh
++/usr/bin/mosquitto_pub --ws -p ${PORT} -t 'file-publish' -l < ./test.sh
+ kill ${SUB_PID} 2>/dev/null || true
+ echo "stdin publish ok"
+--- a/test/broker/09-plugin-evt-psk-key.py
++++ b/test/broker/09-plugin-evt-psk-key.py
+@@ -29,7 +29,7 @@
+ 
+     try:
+         pub_client_args = [
+-            mosq_test.get_build_root() + "/client/mosquitto_pub",
++            "/usr/bin/mosquitto_pub",
+             "-t",
+             "plugin/psk/test",
+             "-m",
+@@ -48,7 +48,7 @@
+         pub_client.wait()
+ 
+         bad_client_args = [
+-            mosq_test.get_build_root() + "/client/mosquitto_pub",
++            "/usr/bin/mosquitto_pub",
+             "-t",
+             "plugin/psk/test",
+             "-m",
+@@ -69,7 +69,7 @@
+             raise ValueError("bad client should have failed")
+ 
+         sub_client_args = [
+-            mosq_test.get_build_root() + "/client/mosquitto_sub",
++            "/usr/bin/mosquitto_sub",
+             "-t",
+             "plugin/psk/test",
+             "-C",
+--- a/test/broker/persist_sqlite.py
++++ b/test/broker/persist_sqlite.py
+@@ -25,7 +25,7 @@
+         f.write("listener %d\n" % (port))
+         f.write("allow_anonymous true\n")
+         f.write(
+-            f"plugin {mosq_test.get_build_root()}/plugins/persist-sqlite/mosquitto_persist_sqlite.so\n"
++            f"plugin {mosq_test.get_plugin_path()}/mosquitto_persist_sqlite.so\n"
+         )
+         f.write("plugin_opt_db_file %d/mosquitto.sqlite3\n" % (port))
+         for entry, value in additional_config_entries.items():

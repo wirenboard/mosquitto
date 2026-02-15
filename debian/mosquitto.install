@@ -6,8 +6,10 @@ etc/mosquitto/*.example
 usr/lib/systemd/system/mosquitto.service
 usr/bin/mosquitto_passwd
 usr/bin/mosquitto_ctrl
-usr/lib/*/mosquitto_dynamic_security.so*
+usr/bin/mosquitto_db_dump
+usr/bin/mosquitto_signal
 usr/sbin/mosquitto
+debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/mosquitto_*.so usr/lib/${DEB_HOST_MULTIARCH}/mosquitto
 debian/systemd.user/init usr/share/mosquitto/user/bin
 debian/systemd.user/mosquitto.conf usr/share/mosquitto/user/config
 debian/systemd.user/README-systemd-user.md usr/share/doc/mosquitto

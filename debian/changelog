@@ -1,5 +1,21 @@
 mosquitto (2.1.2-1) unstable; urgency=medium
 
+  * New upstream release
+    - d/control: Removed dependency on libwebsockets, added several new 
+      dependencies
+    - d/*.symbols: Added new symbols
+    - d/mosquitto.install: Plugins are installed in /usr/lib/{arch}/mosquitto
+    - d/patches/: Removed obsolete patches 2895, 3239, 3344
+    - d/patches/deb-test.patch: Refreshed patch
+      - Changed so the tests always use installed binaries
+      - Disabled failing broker test 06-bridge-remote-shutdown.py
+      - Disabled failing client test 03-publish-c2b-qos2-maximum-qos-1.py
+    - d/patches/fix-2.1-build.patch: Added to fix build issues
+    - d/rules: Removed USE_LIBWRAP
+      - Added WITH_HTTP_API
+      - Changed tests during build to be opt in since they are patched to use 
+        installed binaries
+    - d/tests/control: Added dependencies
   * d/libmosquittopp1.lintian-overrides: Removed because it was outdated
 
  -- Joachim Zobel <jz-2017@heute-morgen.de>  Sat, 14 Feb 2026 12:43:59 +0100

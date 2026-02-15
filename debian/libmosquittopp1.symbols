@@ -1,5 +1,29 @@
 libmosquittopp.so.1 libmosquittopp1 #MINVER#
 * Build-Depends-Package: libmosquitto-dev
+ _ZN6mosqpp11mosquittopp10connect_v5EPKciiS2_PK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp10int_optionE10mosq_opt_ti@Base 2.1.2
+ _ZN6mosqpp11mosquittopp10publish_v5EPiPKciPKvibPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp11on_ext_authEPKctPKvPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp11void_optionE10mosq_opt_tPv@Base 2.1.2
+ _ZN6mosqpp11mosquittopp11will_set_v5EPKciPKvibP15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp12subscribe_v5EPiPKciiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp13disconnect_v5EiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp13on_connect_v5EiiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp13on_message_v5EPK17mosquitto_messagePK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp13on_publish_v5EiiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp13string_optionE10mosq_opt_tPKc@Base 2.1.2
+ _ZN6mosqpp11mosquittopp14on_pre_connectEv@Base 2.1.2
+ _ZN6mosqpp11mosquittopp14unsubscribe_v5EPiPKcPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp15on_subscribe_v5EiiPKiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp16on_disconnect_v5EiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp17ext_auth_continueEPKctPKvPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp11mosquittopp17on_unsubscribe_v5EiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp13reason_stringEi@Base 2.1.2
+ _ZN6mosqpp15sub_matches_aclEPKcS1_Pb@Base 2.1.2
+ _ZN6mosqpp18property_check_allEiPK15mqtt5__property@Base 2.1.2
+ _ZN6mosqpp22property_check_commandEii@Base 2.1.2
+ _ZN6mosqpp28sub_matches_acl_with_patternEPKcS1_S1_S1_Pb@Base 2.1.2
+ _ZN6mosqpp30topic_matches_sub_with_patternEPKcS1_S1_S1_Pb@Base 2.1.2
  (c++)"mosqpp::subscribe_simple(mosquitto_message**, int, bool, char const*, int, char const*, int, char const*, int, bool, char const*, char const*, libmosquitto_will const*, libmosquitto_tls const*)@Base" 1.5
  (c++)"mosqpp::subscribe_callback(int (*)(mosquitto*, void*, mosquitto_message const*), void*, char const*, int, char const*, int, char const*, int, bool, char const*, char const*, libmosquitto_will const*, libmosquitto_tls const*)@Base" 1.5
  (c++)"mosqpp::lib_cleanup()@Base" 1.0

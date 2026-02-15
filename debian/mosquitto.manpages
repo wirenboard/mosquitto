@@ -5,3 +5,6 @@ usr/share/man/man5/mosquitto.conf.5
 usr/share/man/man7/mosquitto-tls.7
 usr/share/man/man7/mqtt.7
 usr/share/man/man8/mosquitto.8
+usr/share/man/man7/mosquitto.7
+usr/share/man/man1/mosquitto_signal.1
+usr/share/man/man1/mosquitto_ctrl_shell.1
