@@ -817,3 +817,157 @@ Signed-off-by: Philippe Coval <rzr@users.sf.net>
          elif cmd is not None and port == 0:
              port = 1888
  
+--- a/test/client/02-subscribe-argv-errors-tls-psk.py
++++ b/test/client/02-subscribe-argv-errors-tls-psk.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub'] + args
++    cmd = ['/usr/bin/mosquitto_sub'] + args
+ 
+     sub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     if mosq_test.wait_for_subprocess(sub):
+--- a/test/client/02-subscribe-argv-errors-tls.py
++++ b/test/client/02-subscribe-argv-errors-tls.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub'] + args
++    cmd = ['/usr/bin/mosquitto_sub'] + args
+ 
+     sub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     if mosq_test.wait_for_subprocess(sub):
+--- a/test/client/02-subscribe-argv-errors-without-tls.py
++++ b/test/client/02-subscribe-argv-errors-without-tls.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub'] + args
++    cmd = ['/usr/bin/mosquitto_sub'] + args
+ 
+     sub = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+     if mosq_test.wait_for_subprocess(sub):
+--- a/test/client/02-subscribe-filter-out.py
++++ b/test/client/02-subscribe-filter-out.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '0',
+             '-t', '02/sub/filter-out/#',
+--- a/test/client/02-subscribe-format-json-properties.py
++++ b/test/client/02-subscribe-format-json-properties.py
+@@ -21,7 +21,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '1',
+             '-F', '%j',
+--- a/test/client/02-subscribe-format-json-qos0.py
++++ b/test/client/02-subscribe-format-json-qos0.py
+@@ -21,7 +21,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-F', '%j',
+             '-t', '02/sub/format/json/test',
+--- a/test/client/02-subscribe-format-json-qos1.py
++++ b/test/client/02-subscribe-format-json-qos1.py
+@@ -21,7 +21,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '1',
+             '-F', '%j',
+--- a/test/client/02-subscribe-format-json-retain.py
++++ b/test/client/02-subscribe-format-json-retain.py
+@@ -21,7 +21,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-F', '%j',
+             '-t', '02/sub/format/json/retain/test',
+--- a/test/client/02-subscribe-format.py
++++ b/test/client/02-subscribe-format.py
+@@ -21,7 +21,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '02/sub/format/test',
+--- a/test/client/02-subscribe-null.py
++++ b/test/client/02-subscribe-null.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '02/sub/null/test',
+--- a/test/client/02-subscribe-qos1-ws.py
++++ b/test/client/02-subscribe-qos1-ws.py
+@@ -28,7 +28,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(ports[0]),
+             '-q', '1',
+             '-t', '02/sub/qos1/test',
+--- a/test/client/02-subscribe-qos1.py
++++ b/test/client/02-subscribe-qos1.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '02/sub/qos1/test',
+--- a/test/client/02-subscribe-retain-handling.py
++++ b/test/client/02-subscribe-retain-handling.py
+@@ -13,7 +13,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '0',
+             '-t', 'retain-handling',
+--- a/test/client/02-subscribe-verbose.py
++++ b/test/client/02-subscribe-verbose.py
+@@ -20,7 +20,7 @@
+         'XDG_CONFIG_HOME':'/tmp/missing'
+     }
+     env = mosq_test.env_add_ld_library_path(env)
+-    cmd = [f'{mosq_test.get_build_root()}/client/mosquitto_sub',
++    cmd = ['/usr/bin/mosquitto_sub',
+             '-p', str(port),
+             '-q', '1',
+             '-t', '02/sub/verbose/test',
