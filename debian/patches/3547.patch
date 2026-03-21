@@ -1,5 +1,4 @@
 Description: Build WITH_WRAP on Debian Forky fails
- This is not fixed yet!
 Author: Joachim Zobel <jz-2017@heute-morgen.de>
 Bug: https://github.com/eclipse-mosquitto/mosquitto/issues/3547
 Last-Update: 2026-03-21
@@ -12,8 +11,7 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  if(USE_LIBWRAP)
 -	target_sources(mosquitto wrap)
-+	target_sources(mosquitto PRIVATE wrap)
++	target_link_libraries(mosquitto PRIVATE wrap)
  	target_compile_definitions(mosquitto PRIVATE "WITH_WRAP")
  endif()
-
  
