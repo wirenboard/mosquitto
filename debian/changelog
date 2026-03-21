@@ -1,8 +1,7 @@
 mosquitto (2.1.2-1) unstable; urgency=medium
 
   * New upstream release
-    - d/control: Removed dependency on libwebsockets, added several new 
-      dependencies
+    - d/control: Added several new dependencies
     - d/*.symbols: Added new symbols
     - d/mosquitto.install: Plugins are installed in /usr/lib/{arch}/mosquitto
     - d/patches/: Removed obsolete patches 2895, 3239, 3344
