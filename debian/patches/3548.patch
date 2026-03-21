@@ -1,0 +1,20 @@
+Description: New manpages are missing in man/Makefile
+Author: Joachim Zobel <jz-2017@heute-morgen.de>
+Bug: https://github.com/eclipse-mosquitto/mosquitto/issues/3548
+Last-Update: 2026-03-21
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/man/Makefile
++++ b/man/Makefile
+@@ -17,7 +17,10 @@
+ 	mosquitto_rr.1 \
+ 	mosquitto_signal.1 \
+ 	mosquitto_sub.1 \
+-	mqtt.7
++	mqtt.7 \
++	mosquitto.7 \
++	mosquitto_signal.1 \
++	mosquitto_ctrl_shell.1
+ 
+ all :  ${MANPAGES}
+ 

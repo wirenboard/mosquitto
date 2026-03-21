@@ -1,0 +1,17 @@
+Description: Build WITH_ADNS fails on Debian Forky
+Author: Joachim Zobel <jz-2017@heute-morgen.de>
+Bug: https://github.com/eclipse-mosquitto/mosquitto/issues/3549
+Last-Update: 2026-03-21
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -184,6 +184,7 @@
+ if(WITH_ADNS)
+ 	cmake_push_check_state()
+ 	set(ANL_CODE "
++        #define _GNU_SOURCE
+ 		#include <stdlib.h>
+ 		#include <netdb.h>
+ 		int main(){
+ 

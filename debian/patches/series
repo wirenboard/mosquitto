@@ -1,2 +1,4 @@
 deb-test.patch
-fix-2.1-build.patch
+3547.patch
+3548.patch
+3549.patch
