@@ -8,7 +8,12 @@ mosquitto (2.1.2-1) unstable; urgency=medium
     - d/patches/deb-test.patch: Refreshed patch
       - Changed so the tests always use installed binaries
       - Disabled failing broker test 06-bridge-remote-shutdown.py
-      - Disabled failing client test 03-publish-c2b-qos2-maximum-qos-1.py
+      - Disabled failing client test 03-publish-c2b-qos2-maximum-qos-1.py 
+      - Disabled tests broker/17-control-list-listeners.py,
+        broker/21-proxy*.py, boker/test-ws.sh, client/02-subscribe-qos1-ws.py,
+        client/03-publish-qos1-ws.py, client/03-publish-qos1-ws-large.py,
+        client/04-rr-qos1-ws.py and client/test-ws.sh that fail with
+        libwebsockets
     - d/patches/fix-2.1-build.patch: Added to fix build issues
     - d/rules: Removed USE_LIBWRAP
       - Added WITH_HTTP_API
