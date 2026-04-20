@@ -7,6 +7,7 @@ Uploaders:
  Roger A. Light <roger@atchoo.org>,
  Joachim Zobel <jz-2017@heute-morgen.de>
 Build-Depends: debhelper-compat (= 13),
+               dh-sequence-installsysusers,
                cmake,
                libcjson-dev,
                libdlt-dev,
@@ -33,8 +34,7 @@ Vcs-Browser: https://salsa.debian.org/debian-iot-team/mosquitto/tree/debian/mast
 Package: mosquitto
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: adduser (>= 3.10),
-         libcjson1,
+Depends: libcjson1,
          libmosquitto1 (= ${binary:Version}),
          sysvinit-utils (>= 3.06),
          ${misc:Depends},
