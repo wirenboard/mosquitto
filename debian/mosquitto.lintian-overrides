@@ -1,5 +1,13 @@
 # It looks like a dynamic Plugin, doesn't it?
+mosquitto: sharedobject-in-library-directory-missing-soname [usr/lib/*/mosquitto_acl_file.so]
 mosquitto: sharedobject-in-library-directory-missing-soname [usr/lib/*/mosquitto_dynamic_security.so]
+mosquitto: sharedobject-in-library-directory-missing-soname [usr/lib/*/mosquitto_password_file.so]
+mosquitto: sharedobject-in-library-directory-missing-soname [usr/lib/*/mosquitto_persist_sqlite.so]
+mosquitto: sharedobject-in-library-directory-missing-soname [usr/lib/*/mosquitto_sparkplug_aware.so]
+
+# No man page yet
+mosquitto: no-manual-page [usr/bin/mosquitto_db_dump]
+
 
 # May be fixed in XML source
 # Relate-to: https://github.com/eclipse/mosquitto/issues/2850
