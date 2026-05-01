@@ -19,10 +19,15 @@ SYSTEMD=OFF
 endif
 
 override_dh_auto_configure:
+	rm -rf deps
 	dh_auto_configure -- -DWITH_BUNDLED_DEPS=OFF -DWITH_ADNS=ON \
 		-DWITH_WEBSOCKETS=ON -DWITH_DLT=ON \
 		-DWITH_HTTP_API=ON -DUSE_LIBWRAP=ON \
 		-DWITH_SYSTEMD=${SYSTEMD} -DCMAKE_SKIP_BUILD_RPATH=ON
+
+# tests are not meant to be run in parallel
+override_dh_auto_test:
+	-dh_auto_test --no-parallel
 
 override_dh_strip:
 	dh_strip -p mosquitto -Xlibmosquitto
