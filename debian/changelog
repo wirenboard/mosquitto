@@ -1,5 +1,12 @@
 mosquitto (2.1.2-1) unstable; urgency=medium
 
+  [ Gianfranco Costamagna ]
+  * d/patches/pico: Patched to use system pico library
+
+  [ Luca Boccassi ]
+  * Install and use sysusers.d/tmpfiles.d config files
+
+  [ Joachim Zobel ]
   * New upstream release
     - d/control: Removed dependency on libwebsockets, added several new 
       dependencies

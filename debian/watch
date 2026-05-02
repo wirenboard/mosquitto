@@ -3,5 +3,4 @@ Version: 5
 Template: Github
 Owner: eclipse-mosquitto 
 Project: mosquitto
-Version-Constraint: refs/tags/@ANY_VERSION@
 
