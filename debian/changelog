@@ -2,6 +2,9 @@ mosquitto (2.1.2-1) unstable; urgency=medium
 
   [ Gianfranco Costamagna ]
   * d/patches/pico: Patched to use system pico library
+  * d/copyright: 
+    - Update upstream copyright
+    - Drop EDL-1.0 license, it is really BSD-3-clause
 
   [ Luca Boccassi ]
   * Install and use sysusers.d/tmpfiles.d config files
@@ -24,6 +27,7 @@ mosquitto (2.1.2-1) unstable; urgency=medium
         installed binaries
     - d/tests/control: Added dependencies
   * d/libmosquittopp1.lintian-overrides: Removed because it was outdated
+  * d/watch: Fixed 
 
  -- Joachim Zobel <jz-2017@heute-morgen.de>  Sat, 14 Feb 2026 12:43:59 +0100
 
