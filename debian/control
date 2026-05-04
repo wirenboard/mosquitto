@@ -38,8 +38,7 @@ Vcs-Browser: https://salsa.debian.org/debian-iot-team/mosquitto/tree/debian/mast
 Package: mosquitto
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
-Depends: libcjson1,
-         libmosquitto1 (= ${binary:Version}),
+Depends: libmosquitto1 (= ${binary:Version}),
          sysvinit-utils (>= 3.06),
          ${misc:Depends},
          ${shlibs:Depends}
