@@ -12,4 +12,4 @@ man/mqtt.7
 man/mosquitto.7
 man/mosquitto_signal.1
 man/mosquitto_ctrl_shell.1
-
+deps/
