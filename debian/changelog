@@ -1,6 +1,7 @@
 mosquitto (2.1.2-2) unstable; urgency=medium
 
   * Moved deletion of deps from d/rules to d/clean 
+  * Fixed override_dh_auto_test apperearing twice in d/rules
 
  -- Joachim Zobel <jz-2017@heute-morgen.de>  Sat, 09 May 2026 13:32:22 +0200
 

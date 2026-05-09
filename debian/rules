@@ -24,9 +24,14 @@ override_dh_auto_configure:
 		-DWITH_HTTP_API=ON -DUSE_LIBWRAP=ON \
 		-DWITH_SYSTEMD=${SYSTEMD} -DCMAKE_SKIP_BUILD_RPATH=ON
 
+# The patched tests run against the locally installed mosquitto package. 
+ifeq (,$(filter check,$(DEB_BUILD_OPTIONS)))
+override_dh_auto_test: ;
+else 
 # tests are not meant to be run in parallel
 override_dh_auto_test:
 	-dh_auto_test --no-parallel
+endif
 
 override_dh_strip:
 	dh_strip -p mosquitto -Xlibmosquitto
@@ -52,9 +57,5 @@ override_dh_makeshlibs:
 override_dh_installsystemduser:
 	dh_installsystemduser -pmosquitto --no-enable mosquitto.service
 
-# The patched tests run against the locally installed mosquitto package. 
-ifeq (,$(filter check,$(DEB_BUILD_OPTIONS)))
-override_dh_auto_test: ;
-endif
 
 
