@@ -1,6 +1,25 @@
+mosquitto (2.1.2-3) UNRELEASED; urgency=medium
+
+  * Sort d/clean file
+  * Drop double cjson dependency, sort them
+  * Add some dependencies used for testing
+  * Drop cjson runtime dependency, evaluated already by shlibs:Depends
+  * Drop Pre-Depends, already useless since o-o-stable
+  * Drop trailing whitespace
+  * use cat |c++filt to make symbols human readable
+  * Sort symbols file
+  * Sort and simplify install file
+  * Add some new lintian overrides for mosquitto
+  * Move remove of deps directory into clean target
+  * Simplify test dependencies, sync with build-deps and use build-essential for compilers
+  * Drop trailing whitespace on watch file
+  * Add patch to stop sending signals to the init system!
+
+ -- Gianfranco Costamagna <locutusofborg@debian.org>  Tue, 12 May 2026 09:43:36 +0200
+
 mosquitto (2.1.2-2) unstable; urgency=medium
 
-  * Moved deletion of deps from d/rules to d/clean 
+  * Moved deletion of deps from d/rules to d/clean
   * Fixed override_dh_auto_test apperearing twice in d/rules
   * Disabled tests that failed when run on a single CPU
 
