@@ -1,5 +1,6 @@
-mosquitto (2.1.2-3) UNRELEASED; urgency=medium
+mosquitto (2.1.2-3) unstable; urgency=medium
 
+  [ Gianfranco Costamagna ]
   * Sort d/clean file
   * Drop double cjson dependency, sort them
   * Add some dependencies used for testing
@@ -15,7 +16,11 @@ mosquitto (2.1.2-3) UNRELEASED; urgency=medium
   * Drop trailing whitespace on watch file
   * Add patch to stop sending signals to the init system!
 
- -- Gianfranco Costamagna <locutusofborg@debian.org>  Tue, 12 May 2026 09:43:36 +0200
+  [ Joachim Zobel ]
+  * d/control: Added dependency on libcjson-dev to libmosquitto-dev 
+      (Closes: #1135697)
+
+ -- Joachim Zobel <jz-2017@heute-morgen.de>  Thu, 14 May 2026 11:43:33 +0200
 
 mosquitto (2.1.2-2) unstable; urgency=medium
 
