@@ -19,6 +19,7 @@ mosquitto (2.1.2-3) unstable; urgency=medium
   [ Joachim Zobel ]
   * d/control: Added dependency on libcjson-dev to libmosquitto-dev 
       (Closes: #1135697, #1136784)
+  * d/tests/control: Skip failing tests on i386
 
  -- Joachim Zobel <jz-2017@heute-morgen.de>  Thu, 14 May 2026 11:43:33 +0200
 

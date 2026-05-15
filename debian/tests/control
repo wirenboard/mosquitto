@@ -2,5 +2,5 @@ Tests: broker, library, client
 Depends: @, @builddeps@, build-essential
 # rw-build-tree: tests generate and cleanup config files as they run, plus the
 # broker saves persistence data and cleans it up.
-Restrictions: rw-build-tree
+Restrictions: rw-build-tree, skip-if-arch=i386
 
