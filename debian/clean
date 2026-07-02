@@ -1,4 +1,3 @@
-deps/
 man/libmosquitto.3
 man/mosquitto.7
 man/mosquitto.8
