@@ -1,4 +1,4 @@
-mosquitto (2.0.20-1-wb103) stable; urgency=medium
+mosquitto (2.0.20-1-wb102-1) stable; urgency=medium
 
   * Backport upstream fix for mismatched wrapped/unwrapped memory alloc/free
     in properties (mosquitto 2.0.21, closes upstream #3192)
