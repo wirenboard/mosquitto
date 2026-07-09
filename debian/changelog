@@ -3,7 +3,7 @@ mosquitto (2.0.20-1-wb103) stable; urgency=medium
   * Backport upstream fix for mismatched wrapped/unwrapped memory alloc/free
     in properties (mosquitto 2.0.21, closes upstream #3192)
 
- -- Ekaterina Volkova <ekaterina.volkova@struhe.com>  Wed, 08 Jul 2026 15:05:48 +0000
+ -- Ekaterina Volkova <ekaterina.volkova@wirenboard.com>  Wed, 08 Jul 2026 15:05:48 +0000
 
 mosquitto (2.0.20-1-wb102) stable; urgency=medium
 
