@@ -1,3 +1,9 @@
+mosquitto (2.1.2-4) unstable; urgency=medium
+
+  * systemd.user: recreate per-user config if the existing one is empty
+
+ -- Ekaterina Volkova <ekaterina.volkova@wirenboard.com>  Tue, 28 Jul 2026 12:00:00 +0300
+
 mosquitto (2.1.2-3) unstable; urgency=medium
 
   [ Gianfranco Costamagna ]

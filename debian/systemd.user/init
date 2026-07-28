@@ -18,9 +18,9 @@ if [ ! -d "${STATE}"/mosquitto ]; then
 	mkdir -m 750 -p "${STATE}"/mosquitto
 fi
 
-if [ ! -f "${CONF}"/mosquitto/mosquitto.conf ]; then
-	mkdir -m 750 "${CONF}"/mosquitto
-	envsubst < /usr/share/mosquitto/user/config/mosquitto.conf > "${CONF}"/mosquitto/mosquitto.conf 
+if [ ! -s "${CONF}"/mosquitto/mosquitto.conf ]; then
+	mkdir -m 750 -p "${CONF}"/mosquitto
+	envsubst < /usr/share/mosquitto/user/config/mosquitto.conf > "${CONF}"/mosquitto/mosquitto.conf
 fi
 
 
