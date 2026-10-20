@@ -1,3 +1,12 @@
+mosquitto (2.0.21-1+wb100) stable; urgency=medium
+
+  * Backport Debian trixie package 2.0.21-1
+  * Drop 2895.patch: do not wait for network-online.target on start
+  * Remove debian/source/format (build as 1.0): debian/patches are not
+    applied
+
+ -- Petr Krasnoshchekov <petr.krasnoshchekov@struhe.com>  Tue, 20 Oct 2026 06:29:18 +0000
+
 mosquitto (2.0.21-1) unstable; urgency=medium
 
   * New upstream release (Closes: #1094157, #1094316)
